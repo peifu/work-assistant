@@ -1,6 +1,6 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} Project {% endblock %} 
+{% block title %} Project {% endblock %}
 
 <!-- Element injected in the BODY element -->
 {% block body_class %} sidebar-mini pace-primary {% endblock body_class %}
@@ -11,1008 +11,146 @@
 
 <link type="text/css" rel="stylesheet" href="/static/assets/css/jsmind.css" />
 <link rel="stylesheet" href="/static/assets/lib/layui-v2.6.3/css/layui.css" media="all">
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
-  <!-- pace-progress -->
-  <link rel="stylesheet" href="/static/assets/plugins/pace-progress/themes/black/pace-theme-flat-top.css">
-  <!-- adminlte-->
-  <link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
+<!-- Google Font: Source Sans Pro -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
+<!-- pace-progress -->
+<link rel="stylesheet" href="/static/assets/plugins/pace-progress/themes/black/pace-theme-flat-top.css">
+<!-- adminlte-->
+<link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
 
-  <style type="text/css">
-      button {
-          padding: 0.5rem 1rem;
-          font-size: 1rem;
-      }
+<style type="text/css">
+    button {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+    }
 
-      #jsmind_container {
-          /*width: 1600px;*/
-          height: 760px;
-          border: solid 1px #ccc;
-          background: #f4f4f4;
-      }
-  </style>
+    #jsmind_container {
+        /*width: 1600px;*/
+        height: 760px;
+        border: solid 1px #ccc;
+        background: #f4f4f4;
+    }
+</style>
 
 {% endblock stylesheets %}
 
-{% block content %}  
+{% block content %}
 
-  <div class="content-wrapper">
+<div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Project</h1>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Project</h1>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
     </section>
 
     <!-- Main content -->
     <section class="content">
-      <div class="layui-btn-radius">
-        <button type="button" id="btn_collapse" class="layui-btn layui-btn-radius layui-btn-normal">Collapse</button>
-        <button type="button" id="btn_expand" class="layui-btn layui-btn-radius layui-btn-normal">Expand</button>
-    </div>
+        <div class="layui-btn-radius">
+            <button type="button" id="btn_collapse"
+                class="layui-btn layui-btn-radius layui-btn-normal">Collapse</button>
+            <button type="button" id="btn_expand" class="layui-btn layui-btn-radius layui-btn-normal">Expand</button>
+        </div>
 
-    <div id="jsmind_container" style="margin-top: 10px;"></div>
+        <div id="jsmind_container" style="margin-top: 10px;"></div>
 
     </section>
     <!-- /.content -->
-  </div>
+</div>
 
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
 
-  <!-- jQuery -->
-  <script src="/static/assets/plugins/jquery/jquery.min.js"></script>
-  <!-- Bootstrap 4 -->
-  <script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- pace-progress -->
-  <script src="/static/assets/plugins/pace-progress/pace.min.js"></script>
-  <!-- AdminLTE App -->
-  <script src="/static/assets/js/adminlte.min.js"></script>
-  <!-- AdminLTE for demo purposes -->
-  <script src="/static/assets/js/demo.js"></script>
+<!-- jQuery -->
+<script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- pace-progress -->
+<script src="/static/assets/plugins/pace-progress/pace.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/static/assets/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="/static/assets/js/demo.js"></script>
 
-  <script type="text/javascript" src="/static/assets/js/jsmind.js"></script>
-  <script type="text/javascript" src="/static/assets/lib/layui-v2.6.3/layui.js"></script>
-  <script type="text/javascript" src="/static/assets/lib/jquery-3.4.1/jquery-3.4.1.min.js"></script>
-  <script type="text/javascript">
-      var mind = {
-          meta: {
-              name: 'demo',
-          },
-          format: 'node_tree',
-          data: {
-              "id": "0", "topic": "Project", "children":
-                  [
-                      {
-                          "children": [
-                              {
-                                  "children": [
-                                      {
-                                          "statement": "Android TV R的版本， 适用于所有的海外电视芯片包括T3/T5D/T5W",
-                                          "id": 55,
-                                          "topic": "TV ATV R"
-                                      },
-                                      {
-                                          "statement": "Android TV S的版本， 适用于所有的海外电视芯片包括T3/T5D/T5W",
-                                          "id": 57,
-                                          "topic": "TV ATV S"
-                                      },
-                                      {
-                                          "statement": "Android TV的SoundBar，目前主要是基于TM2芯片",
-                                          "id": 58,
-                                          "topic": "ATV Soundbar"
-                                      },
-                                      {
-                                          "statement": "Android TV的投影仪， 目前主要是基于 T5D和T3",
-                                          "id": 59,
-                                          "topic": "Projector S"
-                                      },
-                                      {
-                                          "statement": "旧的ATV的电视升级，2022年主要是把市面上面P/Q的版本升级到R。涉及到Thomson， 小米等出货的电视",
-                                          "id": 60,
-                                          "topic": "TV ATV upgrade"
-                                      },
-                                      {
-                                          "statement": "旧的ATV的投影仪的升级， 2022年主要是把市面上面P/Q的版本升级到R。主要涉及到Anker，极米， 峰米等",
-                                          "id": 61,
-                                          "topic": "Projector upgrade"
-                                      },
-                                      {
-                                          "statement": "",
-                                          "id": 62,
-                                          "topic": "TATA"
-                                      },
-                                      {
-                                          "statement": "",
-                                          "id": 159,
-                                          "topic": "TV ATV T"
-                                      }
-                                  ],
-                                  "statement": "",
-                                  "id": 2,
-                                  "topic": "TV ATV"
-                              },
-                              {
-                                  "children": [
-                                      {
-                                          "statement": "AOSP based, globle demod, HBBTV/FVP, APP",
-                                          "id": 601,
-                                          "topic": "AML turnkey"
-                                      },
-                                      {
-                                          "statement": "国内电视AOSP的版本",
-                                          "id": 63,
-                                          "topic": "Domestic TV"
-                                      },
-                                      {
-                                          "statement": "海外电视AOSP的版本",
-                                          "id": 64,
-                                          "topic": "Oversea TV"
-                                      },
-                                      {
-                                          "statement": "海信电视的中间件适配以及Vida系统的适配支持",
-                                          "id": 65,
-                                          "topic": "Hisense"
-                                      },
-                                      {
-                                          "statement": "Reliance 电视，VMX CAS的tv项目",
-                                          "id": 66,
-                                          "topic": "Reliance TV"
-                                      },
-                                      {
-                                          "statement": "hbbtv， CI+,DVB-T/T2, S/S2",
-                                          "id": 67,
-                                          "topic": "KTC  APAC"
-                                      }
-                                  ],
-                                  "statement": "",
-                                  "id": 3,
-                                  "topic": "TV AOSP"
-                              },
-                              {
-                                  "children": [
-                                      {
-                                          "statement": "项目代号: TM2案子 Hazel, T5D案子 Almond.  亚马逊带DTV的客户项目",
-                                          "id": 68,
-                                          "topic": "Amazon NA model"
-                                      },
-                                      {
-                                          "statement": "项目代号： Shine. Amlogic 基于FireOS的公版，是为了亚马逊欧规生态做参考设计",
-                                          "id": 69,
-                                          "topic": "Amazon EU model"
-                                      },
-                                      {
-                                          "statement": "项目代号： Mango.亚马逊只有模拟电视的客户项目",
-                                          "id": 70,
-                                          "topic": "Amazon analog TV"
-                                      },
-                                      {
-                                          "statement": "项目代号： Gazelle， 亚马逊生态的soundbar项目",
-                                          "id": 162,
-                                          "topic": "Amazon Gazelle"
-                                      },
-                                      {
-                                          "statement": "T9029芯片的验证，主要涉及到8K的显示",
-                                          "id": 163,
-                                          "topic": "T9029"
-                                      },
-                                      {
-                                          "statement": "T7的revC的版本的验证",
-                                          "id": 164,
-                                          "topic": "T7 rev C"
-                                      }
-                                  ],
-                                  "statement": "",
-                                  "id": 4,
-                                  "topic": "FireOS"
-                              },
-                              {
-                                  "children": [
-                                      {
-                                          "statement": "项目代号： LGE， LGE 电视包括webos的适配， SOCTS的接口测试等",
-                                          "id": 71,
-                                          "topic": "LGE TV"
-                                      }
-                                  ],
-                                  "statement": "",
-                                  "id": 5,
-                                  "topic": "WebOS"
-                              },
-                              {
-                                  "children": [
-                                      {
-                                          "statement": "",
-                                          "id": 72,
-                                          "topic": "Roku TV"
-                                      },
-                                      {
-                                          "statement": "项目代号： Roxten， Roku的2K电视项目",
-                                          "id": 161,
-                                          "topic": "Roku TV Roxton"
-                                      },
-                                      {
-                                          "statement": "项目代号： Sandia， Roku基于Amlogic T5W芯片做的reference design，基于kernel 5.4适配Roku OS做参考设计推广",
-                                          "id": 165,
-                                          "topic": "Roku TV Sandia"
-                                      }
-                                  ],
-                                  "statement": "",
-                                  "id": 6,
-                                  "topic": "Roku OS"
-                              },
-                              {
-                                  "children": [
-                                      {
-                                          "statement": "RDK为基础的reference TV",
-                                          "id": 73,
-                                          "topic": "Comcast RDK"
-                                      }
-                                  ],
-                                  "statement": "",
-                                  "id": 7,
-                                  "topic": "RDK"
-                              },
-                              {
-                                  "children": [
-                                      {
-                                          "statement": "Yocto 为基础的reference TV， 如量产的Skyworth liteos电视就是以这个为基础",
-                                          "id": 74,
-                                          "topic": "Linux ref TV"
-                                      }
-                                  ],
-                                  "statement": "",
-                                  "id": 8,
-                                  "topic": "Yocto TV"
-                              },
-                              {
-                                  "children": [
-                                      {
-                                          "statement": "Yocto为基础做的VEWD OS生态",
-                                          "id": 75,
-                                          "topic": "VEWD ref TV"
-                                      }
-                                  ],
-                                  "statement": "",
-                                  "id": 9,
-                                  "topic": "VEWD"
-                              },
-                              {
-                                  "children": [
-                                      {
-                                          "statement": "Yocto 为基础导入量产的创维的liteos生态",
-                                          "id": 76,
-                                          "topic": "LiteOS TV"
-                                      }
-                                  ],
-                                  "statement": "",
-                                  "id": 10,
-                                  "topic": "LiteOS"
-                              },
-                              {
-                                  "children": [
-                                      {
-                                          "statement": "亚马逊内部的ACS的生态",
-                                          "id": 77,
-                                          "topic": "Amazon ACS"
-                                      }
-                                  ],
-                                  "statement": "",
-                                  "id": 11,
-                                  "topic": "ACS"
-                              },
-                              {
-                                  "statement": "",
-                                  "id": 152,
-                                  "topic": "Chip BringUp"
-                              },
-                              {
-                                  "statement": "",
-                                  "id": 134,
-                                  "topic": "ProjectSupport"
-                              },
-                              {
-                                  "statement": "TV Ecosystem other",
-                                  "id": 135,
-                                  "topic": "Others"
-                              }
-                          ],
-                          "statement": "电视产品线，里面会包含TV产品线涉及的各类Ecosystem和SDK。请大家选择对应的SDK填写工作量",
-                          "id": 1,
-                          "topic": "TV"
-                      },
-                      {
-                          "children": [
-                              {
-                                  "children": [
-                                      {
-                                          "statement": "项目代号： hailstorm 5.0， 这个是OTT/hybrid形态的基于Android S 版本为基础的每年的hailstorm的项目. 主要包括 4K输出的机顶盒芯片 905X4/905Y4",
-                                          "id": 78,
-                                          "topic": "Hailstorm 5.0 4K"
-                                      },
-                                      {
-                                          "statement": "项目代号： hailstorm 5.0， 这个是OTT/hybrid形态的基于Android S 版本为基础的每年的hailstorm的项目. 主要包括 2K输出的机顶盒芯片 805X2",
-                                          "id": 79,
-                                          "topic": "Hailstorm 5.0 2K"
-                                      },
-                                      {
-                                          "statement": "项目代号： hailstorm 6.0， 这个是为了2023年的hailstorm 认证程序做的预研， 包括NRDP， Ninjia版本的升级",
-                                          "id": 80,
-                                          "topic": "Hailstorm 6.0 developing"
-                                      },
-                                      {
-                                          "statement": "Netflix为推广游戏内容基于Amlogic A311D2做的一套预研平台",
-                                          "id": 173,
-                                          "topic": "hailstorm Game reference"
-                                      }
-                                  ],
-                                  "statement": "",
-                                  "id": 13,
-                                  "topic": "Netflix Hailstorm"
-                              },
-                              {
-                                  "children": [
-                                      {
-                                          "statement": "ATV 4K 机顶盒形态里面带VMX CAS的开发工作",
-                                          "id": 81,
-                                          "topic": "VMX"
-                                      },
-                                      {
-                                          "statement": "ATV 机顶盒形态里面带WideVine CAS的开发工作",
-                                          "id": 82,
-                                          "topic": "WV CAS"
-                                      },
-                                      {
-                                          "statement": "ATV  机顶盒形态里面带Irdeto CAS的开发工作",
-                                          "id": 83,
-                                          "topic": "Irdeto"
-                                      },
-                                      {
-                                          "statement": "",
-                                          "id": 84,
-                                          "topic": "Nagra TKL"
-                                      },
-                                      {
-                                          "statement": "ATV 机顶盒形态里面带Nagra NOCS的开发工作",
-                                          "id": 85,
-                                          "topic": "Nagra Nocs"
-                                      },
-                                      {
-                                          "statement": "ATV  机顶盒形态里面带Viacess CAS的开发工作",
-                                          "id": 86,
-                                          "topic": "Viacess"
-                                      },
-                                      {
-                                          "statement": "ATV 机顶盒形态里面带Synamedia CAS的开发工作",
-                                          "id": 87,
-                                          "topic": "Synamedia"
-                                      },
-                                      {
-                                          "statement": "ATV 2K 机顶盒形态里面带VMX CAS的开发工作",
-                                          "id": 88,
-                                          "topic": "2K+VMX"
-                                      },
-                                      {
-                                          "statement": "ATV 机顶盒老芯片的升级项目，包括905X2/X3 等G12A family 芯片 升级到Android S",
-                                          "id": 89,
-                                          "topic": "ATV G12A Upgrade"
-                                      },
-                                      {
-                                          "statement": "ATV 机顶盒老芯片的升级项目，包括905X/805X/805Y 等GXL family芯片 升级到Android S",
-                                          "id": 90,
-                                          "topic": "ATV GXL Upgrade"
-                                      },
-                                      {
-                                          "statement": "CBS for Android R ATV hybird",
-                                          "id": 160,
-                                          "topic": "CBS"
-                                      },
-                                      {
-                                          "statement": "ATV 机顶盒形态里面带Nagra TKL CAS的开发工作",
-                                          "id": 169,
-                                          "topic": "NAGRA"
-                                      }
-                                  ],
-                                  "statement": "",
-                                  "id": 14,
-                                  "topic": "ATV Hybrid"
-                              },
-                              {
-                                  "children": [
-                                      {
-                                          "statement": "AOSP R 为基础的hybrid的开发",
-                                          "id": 91,
-                                          "topic": "AOSP Hybrid"
-                                      },
-                                      {
-                                          "statement": "AOSP R 为基础的OTT的开发",
-                                          "id": 92,
-                                          "topic": "AOSP G12A Upgrade"
-                                      },
-                                      {
-                                          "statement": "商显产品线的国内客户的SDK开发，主要是用A311D2的芯片，在Android R AOSP版本基础上做修改，支持64bit的Android VM",
-                                          "id": 93,
-                                          "topic": "BDS Domestic(CVTE,Languo,TCL ......)"
-                                      },
-                                      {
-                                          "statement": "商显产品线的海外客户的SDK开发，主要是用A311D2的芯片，在Android R AOSP版本基础上做修改，支持64bit的Android VM",
-                                          "id": 94,
-                                          "topic": "BDS Oversea(Amazon,Yandex,Sonos)"
-                                      },
-                                      {
-                                          "statement": "项目代号： S5， 国内IPTV下一代 8K机顶盒的招标开发工作",
-                                          "id": 95,
-                                          "topic": "8K IPTV"
-                                      },
-                                      {
-                                          "statement": "国内IPTV 4K机顶盒的cost down版本， 从原先的12nm工艺降低到22nm工艺的芯片",
-                                          "id": 96,
-                                          "topic": "905L4"
-                                      }
-                                  ],
-                                  "statement": "",
-                                  "id": 15,
-                                  "topic": "STB AOSP"
-                              },
-                              {
-                                  "children": [
-                                      {
-                                          "statement": "谷歌第三代全球开发者平台 ADT3，今年升级到Android T的版本，预计在Q3 发布",
-                                          "id": 97,
-                                          "topic": "ADT3"
-                                      },
-                                      {
-                                          "statement": "项目代号： Sabrina， 谷歌1P项目的升级版本，2022年升级到Android S版本",
-                                          "id": 98,
-                                          "topic": "Sabrina"
-                                      },
-                                      {
-                                          "statement": "项目代号： Boreal， 谷歌2022年新的1P项目，2K的机顶盒。  launch的版本为Android S",
-                                          "id": 99,
-                                          "topic": "Boreal"
-                                      },
-                                      {
-                                          "statement": "项目代号： Elektra， 谷歌基于Amlogic芯片和平台做的dvb的开发项目代号",
-                                          "id": 100,
-                                          "topic": "Elektra"
-                                      },
-                                      {
-                                          "statement": "Android T以及以后的版本的预研工作",
-                                          "id": 101,
-                                          "topic": "new Android Developing"
-                                      }
-                                  ],
-                                  "statement": "",
-                                  "id": 16,
-                                  "topic": "Google Leading"
-                              },
-                              {
-                                  "children": [
-                                      {
-                                          "statement": "GXL family芯片的OTT ATV版本升级项目，包括 905X/805X/805Y",
-                                          "id": 102,
-                                          "topic": "existing ref GXL"
-                                      },
-                                      {
-                                          "statement": "G12A family芯片的OTT ATV版本升级项目，包括905X2/905X3",
-                                          "id": 103,
-                                          "topic": "existing ref G12A"
-                                      },
-                                      {
-                                          "statement": "新的4K芯片报备到谷歌作为参考设计的项目。包括905X4/905Y4",
-                                          "id": 104,
-                                          "topic": "new ref 4K"
-                                      },
-                                      {
-                                          "statement": "新的2K芯片报备到谷歌作为参考设计的项目。 包括 805X2",
-                                          "id": 105,
-                                          "topic": "new ref 2K"
-                                      }
-                                  ],
-                                  "statement": "",
-                                  "id": 17,
-                                  "topic": "STB ATV ref"
-                              },
-                              {
-                                  "children": [
-                                      {
-                                          "statement": "Yocto为基础的dvb公版",
-                                          "id": 106,
-                                          "topic": "yocto Hybrid"
-                                      },
-                                      {
-                                          "statement": "Yocto为基础的OTT公版",
-                                          "id": 107,
-                                          "topic": "yocto OTT"
-                                      },
-                                      {
-                                          "statement": "",
-                                          "id": 174,
-                                          "topic": "Karma Yocto based"
-                                      },
-                                      {
-                                          "statement": "以Yocto 为基础的小米的Dongle",
-                                          "id": 175,
-                                          "topic": "XiaoMi Yocto based"
-                                      }
-                                  ],
-                                  "statement": "",
-                                  "id": 18,
-                                  "topic": "Yocto STB"
-                              },
-                              {
-                                  "children": [
-                                      {
-                                          "statement": "RDK为基础的dvb公版",
-                                          "id": 108,
-                                          "topic": "rdk Hybrid"
-                                      },
-                                      {
-                                          "statement": "RDK为基础的OTT公版",
-                                          "id": 109,
-                                          "topic": "rdk OTT"
-                                      },
-                                      {
-                                          "statement": "以RDK为基础的谷歌的youtube的开发平台",
-                                          "id": 176,
-                                          "topic": "google Youtube reference"
-                                      }
-                                  ],
-                                  "statement": "",
-                                  "id": 19,
-                                  "topic": "RDK"
-                              },
-                              {
-                                  "statement": "",
-                                  "id": 153,
-                                  "topic": "Chip BringUp"
-                              },
-                              {
-                                  "statement": "STB",
-                                  "id": 136,
-                                  "topic": "ProjectSupport"
-                              },
-                              {
-                                  "statement": "STB others",
-                                  "id": 137,
-                                  "topic": "Others"
-                              }
-                          ],
-                          "statement": "机顶盒产品线，里面会包含机顶盒产品线涉及的各类Ecosystem和SDK。请大家选择对应的SDK填写工作量",
-                          "id": 12,
-                          "topic": "STB"
-                      },
-                      {
-                          "children": [
-                              {
-                                  "children": [
-                                      {
-                                          "statement": "Sonos客户，研发直接支持",
-                                          "id": 110,
-                                          "topic": "Sonos"
-                                      },
-                                      {
-                                          "statement": "LGE的soundbar项目",
-                                          "id": 111,
-                                          "topic": "LGE soundbar"
-                                      },
-                                      {
-                                          "statement": "Samsung的soundbar项目，基于三星自己的Tizen OS形态",
-                                          "id": 112,
-                                          "topic": "Samsung"
-                                      }
-                                  ],
-                                  "statement": "",
-                                  "id": 21,
-                                  "topic": "High-end soundbar(Oversea)"
-                              },
-                              {
-                                  "children": [
-                                      {
-                                          "statement": "项目代码： linkPlay， 基于A113L的低功耗的带AVS的智能音箱",
-                                          "id": 113,
-                                          "topic": "Linkplay"
-                                      },
-                                      {
-                                          "statement": "项目代码： 小米， 国内高端的智能音箱",
-                                          "id": 114,
-                                          "topic": "Xiaomi speaker"
-                                      }
-                                  ],
-                                  "statement": "",
-                                  "id": 22,
-                                  "topic": "Smart speaker(Domestic)"
-                              },
-                              {
-                                  "children": [
-                                      {
-                                          "statement": "谷歌的GVA形态的智能音箱，我们作为SI角色的工作",
-                                          "id": 115,
-                                          "topic": "GVA SI"
-                                      }
-                                  ],
-                                  "statement": "",
-                                  "id": 23,
-                                  "topic": "C4A/GVA"
-                              },
-                              {
-                                  "children": [
-                                      {
-                                          "statement": "USB接口的无屏会议机",
-                                          "id": 116,
-                                          "topic": "Yeker speaker"
-                                      }
-                                  ],
-                                  "statement": "",
-                                  "id": 24,
-                                  "topic": "USB Conference Speaker"
-                              },
-                              {
-                                  "children": [
-                                      {
-                                          "statement": "VOIP的语音系统",
-                                          "id": 117,
-                                          "topic": "Polycom"
-                                      }
-                                  ],
-                                  "statement": "",
-                                  "id": 25,
-                                  "topic": "VoIP"
-                              },
-                              {
-                                  "children": [
-                                      {
-                                          "statement": "谷歌nest团队 1P的项目",
-                                          "id": 118,
-                                          "topic": "Google Korlan"
-                                      }
-                                  ],
-                                  "statement": "",
-                                  "id": 26,
-                                  "topic": "Nest"
-                              },
-                              {
-                                  "statement": "",
-                                  "id": 154,
-                                  "topic": "Chip BringUp"
-                              },
-                              {
-                                  "statement": "Audio support",
-                                  "id": 138,
-                                  "topic": "ProjectSupport"
-                              },
-                              {
-                                  "statement": "Audio others",
-                                  "id": 139,
-                                  "topic": "Others"
-                              }
-                          ],
-                          "statement": "音箱产品线，里面会包含音箱产品线涉及的各类Ecosystem和SDK。请大家选择对应的SDK填写工作量",
-                          "id": 20,
-                          "topic": "Audio"
-                      },
-                      {
-                          "children": [
-                              {
-                                  "children": [
-                                      {
-                                          "statement": "谷歌Nest 团队基于C1， C2芯片做的1P的Camera的相关项目",
-                                          "id": 119,
-                                          "topic": "Google Venus,Spencer, GQ, NQ"
-                                      }
-                                  ],
-                                  "statement": "",
-                                  "id": 28,
-                                  "topic": "Nest"
-                              },
-                              {
-                                  "children": [
-                                      {
-                                          "statement": "国内安防市场适用的Camera的SDK版本， 主推芯片是 C3",
-                                          "id": 120,
-                                          "topic": "Surveillance"
-                                      },
-                                      {
-                                          "statement": "门铃市场适用的Camera的SDK版本",
-                                          "id": 121,
-                                          "topic": "DoorBell"
-                                      },
-                                      {
-                                          "statement": "UVC摄像头适用的SDK的版本",
-                                          "id": 122,
-                                          "topic": "UVC"
-                                      },
-                                      {
-                                          "statement": "国内智能门禁系统适用的SDK版本",
-                                          "id": 126,
-                                          "topic": "Entrance Guard"
-                                      },
-                                      {
-                                          "statement": "配套安防市场推广的 NVR的SDK版本",
-                                          "id": 127,
-                                          "topic": "NVR"
-                                      },
-                                      {
-                                          "statement": "谷歌基于C3的camera芯片的项目",
-                                          "id": 177,
-                                          "topic": "Google"
-                                      }
-                                  ],
-                                  "statement": "",
-                                  "id": 29,
-                                  "topic": "Buildroot camera"
-                              },
-                              {
-                                  "statement": "",
-                                  "id": 155,
-                                  "topic": "Chip BringUp"
-                              },
-                              {
-                                  "statement": "camera support",
-                                  "id": 140,
-                                  "topic": "ProjectSupport"
-                              },
-                              {
-                                  "statement": "camera others",
-                                  "id": 141,
-                                  "topic": "Others"
-                              }
-                          ],
-                          "statement": "摄像头产品线，里面会包含摄像头产品线涉及的各类Ecosystem和SDK。请大家选择对应的SDK填写工作量",
-                          "id": 27,
-                          "topic": "Camera"
-                      },
-                      {
-                          "children": [
-                              {
-                                  "children": [
-                                      {
-                                          "statement": "基于A213Y芯片的86板的智能面板的SDK",
-                                          "id": 128,
-                                          "topic": "86 display/white CE"
-                                      },
-                                      {
-                                          "statement": "基于A213Y芯片的AVS亚马逊形态的带屏音箱的SDK",
-                                          "id": 129,
-                                          "topic": "Amazon Smart Display"
-                                      }
-                                  ],
-                                  "statement": "",
-                                  "id": 31,
-                                  "topic": "Buildroot SH"
-                              },
-                              {
-                                  "children": [
-                                      {
-                                          "statement": "",
-                                          "id": 178,
-                                          "topic": "Kadas Mini PC"
-                                      },
-                                      {
-                                          "statement": "",
-                                          "id": 179,
-                                          "topic": "Kadas Mini PC"
-                                      }
-                                  ],
-                                  "statement": "",
-                                  "id": 38,
-                                  "topic": "Yocto SH"
-                              },
-                              {
-                                  "statement": "",
-                                  "id": 156,
-                                  "topic": "Chip BringUp"
-                              },
-                              {
-                                  "statement": "smarthome support",
-                                  "id": 142,
-                                  "topic": "ProjectSupport"
-                              },
-                              {
-                                  "statement": "smarthome others",
-                                  "id": 143,
-                                  "topic": "Others"
-                              }
-                          ],
-                          "statement": "智能家居产品线，里面会包含智能家居产品线涉及的各类Ecosystem和SDK。请大家选择对应的SDK填写工作量",
-                          "id": 30,
-                          "topic": "SmartHome"
-                      },
-                      {
-                          "children": [
-                              {
-                                  "children": [
-                                      {
-                                          "statement": "CAR service, V-HAL, 3 panel display, 3 camera input, 360 camera HAL(EVS), Audio control/Audio HAL/Audio post-processing,  FAST boot(3 seconds for revert),  ",
-                                          "id": 130,
-                                          "topic": "Automotive IVI"
-                                      }
-                                  ],
-                                  "statement": "",
-                                  "id": 33,
-                                  "topic": "Automotive"
-                              },
-                              {
-                                  "statement": "",
-                                  "id": 157,
-                                  "topic": "Chip BringUp"
-                              },
-                              {
-                                  "statement": "Automotive support",
-                                  "id": 144,
-                                  "topic": "ProjectSupport"
-                              },
-                              {
-                                  "statement": "Automotive others",
-                                  "id": 145,
-                                  "topic": "Others"
-                              }
-                          ],
-                          "statement": "车载产品线，里面会包含车载产品线涉及的各类Ecosystem和SDK。请大家选择对应的SDK填写工作量",
-                          "id": 32,
-                          "topic": "Automotive"
-                      },
-                      {
-                          "children": [
-                              {
-                                  "children": [
-                                      {
-                                          "statement": "New SDK",
-                                          "id": 131,
-                                          "topic": "AIOT"
-                                      }
-                                  ],
-                                  "statement": "",
-                                  "id": 35,
-                                  "topic": "RTOS"
-                              },
-                              {
-                                  "children": [
-                                      {
-                                          "statement": "Home access router\n10 Gbps L2/L3 packet engine\n2x PCIe 3.0 (1x lane)\n4x Gigabit Ethernet\n1x 2.5 Gigabit Ethernet",
-                                          "id": 132,
-                                          "topic": "Router"
-                                      },
-                                      {
-                                          "statement": "",
-                                          "id": 182,
-                                          "topic": "W2 ATV/Linux/RTOS"
-                                      },
-                                      {
-                                          "statement": "",
-                                          "id": 183,
-                                          "topic": "W1U for TV"
-                                      },
-                                      {
-                                          "statement": "",
-                                          "id": 184,
-                                          "topic": "Matter proto type"
-                                      }
-                                  ],
-                                  "statement": "",
-                                  "id": 36,
-                                  "topic": "Linux"
-                              },
-                              {
-                                  "statement": "",
-                                  "id": 158,
-                                  "topic": "Chip BringUp"
-                              },
-                              {
-                                  "statement": "connectivity support",
-                                  "id": 146,
-                                  "topic": "ProjectSupport"
-                              },
-                              {
-                                  "statement": "connectivity others",
-                                  "id": 147,
-                                  "topic": "Others"
-                              }
-                          ],
-                          "statement": "无线连接产品线，里面会包含无线连接产品线涉及的各类Ecosystem和SDK。请大家选择对应的SDK填写工作量",
-                          "id": 34,
-                          "topic": "Connectivity"
-                      },
-                      {
-                          "children": [
-                              {
-                                  "children": [
-                                      {
-                                          "statement": "",
-                                          "id": 148,
-                                          "topic": "CI"
-                                      },
-                                      {
-                                          "statement": "",
-                                          "id": 149,
-                                          "topic": "TestCase"
-                                      },
-                                      {
-                                          "statement": "",
-                                          "id": 150,
-                                          "topic": "Web"
-                                      },
-                                      {
-                                          "statement": "",
-                                          "id": 185,
-                                          "topic": "working hour couting system"
-                                      },
-                                      {
-                                          "statement": "",
-                                          "id": 186,
-                                          "topic": "auto scan system"
-                                      }
-                                  ],
-                                  "statement": "",
-                                  "id": 39,
-                                  "topic": "SCM"
-                              },
-                              {
-                                  "statement": "Automation Others",
-                                  "id": 151,
-                                  "topic": "Others"
-                              }
-                          ],
-                          "statement": "SCM的工作因为不涉及到具体的某个产品线，所以单独开辟这个条目用于记录SCM的工作",
-                          "id": 37,
-                          "topic": "SCM"
-                      }
-                  ]
-          },
-      };
-      var options = {
-          container: 'jsmind_container',
-          mode: 'full',
-          support_html: true,
-          //editable: true,
-          theme: 'info',
-          view: {
-              engine: 'svg',
-          },
-      };
-      var expand_depth = 1;
-      var jm = new jsMind(options);
-      jm.show(mind);
-      jm.expand_to_depth(expand_depth);
+<script type="text/javascript" src="/static/assets/js/jsmind.js"></script>
+<script type="text/javascript" src="/static/assets/lib/layui-v2.6.3/layui.js"></script>
+<script type="text/javascript" src="/static/assets/lib/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
 
-      $('#btn_collapse').click(function () {
-          console.log('btn_collapse');
-          expand_depth--;
-          if (expand_depth < 1)
-              expand_depth = 1; 
-          jm.expand_to_depth(expand_depth);
-      });
-      $('#btn_expand').click(function () {
-          console.log('btn_expand');
-          expand_depth++;
-          if (expand_depth > 3)
-              expand_depth = 3;
-          jm.expand_to_depth(expand_depth);
-      });
-      function node_info_show (info) {
-          layer.msg(info, {icon: 6,time: 3000, shift: 5, offset: ['200px','280px'], area: '300px'});
-      }
-      $('#jsmind_container').click(function() {
-          console.log('container click');
-          node = jm.get_selected_node();
-          if (node) {
-              console.log(node.id);
-              info = "ID: " + node.id;
-              info += "</br>Project: " + node.topic;
-              if (node.data['statement']) {
-                  info += "</br>Comment: " + node.data['statement'];
-              }
-              node_info_show(info);
-          }
-      });
+    var project_data = $.getJSON('/static/assets/data/project.json', function (data) {
+        update_project(data);
+    });
+    var mind = {
+        meta: {
+            name: 'demo',
+        },
+        format: 'node_tree',
+        data: {
+            "id": "0",
+            "topic": "Project",
+            "children": project_data,
+        },
+    };
 
-  </script>
+    var options = {
+        container: 'jsmind_container',
+        mode: 'full',
+        support_html: true,
+        //editable: true,
+        theme: 'info',
+        view: {
+            engine: 'svg',
+        },
+    };
+    var expand_depth = 1;
+    var jm = new jsMind(options);
+    jm.show(mind);
+    jm.expand_to_depth(expand_depth);
+
+    $('#btn_collapse').click(function () {
+        console.log('btn_collapse');
+        expand_depth--;
+        if (expand_depth < 1)
+            expand_depth = 1;
+        jm.expand_to_depth(expand_depth);
+    });
+    $('#btn_expand').click(function () {
+        console.log('btn_expand');
+        expand_depth++;
+        if (expand_depth > 3)
+            expand_depth = 3;
+        jm.expand_to_depth(expand_depth);
+    });
+    function node_info_show(info) {
+        layer.msg(info, { icon: 6, time: 3000, shift: 5, offset: ['200px', '280px'], area: '300px' });
+    }
+    function update_project(data) {
+        mind.data.children = data;
+        jm.show(mind);
+        jm.expand_to_depth(expand_depth);
+    }
+    $('#jsmind_container').click(function () {
+        console.log('container click');
+        node = jm.get_selected_node();
+        if (node) {
+            console.log(node.id);
+            info = "ID: " + node.id;
+            info += "</br>Project: " + node.topic;
+            if (node.data['statement']) {
+                info += "</br>Comment: " + node.data['statement'];
+            }
+            node_info_show(info);
+        }
+    });
+
+</script>
 
 {% endblock javascripts %}
