@@ -1,0 +1,19 @@
+{
+    "helper": {
+        "leader": "larson.jiang, yonghui.yu, ke.gong, peifu.jiang, matthew.shyu, qi.duan, qiufang.dai, jianxin.pan",
+        "member": "7, 12, 7, 9, 3, 7, 6, 9",
+        "project": "RSP, SWPL, TV, OTT, IPTV, SH",
+        "priority": "Highest, High, Medium, Low, Lowest",
+        "status": "OPEN, Reopened, Resolved, 'To Do', Closed, 'In Progress', 'In Code Review', Verified, Openlinux, 'Merge To Openlinux'"
+    },
+    "pattern": [
+        {
+            "name": "PMLIST Review",
+            "pattern": "project in (TV, SH, OPS, OTT, GH, IPTV) AND status in (OPEN, 'In Progress', Reopened, 'To Do', 'In Code Review') AND priority in (Highest, High) AND Manager in (victor.wan) ORDER BY cf[11903] ASC, priority DESC, status ASC, key ASC, due DESC"
+        },
+        {
+            "name": "REFLIST Review",
+            "pattern": "project in (SWPL, RSP) AND issuetype in (Bug, Feature, Task, Sub-task) AND status in (OPEN, 'In Progress', Reopened, 'To Do', 'In Code Review') AND priority in (Highest, High) AND assignee in (membersOf(jira-sw-platform)) ORDER BY cf[11903] ASC, cf[11614] ASC, status ASC, summary ASC, due ASC, priority DESC"
+        }
+    ]
+}

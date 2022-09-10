@@ -1,6 +1,6 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} Task List {% endblock %}
+{% block title %} Jira List {% endblock %}
 
 <!-- Element injected in the BODY element -->
 {% block body_class %} sidebar-mini pace-primary {% endblock body_class %}
@@ -14,8 +14,11 @@
 <link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
 <!-- pace-progress -->
 <link rel="stylesheet" href="/static/assets/plugins/pace-progress/themes/black/pace-theme-flat-top.css">
-<!-- adminlte-->
+<!-- adminlte -->
 <link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
+
+<!-- loader -->
+<link rel="stylesheet" href="/static/assets/css/loader.css">
 
 {% endblock stylesheets %}
 
@@ -27,7 +30,7 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Task List</h1>
+          <h1>Jira List</h1>
         </div>
       </div>
     </div><!-- /.container-fluid -->
@@ -39,17 +42,25 @@
     <!-- Default box -->
     <div class="card">
       <div class="card-header">
-
         <button type="button" id="update" class="btn btn-primary">Update</button>
+        <button type="button" id="test" class="btn btn-primary">Test</button>
       </div>
       <div class="card-body">
-        Start creating your amazing application!
         <div id="result"></div>
+        <div class="loader">
+          <div id="ld2">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
       </div>
-
       <!-- /.card-body -->
       <div class="card-footer">
-        <h3 class="card-title">Footer</h3>
       </div>
       <!-- /.card-footer-->
     </div>
@@ -75,15 +86,20 @@
 <!-- AdminLTE for demo purposes -->
 <script src="/static/assets/js/demo.js"></script>
 
-
 <script type="text/javascript">
   $(document).ready(function () {
     $("#update").click(function () {
-      searchUrl = "/task-list-1"
-      htmlobj = $.ajax({ url: searchUrl, async: false });
-      resp = htmlobj.responseJSON;
-      console.log(resp)
-      $("#result").html(JSON.stringify(resp, null, 2));
+      searchUrl = "/jira-list-1"
+      htmlobj = $.ajax({
+        url: searchUrl, async: true, success: function (data) {
+          $("#result").html(data);
+          $("#ld2").fadeOut();
+        }
+      });
+    });
+    $("#test").click(function () {
+      console.log('test click');
+      $("#ld2").fadeOut();
     });
   });
 </script>
