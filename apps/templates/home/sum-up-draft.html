@@ -1,0 +1,153 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Weekly Sum Up {% endblock %}
+
+<!-- Element injected in the BODY element -->
+{% block body_class %} sidebar-mini pace-primary {% endblock body_class %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+<!-- Google Font: Source Sans Pro -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
+<!-- pace-progress -->
+<link rel="stylesheet" href="/static/assets/plugins/pace-progress/themes/black/pace-theme-flat-top.css">
+<!-- adminlte-->
+<link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
+
+<link rel="stylesheet" href="/static/assets/css/loader.css">
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+
+{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Weekly Sum Up</h1>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Date</h3>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div>
+            <input type="date" id="datepicker" onchange="modifyDate(this.value)" width="200" />
+          </div>
+        </div>
+      </div>
+
+      <div class="card-header">
+        <h3 class="card-title">Sum Up Draft</h3>
+      </div>
+
+      <div class="card-body">
+        <button type="button" id="generate" class="btn btn-primary">Generate</button>
+        <button type="button" id="submit" class="btn btn-success">Submit</button>
+      </div>
+
+      <div class="card-body">
+        Generate the weekly work list draft based on the data of lask week.
+        <div id="result-gen"></div>
+      </div>
+
+
+      <div class="card-body">
+        <div id="alert-submit" class="alert alert-success" hidden="hidden">
+          <div id="result-submit"></div>
+        </div>
+      </div>
+      <!-- /.card -->
+
+  </section>
+  <!-- /.content -->
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<!-- jQuery -->
+<script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- pace-progress -->
+<script src="/static/assets/plugins/pace-progress/pace.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/static/assets/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="/static/assets/js/demo.js"></script>
+
+<script src="https://unpkg.com/gijgo@1.9.11/js/gijgo.min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    $("#generate").click(function () {
+      $("#result-gen").html("");
+      $("#result-submit").html("");
+      let element = document.getElementById("alert-submit");
+      element.setAttribute("hidden", "hidden");
+      searchUrl = "/sum-up-1";
+      date = $("#datepicker").val();
+      console.log(date)
+      htmlobj = $.ajax({
+        url: searchUrl, async: true, success: function (data) {
+          $("#result-gen").html(data);
+        }
+      });
+    });
+    $("#submit").click(function () {
+      $("#result-submit").html("");
+      let element = document.getElementById("alert-submit");
+      date = $("#datepicker").val();
+      console.log(date)
+      searchUrl = "/sum-up-2"
+      htmlobj = $.ajax({
+        url: searchUrl, async: true, success: function (data) {
+          $("#result-submit").html(data);
+          if (data == "success") {
+              console.log("submit success")
+              element.setAttribute("class", "alert alert-success");
+          } else {
+              console.log("submit failed")
+              element.setAttribute("class", "alert alert-warning");
+          }
+          element.removeAttribute("hidden");
+        }
+      });
+    });
+    $('#datepicker').datepicker({
+      uiLibrary: 'bootstrap',
+      format: 'yyyy-mm-dd',
+      autoclose: true,
+      toadyBtn: true,
+      todayHighlight: true,
+      initialDate: new Date(),
+      endDate: new Date(),
+    });
+    var now = new Date();
+    var day = ("0" + now.getDate()).slice(-2);
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+    var today = now.getFullYear() + "-" + (month) + "-" + (day);
+    $('#datepicker').val(today);
+  });
+</script>
+
+{% endblock javascripts %}
