@@ -10,8 +10,8 @@ import numpy as np
 from io import StringIO
 from jira import JIRA
 
-DEBUG_LOG_ENABLE = 1
-DEBUG_DUMP_ENABLE = 1
+DEBUG_LOG_ENABLE = 0
+DEBUG_DUMP_ENABLE = 0
 
 MAX_ISSUE = 200
 MAX_SUMMARY = 80
@@ -31,6 +31,11 @@ def debug(args):
 def store_csv(filename, csv_str):
     csv_file = open(filename, "w+")
     csv_file.write(csv_str)
+    csv_file.close()
+
+def store_file(filename, file_str):
+    csv_file = open(filename, "w+")
+    csv_file.write(file_str)
     csv_file.close()
 
 def init_config(cfg):
@@ -230,22 +235,60 @@ def add_jira_label_by_pattern(pattern, label):
         print("get table failed!")
     return None
 
-
 def jira_login(username, password):
     server = JIRA_SERVER_ADDR
     user = username
     pwd = password
+    jira_config = {
+        "server": {
+            "server_addr": "https://jira.amlogic.com",
+            "user": user,
+            "password": pwd
+        }
+    }
     debug("server={}, user={}, pwd={}".format(server, user, pwd))
     try:
         jira = JIRA({"server": server}, basic_auth=(user, pwd))
         print("Login success!")
+        with open(JIRA_SERVER, 'w+') as f:
+            json.dump(jira_config, f)
         return 0
     except Exception as e:
         print("Login failed!")
         return 1
 
-def jira_get_list(username, password):
-    html = ""
+def jira_get(user, pattern):
+    print(user)
+    jira_config = init_config(JIRA_SERVER)
+    user = jira_config["server"]["user"]
+    filter = {
+        "project": "RSP, SWPL, TV, OTT, IPTV, SH, KAR",
+        "priority": "Highest, High, Medium",
+        "assignee": user,
+        "status": "OPEN"
+    }
+    if pattern == 'my-open':
+        filter["assignee"]: user
+        filter["status"] = "OPEN, Reopened"
+    elif pattern == 'my-todo':
+        filter["assignee"]: user
+        filter["status"] = "'To Do'"
+    elif pattern == 'my-ongoing':
+        filter["assignee"]: user
+        filter["status"] = "'In Progress'"
+    elif pattern == 'my-resolved':
+        filter["assignee"]: user
+        filter["status"] = "Resolved, 'In Code Review', Verified"
+    elif pattern == 'my-openlinux':
+        filter["assignee"]: user
+        filter["status"] = "Openlinux, 'Merge To Openlinux'"
+    elif pattern == 'my-closed':
+        filter["assignee"]: user
+        filter["status"] = "Closed"
+
+    jira_pattern = JIRA_PATTERN.format(filter["project"], filter["priority"], filter["status"], filter["assignee"])
+    tb = get_jira_table_by_pattern(jira_pattern)
+    html = get_html_from_table(tb)
     return html
 
 def test_jira_html():
@@ -271,9 +314,6 @@ def test_jira_pattern():
         print(pattern["name"])
     print(html)
     return html
-
-
-
 
 if __name__ == "__main__":
     #test_jira_html()

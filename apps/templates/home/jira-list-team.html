@@ -30,7 +30,7 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>My Jira List</h1>
+          <h1>Jira List</h1>
         </div>
         <div class="col-sm-6">
           <button type="button" id="update" class="btn btn-success" style="float:right">Update</button>
@@ -46,34 +46,26 @@
       <div class="card-header">
         <ul class="nav nav-pills bg-light" id="pills-tab" role="tablist">
           <li class="nav-item">
-            <a class="nav-link active" id="pills-1-tab" data-toggle="pill" href="#pills-1" role="tab" aria-controls="pills-1" aria-selected="true">OPEN</a>
+            <a class="nav-link active" id="pills-1-tab" data-toggle="pill" href="#pills-1" role="tab" aria-controls="pills-1" aria-selected="true">Weekly</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="pills-2-tab" data-toggle="pill" href="#pills-2" role="tab" aria-controls="pills-2" aria-selected="false">TODO</a>
+            <a class="nav-link" id="pills-2-tab" data-toggle="pill" href="#pills-2" role="tab" aria-controls="pills-2" aria-selected="false">Monthly</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="pills-3-tab" data-toggle="pill" href="#pills-3" role="tab" aria-controls="pills-3" aria-selected="false">ONGOING</a>
+            <a class="nav-link" id="pills-3-tab" data-toggle="pill" href="#pills-3" role="tab" aria-controls="pills-3" aria-selected="false">Quarterly</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="pills-4-tab" data-toggle="pill" href="#pills-4" role="tab" aria-controls="pills-4" aria-selected="false">RESOLVED</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="pills-5-tab" data-toggle="pill" href="#pills-5" role="tab" aria-controls="pills-5" aria-selected="false">OPENLINUX</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="pills-6-tab" data-toggle="pill" href="#pills-6" role="tab" aria-controls="pills-6" aria-selected="false">CLOSED</a>
+            <a class="nav-link" id="pills-4-tab" data-toggle="pill" href="#pills-4" role="tab" aria-controls="pills-4" aria-selected="false">Yearly</a>
           </li>
         </ul>
       </div>
 
       <div class="card-body">
         <div class="tab-content" id="pills-tabContent">
-          <div class="tab-pane fade show active" id="pills-1" role="tabpanel" aria-labelledby="pills-1-tab">OPEN Jira list:</div>
-          <div class="tab-pane fade" id="pills-2" role="tabpanel" aria-labelledby="pills-2-tab">TODO Jira list:</div>
-          <div class="tab-pane fade" id="pills-3" role="tabpanel" aria-labelledby="pills-3-tab">ONGOING Jira list:</div>
-          <div class="tab-pane fade" id="pills-4" role="tabpanel" aria-labelledby="pills-4-tab">RESOLVED Jira list:</div>
-          <div class="tab-pane fade" id="pills-5" role="tabpanel" aria-labelledby="pills-5-tab">OPENLINUX Jira list:</div>
-          <div class="tab-pane fade" id="pills-6" role="tabpanel" aria-labelledby="pills-6-tab">CLOSED Jira list:</div>
+          <div class="tab-pane fade show active" id="pills-1" role="tabpanel" aria-labelledby="pills-1-tab">The Jira list of this week:</div>
+          <div class="tab-pane fade" id="pills-2" role="tabpanel" aria-labelledby="pills-2-tab">The Jira list of this month:</div>
+          <div class="tab-pane fade" id="pills-3" role="tabpanel" aria-labelledby="pills-3-tab">The Jira list of this quarter:</div>
+          <div class="tab-pane fade" id="pills-4" role="tabpanel" aria-labelledby="pills-4-tab">The Jira list of this year:</div>
         </div>
 
         <div id="result"></div>
@@ -118,17 +110,10 @@
 
 <script type="text/javascript">
   $(document).ready(function () {
-    var patterns = ["my-open", "my-todo", "my-ongoing", "my-resolved", "my-openlinux", "my-closed"];
-    var idx = 0;
-    $('li a').click(function () {
-      id = $(this).attr("id");
-      idx = parseInt(id.replace(/[^0-9]/ig, "")) - 1;
-    });
     $("#update").click(function () {
       $("#result").html("");
       $("#ld2").fadeIn();
-      searchUrl = "/jira-list-1" + "?pattern=" + patterns[idx]
-      console.log(searchUrl);
+      searchUrl = "/jira-list-1"
       htmlobj = $.ajax({
         url: searchUrl, async: true, success: function (data) {
           $("#result").html(data);
