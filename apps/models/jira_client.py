@@ -18,6 +18,7 @@ MAX_SUMMARY = 80
 JIRA_SERVER = "apps/models/cfg/jira_server.json"
 TEST_JIRA_FILTER = "apps/models/cfg/jira_filter.json"
 TEST_JIRA_PATTERN = "apps/models/cfg/jira_pattern_test.json"
+JIRA_SERVER_ADDR = "https://jira.amlogic.com"
 
 JIRA_PATTERN = "project in ({}) AND priority in ({}) AND status in ({}) AND assignee in ({}) ORDER BY priority DESC, status ASC, assignee ASC"
 FIELD_NAMES = ["Issue", "Issuetype", "Priority", "Status", "Assingee", "Creator", "Summary"]
@@ -44,12 +45,18 @@ def init_config_with_json(cfg_json):
     debug(jira_config)
     return jira_config
 
+
+
 def init_jira(jira_config):
     server = jira_config["server"]["server_addr"]
     user = jira_config["server"]["user"]
     pwd = jira_config["server"]["password"]
     debug("server={}, user={}, pwd={}".format(server, user, pwd))
-    jira = JIRA({"server": server}, basic_auth=(user, pwd))
+    try:
+        jira = JIRA({"server": server}, basic_auth=(user, pwd))
+        print("Login success!")
+    except Exception as e:
+        print("Login failed!")
     return jira
 
 def get_filters(cfg):
@@ -223,6 +230,24 @@ def add_jira_label_by_pattern(pattern, label):
         print("get table failed!")
     return None
 
+
+def jira_login(username, password):
+    server = JIRA_SERVER_ADDR
+    user = username
+    pwd = password
+    debug("server={}, user={}, pwd={}".format(server, user, pwd))
+    try:
+        jira = JIRA({"server": server}, basic_auth=(user, pwd))
+        print("Login success!")
+        return 0
+    except Exception as e:
+        print("Login failed!")
+        return 1
+
+def jira_get_list(username, password):
+    html = ""
+    return html
+
 def test_jira_html():
     filters = get_filters(TEST_JIRA_FILTER)
     for filter in filters[0:1]:
@@ -238,6 +263,7 @@ def test_jira_table():
         print(s)
 
 def test_jira_pattern():
+    html = ""
     patterns = get_patterns(TEST_JIRA_PATTERN)
     for pattern in patterns:
         tb = get_jira_table_by_pattern(pattern["pattern"])
@@ -245,6 +271,9 @@ def test_jira_pattern():
         print(pattern["name"])
     print(html)
     return html
+
+
+
 
 if __name__ == "__main__":
     #test_jira_html()

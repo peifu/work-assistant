@@ -16,6 +16,7 @@ from apps.authentication.forms import LoginForm, CreateAccountForm
 from apps.authentication.models import Users
 
 from apps.authentication.util import verify_pass
+from apps.models.jira_client import jira_login
 
 
 @blueprint.route('/')
@@ -34,8 +35,26 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
+        # Try login Jira
+        ret = jira_login(username, password)
+        if ret != 0:
+            return render_template('accounts/login.html',
+                                   msg='Wrong user or password',
+                                   form=login_form)
+
         # Locate user
         user = Users.query.filter_by(username=username).first()
+
+        # register user
+        if user == None:
+            form = {
+                'username': username,
+                'email': username + '@amlogic.com',
+                'password': password
+            }
+            user = Users(**form)
+            db.session.add(user)
+            db.session.commit()
 
         # Check the password
         if user and verify_pass(password, user.password):
