@@ -19,7 +19,6 @@
 
 <link rel="stylesheet" href="/static/assets/css/loader.css">
 
-<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
 
 {% endblock stylesheets %}
 
@@ -69,7 +68,7 @@
 
 
       <div class="card-body">
-        <div id="alert-submit" class="alert alert-success" hidden="hidden">
+        <div id="alert-submit" class="alert alert-secondary" hidden="hidden">
           <div id="result-submit"></div>
         </div>
       </div>
@@ -124,10 +123,10 @@
           $("#result-submit").html(data);
           if (data == "success") {
               console.log("submit success")
-              element.setAttribute("class", "alert alert-success");
+              element.setAttribute("class", "alert alert-secondary");
           } else {
               console.log("submit failed")
-              element.setAttribute("class", "alert alert-warning");
+              element.setAttribute("class", "alert alert-secondary");
           }
           element.removeAttribute("hidden");
         }
