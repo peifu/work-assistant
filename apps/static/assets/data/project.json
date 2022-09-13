@@ -232,7 +232,7 @@
                 "topic": "Others"
             }
         ],
-        "statement": "电视产品线，里面会包含TV产品线涉及的各类Ecosystem和SDK。请大家选择对应的SDK填写工作量",
+        "statement": "电视产品线，里面会包含TV产品线涉及的各类Ecosystem和SDK。",
         "id": 1,
         "topic": "TV"
     },
@@ -493,7 +493,7 @@
                 "topic": "Others"
             }
         ],
-        "statement": "机顶盒产品线，里面会包含机顶盒产品线涉及的各类Ecosystem和SDK。请大家选择对应的SDK填写工作量",
+        "statement": "机顶盒产品线，里面会包含机顶盒产品线涉及的各类Ecosystem和SDK。",
         "id": 12,
         "topic": "STB"
     },
@@ -602,9 +602,9 @@
                 "topic": "Others"
             }
         ],
-        "statement": "音箱产品线，里面会包含音箱产品线涉及的各类Ecosystem和SDK。请大家选择对应的SDK填写工作量",
+        "statement": "音箱产品线，里面会包含音箱产品线涉及的各类Ecosystem和SDK。",
         "id": 20,
-        "topic": "Audio"
+        "topic": "AUDIO"
     },
     {
         "children": [
@@ -673,9 +673,9 @@
                 "topic": "Others"
             }
         ],
-        "statement": "摄像头产品线，里面会包含摄像头产品线涉及的各类Ecosystem和SDK。请大家选择对应的SDK填写工作量",
+        "statement": "摄像头产品线，里面会包含摄像头产品线涉及的各类Ecosystem和SDK。",
         "id": 27,
-        "topic": "Camera"
+        "topic": "CAMERA"
     },
     {
         "children": [
@@ -729,9 +729,9 @@
                 "topic": "Others"
             }
         ],
-        "statement": "智能家居产品线，里面会包含智能家居产品线涉及的各类Ecosystem和SDK。请大家选择对应的SDK填写工作量",
+        "statement": "智能家居产品线，里面会包含智能家居产品线涉及的各类Ecosystem和SDK。",
         "id": 30,
-        "topic": "SmartHome"
+        "topic": "SMARTHOME"
     },
     {
         "children": [
@@ -763,7 +763,7 @@
                 "topic": "Others"
             }
         ],
-        "statement": "车载产品线，里面会包含车载产品线涉及的各类Ecosystem和SDK。请大家选择对应的SDK填写工作量",
+        "statement": "车载产品线，里面会包含车载产品线涉及的各类Ecosystem和SDK。",
         "id": 32,
         "topic": "AUTOMOTIVE"
     },
@@ -824,52 +824,8 @@
                 "topic": "Others"
             }
         ],
-        "statement": "无线连接产品线，里面会包含无线连接产品线涉及的各类Ecosystem和SDK。请大家选择对应的SDK填写工作量",
+        "statement": "无线连接产品线，里面会包含无线连接产品线涉及的各类Ecosystem和SDK。",
         "id": 34,
-        "topic": "Connectivity"
-    },
-    {
-        "children": [
-            {
-                "children": [
-                    {
-                        "statement": "",
-                        "id": 148,
-                        "topic": "CI"
-                    },
-                    {
-                        "statement": "",
-                        "id": 149,
-                        "topic": "TestCase"
-                    },
-                    {
-                        "statement": "",
-                        "id": 150,
-                        "topic": "Web"
-                    },
-                    {
-                        "statement": "",
-                        "id": 185,
-                        "topic": "working hour couting system"
-                    },
-                    {
-                        "statement": "",
-                        "id": 186,
-                        "topic": "auto scan system"
-                    }
-                ],
-                "statement": "",
-                "id": 39,
-                "topic": "SCM"
-            },
-            {
-                "statement": "Automation Others",
-                "id": 151,
-                "topic": "Others"
-            }
-        ],
-        "statement": "SCM的工作因为不涉及到具体的某个产品线，所以单独开辟这个条目用于记录SCM的工作",
-        "id": 37,
-        "topic": "SCM"
+        "topic": "CONNECTIVIRY"
     }
 ]
