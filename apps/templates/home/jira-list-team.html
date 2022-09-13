@@ -30,10 +30,7 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Jira List</h1>
-        </div>
-        <div class="col-sm-6">
-          <button type="button" id="update" class="btn btn-success" style="float:right">Update</button>
+          <h1>Team Jira List</h1>
         </div>
       </div>
     </div><!-- /.container-fluid -->
@@ -46,26 +43,34 @@
       <div class="card-header">
         <ul class="nav nav-pills bg-light" id="pills-tab" role="tablist">
           <li class="nav-item">
-            <a class="nav-link active" id="pills-1-tab" data-toggle="pill" href="#pills-1" role="tab" aria-controls="pills-1" aria-selected="true">Weekly</a>
+            <a class="nav-link active" id="pills-1-tab" data-toggle="pill" href="#pills-1" role="tab" aria-controls="pills-1" aria-selected="true">PMLIST OPEN</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="pills-2-tab" data-toggle="pill" href="#pills-2" role="tab" aria-controls="pills-2" aria-selected="false">Monthly</a>
+            <a class="nav-link" id="pills-2-tab" data-toggle="pill" href="#pills-2" role="tab" aria-controls="pills-2" aria-selected="false">PMLIST TODO</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="pills-3-tab" data-toggle="pill" href="#pills-3" role="tab" aria-controls="pills-3" aria-selected="false">Quarterly</a>
+            <a class="nav-link" id="pills-3-tab" data-toggle="pill" href="#pills-3" role="tab" aria-controls="pills-3" aria-selected="false">PMLIST ONGOING</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="pills-4-tab" data-toggle="pill" href="#pills-4" role="tab" aria-controls="pills-4" aria-selected="false">Yearly</a>
+            <a class="nav-link" id="pills-4-tab" data-toggle="pill" href="#pills-4" role="tab" aria-controls="pills-4" aria-selected="false">REFLIST OPEN</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="pills-5-tab" data-toggle="pill" href="#pills-5" role="tab" aria-controls="pills-5" aria-selected="false">REFLIST TODO</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="pills-6-tab" data-toggle="pill" href="#pills-6" role="tab" aria-controls="pills-6" aria-selected="false">REFLIST ONGOING</a>
           </li>
         </ul>
       </div>
 
       <div class="card-body">
         <div class="tab-content" id="pills-tabContent">
-          <div class="tab-pane fade show active" id="pills-1" role="tabpanel" aria-labelledby="pills-1-tab">The Jira list of this week:</div>
-          <div class="tab-pane fade" id="pills-2" role="tabpanel" aria-labelledby="pills-2-tab">The Jira list of this month:</div>
-          <div class="tab-pane fade" id="pills-3" role="tabpanel" aria-labelledby="pills-3-tab">The Jira list of this quarter:</div>
-          <div class="tab-pane fade" id="pills-4" role="tabpanel" aria-labelledby="pills-4-tab">The Jira list of this year:</div>
+          <div class="tab-pane fade show active" id="pills-1" role="tabpanel" aria-labelledby="pills-1-tab">PMLIST OPEN Jira list:</div>
+          <div class="tab-pane fade" id="pills-2" role="tabpanel" aria-labelledby="pills-2-tab">PMLIST TODO Jira list:</div>
+          <div class="tab-pane fade" id="pills-3" role="tabpanel" aria-labelledby="pills-3-tab">PMLIST ONGOING Jira list:</div>
+          <div class="tab-pane fade" id="pills-4" role="tabpanel" aria-labelledby="pills-4-tab">REFLIST OPEN Jira list:</div>
+          <div class="tab-pane fade" id="pills-5" role="tabpanel" aria-labelledby="pills-5-tab">REFLIST TODO Jira list:</div>
+          <div class="tab-pane fade" id="pills-6" role="tabpanel" aria-labelledby="pills-6-tab">REFLIST ONGOING Jira list:</div>
         </div>
 
         <div id="result"></div>
@@ -110,17 +115,48 @@
 
 <script type="text/javascript">
   $(document).ready(function () {
-    $("#update").click(function () {
-      $("#result").html("");
+    var patterns = ["team-pmlist-open", "team-pmlist-todo", "team-pmlist-ongoing", "team-reflist-open", "team-reflist-todo", "team-reflist-ongoing"];
+    var tables = ["", "", "", "", "", ""]
+    var idx = 0;
+
+    jira_table_init();
+
+    $('li a').click(function () {
+      id = $(this).attr("id");
+      idx = parseInt(id.replace(/[^0-9]/ig, "")) - 1;
+      console.log(idx)
+      if (tables[idx] == "") {
+        $("#result").html("");
+        tables[idx] = jira_table_update(idx);
+      }
+      $("#result").html(tables[idx]);
+    });
+
+    function jira_table_init() {
       $("#ld2").fadeIn();
-      searchUrl = "/jira-list-1"
+      searchUrl = "/jira-list-1" + "?pattern=" + patterns[0]
+      console.log(searchUrl);
       htmlobj = $.ajax({
         url: searchUrl, async: true, success: function (data) {
-          $("#result").html(data);
+          tables[0] = data;
+          $("#result").html(tables[0]);
           $("#ld2").fadeOut();
         }
       });
-    });
+    }
+
+    function jira_table_update(index) {
+      $("#ld2").fadeIn();
+      searchUrl = "/jira-list-1" + "?pattern=" + patterns[index]
+      console.log(searchUrl);
+      htmlobj = $.ajax({
+        url: searchUrl, async: true, success: function (data) {
+          tables[index] = data;
+          $("#result").html(tables[idx]);
+          $("#ld2").fadeOut();
+        }
+      });
+    }
   });
 </script>
 

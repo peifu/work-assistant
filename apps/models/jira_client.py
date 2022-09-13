@@ -17,7 +17,7 @@ DEBUG_DUMP_ENABLE = 0
 
 MAX_ISSUE = 200
 MAX_SUMMARY = 80
-#JIRA_SERVER = "cfg/jira_server.json"
+#JIRA_SERVER = "cfg/server.json"
 JIRA_SERVER = "apps/models/cfg/server.json"
 TEST_JIRA_FILTER = "apps/models/cfg/jira_filter.json"
 TEST_JIRA_PATTERN = "apps/models/cfg/jira_pattern_test.json"
@@ -297,7 +297,7 @@ def jira_login(username, password):
         return 1
 
 def jira_get(user, pattern):
-    print(user)
+    print(user + pattern)
     jira_config = init_config(JIRA_SERVER)
     user = jira_config["server"]["user"]
     filter = {
@@ -324,8 +324,33 @@ def jira_get(user, pattern):
     elif pattern == 'my-closed':
         filter["assignee"]: user
         filter["status"] = "Closed"
+    elif pattern == 'team-pmlist-open':
+        filter["assignee"] = "membersOf(jira-sw-platform)"
+        filter["status"] = "OPEN, Reopened"
+        filter["project"] = "TV, OTT, IPTV, SH, KAR"
+    elif pattern == 'team-pmlist-todo':
+        filter["assignee"] = "membersOf(jira-sw-platform)"
+        filter["status"] = "'To Do'"
+        filter["project"] = "TV, OTT, IPTV, SH, KAR"
+    elif pattern == 'team-pmlist-ongoing':
+        filter["assignee"] = "membersOf(jira-sw-platform)"
+        filter["status"] = "'In Progress', 'In Code Review'"
+        filter["project"] = "TV, OTT, IPTV, SH, KAR"
+    elif pattern == 'team-reflist-open':
+        filter["assignee"] = "membersOf(jira-sw-platform)"
+        filter["status"] = "OPEN, Reopened"
+        filter["project"] = "RSP, SWPL"
+    elif pattern == 'team-reflist-todo':
+        filter["assignee"] = "membersOf(jira-sw-platform)"
+        filter["status"] = "'To Do'"
+        filter["project"] = "RSP, SWPL"
+    elif pattern == 'team-reflist-ongoing':
+        filter["assignee"] = "membersOf(jira-sw-platform)"
+        filter["status"] = "'In Progress', 'In Code Review'"
+        filter["project"] = "RSP, SWPL"
 
     jira_pattern = JIRA_PATTERN.format(filter["project"], filter["priority"], filter["status"], filter["assignee"])
+    print(jira_pattern)
     tb = get_jira_table_by_pattern(jira_pattern)
     html = get_html_from_table(tb)
     html2 = format_table(html)
@@ -361,4 +386,5 @@ def test_jira_pattern():
 if __name__ == "__main__":
     #test_jira_html()
     #test_jira_table()
-    test_jira_get('peifu.jiang', 'my-open')
+    #test_jira_get('peifu.jiang', 'my-open')
+    test_jira_get('peifu.jiang', 'team-reflist-ongoing')
