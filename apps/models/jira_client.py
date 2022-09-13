@@ -18,7 +18,7 @@ DEBUG_DUMP_ENABLE = 0
 MAX_ISSUE = 200
 MAX_SUMMARY = 80
 #JIRA_SERVER = "cfg/jira_server.json"
-JIRA_SERVER = "apps/models/cfg/jira_server.json"
+JIRA_SERVER = "apps/models/cfg/server.json"
 TEST_JIRA_FILTER = "apps/models/cfg/jira_filter.json"
 TEST_JIRA_PATTERN = "apps/models/cfg/jira_pattern_test.json"
 JIRA_SERVER_ADDR = "https://jira.amlogic.com"
@@ -93,7 +93,7 @@ def format_table(table):
     return table2
 
 def init_jira(jira_config):
-    server = jira_config["server"]["server_addr"]
+    server = JIRA_SERVER_ADDR
     user = jira_config["server"]["user"]
     pwd = jira_config["server"]["password"]
     debug("server={}, user={}, pwd={}".format(server, user, pwd))
@@ -281,7 +281,6 @@ def jira_login(username, password):
     pwd = password
     jira_config = {
         "server": {
-            "server_addr": "https://jira.amlogic.com",
             "user": user,
             "password": pwd
         }

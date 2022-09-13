@@ -28,9 +28,8 @@ URL_MAIN='http://aats.amlogic.com:10000/weekly_sumup/main'
 URL_LIST='http://aats.amlogic.com:10000/weekly_sumup/table/list'
 URL_SAVE='http://aats.amlogic.com:10000/weekly_sumup/save_report'
 
-USER='peifu.jiang'
 DOMAIN='@amlogic.com'
-PASSWORD='JPF010122#'
+SERVER_CONFIG = "apps/models/cfg/server.json"
 
 POST_HEADERS = {
     "Accpet": "*/*",
@@ -57,6 +56,12 @@ def load_list(task_file):
     task_list = json.load(f)
     f.close()
     return task_list
+
+def init_config(cfg):
+    f = open(cfg, encoding="utf-8")
+    server_config = json.load(f)
+    f.close()
+    return server_config
 
 def login(u, p):
     print('>> Login ...')
@@ -135,9 +140,12 @@ def list_to_html(task):
     df = pd.DataFrame(task)
     return df.to_html(escape=False)
 
-def get_sumup_list(user, password, date):
+def get_sumup_list(user, date):
     print('>> gen_draft() ...')
     # Login
+    server_config = init_config(SERVER_CONFIG)
+    user = server_config["server"]["user"]
+    password = server_config["server"]["password"]
     ret = login(user, password)
     if (ret != 0): 
         print('Login failed! Error code: ' + ret)
@@ -156,8 +164,12 @@ def get_sumup_list(user, password, date):
     dump_list(draft_list)
     return list_to_html(draft_list)
         
-def gen_draft(user, password, date):
+def gen_draft(user, date):
     print('>> gen_draft() ...')
+
+    server_config = init_config(SERVER_CONFIG)
+    user = server_config["server"]["user"]
+    password = server_config["server"]["password"]
     # Login
     ret = login(user, password)
     if (ret != 0): 
@@ -180,14 +192,14 @@ def gen_draft(user, password, date):
     dump_list(draft_list)
     return list_to_html(draft_list)
 
-def submit_draft(date):
+def submit_draft(user, date):
     print('>> submit_draft() ...')
     draft_sunday = this_sunday(date)
 
     # Get this week work list
     this_list = get_list(draft_sunday)
     if (this_list != None):
-        return "The work list fo this week is already submitted!"
+        return "The work list of this week is already submitted!"
 
     for item in draft_list:
         item['label'] = draft_sunday
