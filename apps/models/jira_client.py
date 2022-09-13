@@ -2,6 +2,8 @@
 #coding: utf-8
 
 #import pysnooper
+import time
+import datetime
 import re
 import json
 import prettytable as pt
@@ -15,10 +17,19 @@ DEBUG_DUMP_ENABLE = 0
 
 MAX_ISSUE = 200
 MAX_SUMMARY = 80
+#JIRA_SERVER = "cfg/jira_server.json"
 JIRA_SERVER = "apps/models/cfg/jira_server.json"
 TEST_JIRA_FILTER = "apps/models/cfg/jira_filter.json"
 TEST_JIRA_PATTERN = "apps/models/cfg/jira_pattern_test.json"
 JIRA_SERVER_ADDR = "https://jira.amlogic.com"
+
+JIRA_LINK = '<a href="https://jira.amlogic.com/browse/%s">%s</a>'
+JIRA_KEY_PATTERN = '(SWPL|RSP|OTT|SH|IPTV|OPS|TV|GH|KAR)-[1-9][0-9]*'
+DATE_KEY_PATTERN = '[1-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]'
+DATE_HIGHLIGHT_RED = '<font color="red">%s</font>'
+DATE_HIGHLIGHT_BLUE = '<font color="blue">%s</font>'
+DATE_HIGHLIGHT_GREEN = '<font color="green">%s</font>'
+DATE_HIGHLIGHT_ORANGE = '<font color="orange">%s</font>'
 
 JIRA_PATTERN = "project in ({}) AND priority in ({}) AND status in ({}) AND assignee in ({}) ORDER BY priority DESC, status ASC, assignee ASC"
 FIELD_NAMES = ["Issue", "Issuetype", "Priority", "Status", "Assingee", "Creator", "Summary"]
@@ -50,7 +61,36 @@ def init_config_with_json(cfg_json):
     debug(jira_config)
     return jira_config
 
+def key2link(matched):
+    key = matched.group()
+    link = JIRA_LINK % (key, key)
+    return link
 
+def add_link(table):
+    table2 = re.sub(JIRA_KEY_PATTERN, key2link, table)
+    return table2
+
+def date_highlight(matched):
+    key = matched.group()
+    d1 = datetime.datetime.today()
+    d2 = datetime.datetime.strptime(key, '%Y-%m-%d')
+    dd = (d2 - d1).days
+    if dd <= 1:
+        key_hl = DATE_HIGHLIGHT_RED % (key)
+    elif dd <= 3:
+        key_hl = DATE_HIGHLIGHT_ORANGE % (key)
+    else:
+        key_hl = key
+    return key_hl
+
+def add_highlight(table):
+    table2 = re.sub(DATE_KEY_PATTERN, date_highlight, table)
+    return table2
+
+def format_table(table):
+    table2 = add_link(table)
+    table2 = add_highlight(table2)
+    return table2
 
 def init_jira(jira_config):
     server = jira_config["server"]["server_addr"]
@@ -289,7 +329,11 @@ def jira_get(user, pattern):
     jira_pattern = JIRA_PATTERN.format(filter["project"], filter["priority"], filter["status"], filter["assignee"])
     tb = get_jira_table_by_pattern(jira_pattern)
     html = get_html_from_table(tb)
-    return html
+    html2 = format_table(html)
+    return html2
+
+def test_jira_get(user, pattern):
+    jira_get(user, pattern)
 
 def test_jira_html():
     filters = get_filters(TEST_JIRA_FILTER)
@@ -318,4 +362,4 @@ def test_jira_pattern():
 if __name__ == "__main__":
     #test_jira_html()
     #test_jira_table()
-    test_jira_pattern()
+    test_jira_get('peifu.jiang', 'my-open')
