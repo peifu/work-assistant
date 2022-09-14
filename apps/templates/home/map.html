@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+
+<head>
+  <meta charset="utf-8">
+</head>
+
+<body style="height: 100%; margin: 0">
+  <div id="container" style="height: 100%"></div>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat/dist/ecStat.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/dataTool.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/china.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/world.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/bmap.min.js"></script>
+
+  <script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+
+  <script type="text/javascript">
+
+    $(document).ready(function () {
+      var dom = document.getElementById("container");
+      var myChart = echarts.init(dom);
+      var app = {};
+      var option = null;
+      var convertData = [];
+      var convertDataBase = {}
+
+      var result = $.getJSON('/static/assets/data/convert-data.json', function (data) {
+        convertDataBase = data;
+      });
+      result = $.getJSON('/static/assets/data/map.json', function (data) {
+        convertData = chartConvertData(data, convertDataBase);
+        chartUpdateData(convertData);
+      });
+
+      function chartConvertData(map, data) {
+        var res = [];
+        for (var key in data) {
+          if (map[key]) {
+            res.push(map[key].concat(data[key]));
+          }
+        }
+        return res;
+      }
+
+      function chartUpdateData(data) {
+        if (option == null) {
+          console.log("option null!!");
+        } else {
+          console.log("update option");
+          option.series[0].data = data;
+          myChart.setOption(option, true);
+        }
+      }
+
+      option = {
+        backgroundColor: '#404a59',
+        title: {
+          text: '全国主要城市空气质量',
+          subtext: 'data from PM25.in',
+          sublink: 'http://www.pm25.in',
+          left: 'center',
+          textStyle: {
+            color: '#fff'
+          }
+        },
+        tooltip: {
+          trigger: 'item'
+        },
+        legend: {
+          orient: 'vertical',
+          top: 'bottom',
+          left: 'right',
+          data: ['pm2.5'],
+          textStyle: {
+            color: '#fff'
+          }
+        },
+        visualMap: {
+          min: 0,
+          max: 300,
+          splitNumber: 5,
+          color: ['#d94e5d', '#eac736', '#50a3ba'],
+          textStyle: {
+            color: '#fff'
+          }
+        },
+        geo: {
+          map: 'china',
+          label: {
+            emphasis: {
+              show: false
+            }
+          },
+          itemStyle: {
+            normal: {
+              areaColor: '#323c48',
+              borderColor: '#111'
+            },
+            emphasis: {
+              areaColor: '#2a333d'
+            }
+          }
+        },
+        series: [
+          {
+            name: 'pm2.5',
+            type: 'scatter',
+            coordinateSystem: 'geo',
+            data: convertData,
+            symbolSize: 12,
+            label: {
+              normal: {
+                show: false
+              },
+              emphasis: {
+                show: false
+              }
+            },
+            itemStyle: {
+              emphasis: {
+                borderColor: '#fff',
+                borderWidth: 1
+              }
+            }
+          }
+        ]
+      };
+      if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+      }
+    }); 
+  </script>
+</body>
+
+</html>
