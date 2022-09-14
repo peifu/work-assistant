@@ -127,47 +127,12 @@
           <section class="col-lg-6 connectedSortable">
             <!-- Custom tabs (Charts with tabs)-->
             <!-- Map card -->
-            <div class="card bg-gradient-primary">
-              <div class="card-header border-0">
-                <h3 class="card-title">
-                  <i class="fas fa-map-marker-alt mr-1"></i>
-                  Visitors
-                </h3>
-                <!-- card tools -->
-                <div class="card-tools">
-                  <button type="button" class="btn btn-primary btn-sm daterange" title="Date range">
-                    <i class="far fa-calendar-alt"></i>
-                  </button>
-                  <button type="button" class="btn btn-primary btn-sm" data-card-widget="collapse" title="Collapse">
-                    <i class="fas fa-minus"></i>
-                  </button>
-                </div>
-                <!-- /.card-tools -->
-              </div>
+            <div class="card bg-white">
               <div class="card-body">
-                <div id="world-map" style="height: 250px; width: 100%;"></div>
+                <div id="china-map" style="height: 400px; width: 100%;"></div>
               </div>
               <!-- /.card-body-->
-              <div class="card-footer bg-transparent">
-                <div class="row">
-                  <div class="col-4 text-center">
-                    <div id="sparkline-1"></div>
-                    <div class="text-white">Visitors</div>
-                  </div>
-                  <!-- ./col -->
-                  <div class="col-4 text-center">
-                    <div id="sparkline-2"></div>
-                    <div class="text-white">Online</div>
-                  </div>
-                  <!-- ./col -->
-                  <div class="col-4 text-center">
-                    <div id="sparkline-3"></div>
-                    <div class="text-white">Sales</div>
-                  </div>
-                  <!-- ./col -->
-                </div>
-                <!-- /.row -->
-              </div>
+
             </div>
             <!-- /.card -->
           </section>
@@ -185,17 +150,6 @@
                 <!-- tools card -->
                 <div class="card-tools">
                   <!-- button with a dropdown -->
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown" data-offset="-52">
-                      <i class="fas fa-bars"></i>
-                    </button>
-                    <div class="dropdown-menu" role="menu">
-                      <a href="#" class="dropdown-item">Add new event</a>
-                      <a href="#" class="dropdown-item">Clear events</a>
-                      <div class="dropdown-divider"></div>
-                      <a href="#" class="dropdown-item">View calendar</a>
-                    </div>
-                  </div>
                   <button type="button" class="btn btn-success btn-sm" data-card-widget="collapse">
                     <i class="fas fa-minus"></i>
                   </button>
@@ -209,6 +163,23 @@
               <div class="card-body pt-0">
                 <!--The calendar -->
                 <div id="calendar" style="width: 100%"></div>
+              </div>
+              <div class="card-footer bg-transparent">
+                <div class="row">
+                  <div class="col-4 text-center">
+                    <div id="sparkline-1"></div>
+                  </div>
+                  <!-- ./col -->
+                  <div class="col-4 text-center">
+                    <div id="sparkline-2"></div>
+                  </div>
+                  <!-- ./col -->
+                  <div class="col-4 text-center">
+                    <div id="sparkline-3"></div>
+                  </div>
+                  <!-- ./col -->
+                </div>
+                <!-- /.row -->
               </div>
               <!-- /.card-body -->
             </div>
@@ -262,5 +233,138 @@
   <script src="/static/assets/js/pages/dashboard.js"></script>
   <!-- AdminLTE for demo purposes -->
   <script src="/static/assets/js/demo.js"></script>
+
+
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat/dist/ecStat.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/dataTool.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/china.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/world.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/bmap.min.js"></script>
+  
+  <script type="text/javascript">
+  
+    $(document).ready(function () {
+      var dom = document.getElementById("china-map");
+      var myChart = echarts.init(dom);
+      var app = {};
+      var option = null;
+      var convertData = [];
+      var convertDataBase = {}
+  
+      var result = $.getJSON('/static/assets/data/office-site.json', function (data) {
+        convertDataBase = data;
+      });
+      result = $.getJSON('/static/assets/data/map.json', function (data) {
+        convertData = chartConvertData(data, convertDataBase);
+        chartUpdateData(convertData);
+      });
+  
+      function chartConvertData(map, data) {
+        var res = [];
+        for (var key in data) {
+          if (map[key]) {
+            res.push(map[key].concat(data[key]));
+          }
+        }
+        return res;
+      }
+  
+      function chartUpdateData(data) {
+        if (option == null) {
+          console.log("option null!!");
+        } else {
+          console.log("update option");
+          option.series[0].data = data;
+          myChart.setOption(option, true);
+        }
+      }
+  
+      option = {
+        backgroundColor: '#404a59',
+        title: {
+          text: 'Amlogic China Office',
+          subtext: 'Office Site in China',
+          sublink: '',
+          left: 'center',
+          textStyle: {
+            color: '#fff'
+          }
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: function (param) {
+            console.log(param);
+            var res = "Employees: " + param.data[2];
+            return res;
+          }
+        },
+        legend: {
+          orient: 'vertical',
+          top: 'bottom',
+          left: 'right',
+          data: ['Employees'],
+          textStyle: {
+            color: '#fff'
+          }
+        },
+        visualMap: {
+          min: 0,
+          max: 400,
+          splitNumber: 4,
+          color: ['#d94e5d', '#eac736', '#50a3ba'],
+          textStyle: {
+            color: '#fff'
+          }
+        },
+        geo: {
+          map: 'china',
+          label: {
+            emphasis: {
+              show: false
+            }
+          },
+          itemStyle: {
+            normal: {
+              areaColor: '#323c48',
+              borderColor: '#111'
+            },
+            emphasis: {
+              areaColor: '#2a333d'
+            }
+          }
+        },
+        series: [
+          {
+            name: 'Employees',
+            type: 'scatter',
+            coordinateSystem: 'geo',
+            data: convertData,
+            symbolSize: 16,
+            label: {
+              normal: {
+                show: false
+              },
+              emphasis: {
+                show: false
+              }
+            },
+            itemStyle: {
+              emphasis: {
+                borderColor: '#fff',
+                borderWidth: 1
+              }
+            }
+          }
+        ]
+      };
+      if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+      }
+    });
+  
+  </script>
+
 
 {% endblock javascripts %}
