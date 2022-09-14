@@ -1,370 +1,370 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} Dashboard {% endblock %} 
+{% block title %} Dashboard {% endblock %}
 
 <!-- Element injected in the BODY element -->
-{% block body_class %} sidebar-mini {% endblock body_class %} 
+{% block body_class %} sidebar-mini {% endblock body_class %}
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
 
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- Tempusdominus Bootstrap 4 -->
-  <link rel="stylesheet" href="/static/assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
-  <!-- iCheck -->
-  <link rel="stylesheet" href="/static/assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-  <!-- JQVMap -->
-  <link rel="stylesheet" href="/static/assets/plugins/jqvmap/jqvmap.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
-  <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="/static/assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
-  <!-- Daterange picker -->
-  <link rel="stylesheet" href="/static/assets/plugins/daterangepicker/daterangepicker.css">
-  <!-- summernote -->
-  <link rel="stylesheet" href="/static/assets/plugins/summernote/summernote-bs4.min.css">
+<!-- Google Font: Source Sans Pro -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
+<!-- Ionicons -->
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+<!-- Tempusdominus Bootstrap 4 -->
+<link rel="stylesheet" href="/static/assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+<!-- iCheck -->
+<link rel="stylesheet" href="/static/assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+<!-- JQVMap -->
+<link rel="stylesheet" href="/static/assets/plugins/jqvmap/jqvmap.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
+<!-- overlayScrollbars -->
+<link rel="stylesheet" href="/static/assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+<!-- Daterange picker -->
+<link rel="stylesheet" href="/static/assets/plugins/daterangepicker/daterangepicker.css">
+<!-- summernote -->
+<link rel="stylesheet" href="/static/assets/plugins/summernote/summernote-bs4.min.css">
 
 {% endblock stylesheets %}
 
 {% block content %}
-  
-  <div class="content-wrapper">
 
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Dashboard</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard v1</li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
+<div class="content-wrapper">
 
-    <!-- Main content -->
-    <section class="content">
-      <div class="container-fluid">
-        <!-- Small boxes (Stat box) -->
-        <div class="row">
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-info">
-              <div class="inner">
-                <h3>150</h3>
-
-                <p>Jira List</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-bag"></i>
-              </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-success">
-              <div class="inner">
-                <h3>53<sup style="font-size: 20px">%</sup></h3>
-
-                <p>Finish Rate</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-stats-bars"></i>
-              </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-warning">
-              <div class="inner">
-                <h3>44</h3>
-
-                <p>Toto Tasks</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-person-add"></i>
-              </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-danger">
-              <div class="inner">
-                <h3>65</h3>
-
-                <p>Overtime Tasks</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-pie-graph"></i>
-              </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
-        </div>
-        <!-- /.row -->
-
-        <!-- Main row -->
-        <div class="row">
-          <!-- Left col -->
-          <section class="col-lg-6 connectedSortable">
-            <!-- Custom tabs (Charts with tabs)-->
-            <!-- Map card -->
-            <div class="card bg-white">
-              <div class="card-body">
-                <div id="china-map" style="height: 400px; width: 100%;"></div>
-              </div>
-              <!-- /.card-body-->
-
-            </div>
-            <!-- /.card -->
-          </section>
-          <!-- /.Left col -->
-          <!-- right col (We are only adding the ID to make the widgets sortable)-->
-          <section class="col-lg-6 connectedSortable">
-            <!-- Calendar -->
-            <div class="card bg-gradient-info">
-              <div class="card-header border-0">
-
-                <h3 class="card-title">
-                  <i class="far fa-calendar-alt"></i>
-                  Calendar
-                </h3>
-                <!-- tools card -->
-                <div class="card-tools">
-                  <!-- button with a dropdown -->
-                  <button type="button" class="btn btn-success btn-sm" data-card-widget="collapse">
-                    <i class="fas fa-minus"></i>
-                  </button>
-                  <button type="button" class="btn btn-success btn-sm" data-card-widget="remove">
-                    <i class="fas fa-times"></i>
-                  </button>
-                </div>
-                <!-- /. tools -->
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body pt-0">
-                <!--The calendar -->
-                <div id="calendar" style="width: 100%"></div>
-              </div>
-              <div class="card-footer bg-transparent">
-                <div class="row">
-                  <div class="col-4 text-center">
-                    <div id="sparkline-1"></div>
-                  </div>
-                  <!-- ./col -->
-                  <div class="col-4 text-center">
-                    <div id="sparkline-2"></div>
-                  </div>
-                  <!-- ./col -->
-                  <div class="col-4 text-center">
-                    <div id="sparkline-3"></div>
-                  </div>
-                  <!-- ./col -->
-                </div>
-                <!-- /.row -->
-              </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-          </section>
-          <!-- right col -->
-        </div>
-        <!-- /.row (main row) -->
-      </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
-
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0 text-dark">Dashboard</h1>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">Dashboard v1</li>
+          </ol>
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
   </div>
+  <!-- /.content-header -->
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <!-- Small boxes (Stat box) -->
+      <div class="row">
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-info">
+            <div class="inner">
+              <h3>150</h3>
+
+              <p>Jira List</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-bag"></i>
+            </div>
+            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-success">
+            <div class="inner">
+              <h3>53<sup style="font-size: 20px">%</sup></h3>
+
+              <p>Finish Rate</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-stats-bars"></i>
+            </div>
+            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-warning">
+            <div class="inner">
+              <h3>44</h3>
+
+              <p>Toto Tasks</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-person-add"></i>
+            </div>
+            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-danger">
+            <div class="inner">
+              <h3>65</h3>
+
+              <p>Overtime Tasks</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-pie-graph"></i>
+            </div>
+            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+      </div>
+      <!-- /.row -->
+
+      <!-- Main row -->
+      <div class="row">
+        <!-- Left col -->
+        <section class="col-lg-6 connectedSortable">
+          <!-- Custom tabs (Charts with tabs)-->
+          <!-- Map card -->
+          <div class="card bg-white">
+            <div class="card-body">
+              <div id="china-map" style="height: 400px; width: 100%;"></div>
+            </div>
+            <!-- /.card-body-->
+
+          </div>
+          <!-- /.card -->
+        </section>
+        <!-- /.Left col -->
+        <!-- right col (We are only adding the ID to make the widgets sortable)-->
+        <section class="col-lg-6 connectedSortable">
+          <!-- Calendar -->
+          <div class="card bg-gradient-info">
+            <div class="card-header border-0">
+
+              <h3 class="card-title">
+                <i class="far fa-calendar-alt"></i>
+                Calendar
+              </h3>
+              <!-- tools card -->
+              <div class="card-tools">
+                <!-- button with a dropdown -->
+                <button type="button" class="btn btn-success btn-sm" data-card-widget="collapse">
+                  <i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-success btn-sm" data-card-widget="remove">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+              <!-- /. tools -->
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body pt-0">
+              <!--The calendar -->
+              <div id="calendar" style="width: 100%"></div>
+            </div>
+            <div class="card-footer bg-transparent">
+              <div class="row">
+                <div class="col-4 text-center">
+                  <div id="sparkline-1"></div>
+                </div>
+                <!-- ./col -->
+                <div class="col-4 text-center">
+                  <div id="sparkline-2"></div>
+                </div>
+                <!-- ./col -->
+                <div class="col-4 text-center">
+                  <div id="sparkline-3"></div>
+                </div>
+                <!-- ./col -->
+              </div>
+              <!-- /.row -->
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </section>
+        <!-- right col -->
+      </div>
+      <!-- /.row (main row) -->
+    </div><!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+
+</div>
 
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
 
-  <!-- jQuery -->
-  <script src="/static/assets/plugins/jquery/jquery.min.js"></script>
-  <!-- jQuery UI 1.11.4 -->
-  <script src="/static/assets/plugins/jquery-ui/jquery-ui.min.js"></script>
-  <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-  <script>
-    $.widget.bridge('uibutton', $.ui.button)
-  </script>
-  <!-- Bootstrap 4 -->
-  <script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <!-- ChartJS -->
-  <script src="/static/assets/plugins/chart.js/Chart.min.js"></script>
-  <!-- Sparkline -->
-  <script src="/static/assets/plugins/sparklines/sparkline.js"></script>
-  <!-- JQVMap -->
-  <script src="/static/assets/plugins/jqvmap/jquery.vmap.min.js"></script>
-  <script src="/static/assets/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
-  <!-- jQuery Knob Chart -->
-  <script src="/static/assets/plugins/jquery-knob/jquery.knob.min.js"></script>
-  <!-- daterangepicker -->
-  <script src="/static/assets/plugins/moment/moment.min.js"></script>
-  <script src="/static/assets/plugins/daterangepicker/daterangepicker.js"></script>
-  <!-- Tempusdominus Bootstrap 4 -->
-  <script src="/static/assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-  <!-- Summernote -->
-  <script src="/static/assets/plugins/summernote/summernote-bs4.min.js"></script>
-  <!-- overlayScrollbars -->
-  <script src="/static/assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-  <!-- AdminLTE App -->
-  <script src="/static/assets/js/adminlte.js"></script>
-  <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-  <script src="/static/assets/js/pages/dashboard.js"></script>
-  <!-- AdminLTE for demo purposes -->
-  <script src="/static/assets/js/demo.js"></script>
+<!-- jQuery -->
+<script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="/static/assets/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- ChartJS -->
+<script src="/static/assets/plugins/chart.js/Chart.min.js"></script>
+<!-- Sparkline -->
+<script src="/static/assets/plugins/sparklines/sparkline.js"></script>
+<!-- JQVMap -->
+<script src="/static/assets/plugins/jqvmap/jquery.vmap.min.js"></script>
+<script src="/static/assets/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+<!-- jQuery Knob Chart -->
+<script src="/static/assets/plugins/jquery-knob/jquery.knob.min.js"></script>
+<!-- daterangepicker -->
+<script src="/static/assets/plugins/moment/moment.min.js"></script>
+<script src="/static/assets/plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="/static/assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Summernote -->
+<script src="/static/assets/plugins/summernote/summernote-bs4.min.js"></script>
+<!-- overlayScrollbars -->
+<script src="/static/assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/static/assets/js/adminlte.js"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="/static/assets/js/pages/dashboard.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="/static/assets/js/demo.js"></script>
 
 
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat/dist/ecStat.min.js"></script>
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/dataTool.min.js"></script>
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/china.js"></script>
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/world.js"></script>
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/bmap.min.js"></script>
-  
-  <script type="text/javascript">
-  
-    $(document).ready(function () {
-      var dom = document.getElementById("china-map");
-      var myChart = echarts.init(dom);
-      var app = {};
-      var option = null;
-      var convertData = [];
-      var convertDataBase = {}
-  
-      var result = $.getJSON('/static/assets/data/office-site.json', function (data) {
-        convertDataBase = data;
-      });
-      result = $.getJSON('/static/assets/data/map.json', function (data) {
-        convertData = chartConvertData(data, convertDataBase);
-        chartUpdateData(convertData);
-      });
-  
-      function chartConvertData(map, data) {
-        var res = [];
-        for (var key in data) {
-          if (map[key]) {
-            res.push(map[key].concat(data[key]));
-          }
-        }
-        return res;
-      }
-  
-      function chartUpdateData(data) {
-        if (option == null) {
-          console.log("option null!!");
-        } else {
-          console.log("update option");
-          option.series[0].data = data;
-          myChart.setOption(option, true);
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat/dist/ecStat.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/dataTool.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/china.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/world.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/bmap.min.js"></script>
+
+<script type="text/javascript">
+
+  $(document).ready(function () {
+    var dom = document.getElementById("china-map");
+    var myChart = echarts.init(dom);
+    var app = {};
+    var option = null;
+    var convertData = [];
+    var convertDataBase = {}
+
+    var result = $.getJSON('/static/assets/data/office-site.json', function (data) {
+      convertDataBase = data;
+    });
+    result = $.getJSON('/static/assets/data/map.json', function (data) {
+      convertData = chartConvertData(data, convertDataBase);
+      chartUpdateData(convertData);
+    });
+
+    function chartConvertData(map, data) {
+      var res = [];
+      for (var key in data) {
+        if (map[key]) {
+          res.push(map[key].concat(data[key]));
         }
       }
-  
-      option = {
-        backgroundColor: '#404a59',
-        title: {
-          text: 'Amlogic China Office',
-          subtext: 'Office Site in China',
-          sublink: '',
-          left: 'center',
-          textStyle: {
-            color: '#fff'
+      return res;
+    }
+
+    function chartUpdateData(data) {
+      if (option == null) {
+        console.log("option null!!");
+      } else {
+        console.log("update option");
+        option.series[0].data = data;
+        myChart.setOption(option, true);
+      }
+    }
+
+    option = {
+      backgroundColor: '#404a59',
+      title: {
+        text: 'Amlogic China Office',
+        subtext: 'Office Site in China',
+        sublink: '',
+        left: 'center',
+        textStyle: {
+          color: '#fff'
+        }
+      },
+      tooltip: {
+        trigger: 'item',
+        formatter: function (param) {
+          console.log(param);
+          var res = "Employees: " + param.data[2];
+          return res;
+        }
+      },
+      legend: {
+        orient: 'vertical',
+        top: 'bottom',
+        left: 'right',
+        data: ['Employees'],
+        textStyle: {
+          color: '#fff'
+        }
+      },
+      visualMap: {
+        min: 0,
+        max: 400,
+        splitNumber: 4,
+        color: ['#d94e5d', '#eac736', '#50a3ba'],
+        textStyle: {
+          color: '#fff'
+        }
+      },
+      geo: {
+        map: 'china',
+        label: {
+          emphasis: {
+            show: false
           }
         },
-        tooltip: {
-          trigger: 'item',
-          formatter: function (param) {
-            console.log(param);
-            var res = "Employees: " + param.data[2];
-            return res;
+        itemStyle: {
+          normal: {
+            areaColor: '#323c48',
+            borderColor: '#111'
+          },
+          emphasis: {
+            areaColor: '#2a333d'
           }
-        },
-        legend: {
-          orient: 'vertical',
-          top: 'bottom',
-          left: 'right',
-          data: ['Employees'],
-          textStyle: {
-            color: '#fff'
-          }
-        },
-        visualMap: {
-          min: 0,
-          max: 400,
-          splitNumber: 4,
-          color: ['#d94e5d', '#eac736', '#50a3ba'],
-          textStyle: {
-            color: '#fff'
-          }
-        },
-        geo: {
-          map: 'china',
+        }
+      },
+      series: [
+        {
+          name: 'Employees',
+          type: 'scatter',
+          coordinateSystem: 'geo',
+          data: convertData,
+          symbolSize: 16,
           label: {
+            normal: {
+              show: false
+            },
             emphasis: {
               show: false
             }
           },
           itemStyle: {
-            normal: {
-              areaColor: '#323c48',
-              borderColor: '#111'
-            },
             emphasis: {
-              areaColor: '#2a333d'
+              borderColor: '#fff',
+              borderWidth: 1
             }
           }
-        },
-        series: [
-          {
-            name: 'Employees',
-            type: 'scatter',
-            coordinateSystem: 'geo',
-            data: convertData,
-            symbolSize: 16,
-            label: {
-              normal: {
-                show: false
-              },
-              emphasis: {
-                show: false
-              }
-            },
-            itemStyle: {
-              emphasis: {
-                borderColor: '#fff',
-                borderWidth: 1
-              }
-            }
-          }
-        ]
-      };
-      if (option && typeof option === "object") {
-        myChart.setOption(option, true);
-      }
-    });
-  
-  </script>
+        }
+      ]
+    };
+    if (option && typeof option === "object") {
+      myChart.setOption(option, true);
+    }
+  });
+
+</script>
 
 
 {% endblock javascripts %}
