@@ -83,7 +83,9 @@
       htmlobj = $.ajax({ url: searchUrl, async: false });
       resp = htmlobj.responseJSON;
       console.log(resp)
-      $("#result").html(JSON.stringify(resp, null, 2));
+      var msg = "Time is ticking out:  " + resp.msg;
+      $("#result").html(msg);
+      //$("#result").html(JSON.stringify(resp, null, 2));
     });
   });
 </script>

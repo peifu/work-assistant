@@ -90,8 +90,8 @@
   $(document).ready(function () {
     $("#get").click(function () {
       $("#result").html("");
-      searchUrl = "/sum-up-3";
       date = $("#datepicker").val();
+      searchUrl = "/sum-up-3" + "?date=" + date;
       console.log(date)
       htmlobj = $.ajax({
         url: searchUrl, async: true, success: function (data) {

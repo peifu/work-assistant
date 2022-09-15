@@ -102,9 +102,9 @@
       $("#result-submit").html("");
       let element = document.getElementById("alert-submit");
       element.setAttribute("hidden", "hidden");
-      searchUrl = "/sum-up-1";
       date = $("#datepicker").val();
       console.log(date)
+      searchUrl = "/sum-up-1" + "?date=" + date;
       htmlobj = $.ajax({
         url: searchUrl, async: true, success: function (data) {
           $("#result-gen").html(data);
@@ -116,7 +116,7 @@
       let element = document.getElementById("alert-submit");
       date = $("#datepicker").val();
       console.log(date)
-      searchUrl = "/sum-up-2"
+      searchUrl = "/sum-up-2" + "?date=" + date;
       htmlobj = $.ajax({
         url: searchUrl, async: true, success: function (data) {
           $("#result-submit").html(data);
