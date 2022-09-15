@@ -362,9 +362,12 @@
     if (option && typeof option === "object") {
       myChart.setOption(option, true);
     }
+
+    window.onresize = function () {
+      console.log("window resize");
+      myChart.resize();
+    }
   });
 
 </script>
-
-
 {% endblock javascripts %}
