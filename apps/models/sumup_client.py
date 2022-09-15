@@ -30,6 +30,7 @@ URL_SAVE='http://aats.amlogic.com:10000/weekly_sumup/save_report'
 
 DOMAIN='@amlogic.com'
 SERVER_CONFIG = "apps/models/cfg/server.json"
+MY_SERVER_CONFIG = "apps/models/cfg/server-%s.json"
 
 POST_HEADERS = {
     "Accpet": "*/*",
@@ -143,7 +144,8 @@ def list_to_html(task):
 def get_sumup_list(user, date):
     print('>> gen_draft() ...')
     # Login
-    server_config = init_config(SERVER_CONFIG)
+    my_server_config = MY_SERVER_CONFIG % user
+    server_config = init_config(my_server_config)
     user = server_config["server"]["user"]
     password = server_config["server"]["password"]
     ret = login(user, password)
@@ -167,7 +169,8 @@ def get_sumup_list(user, date):
 def gen_draft(user, date):
     print('>> gen_draft() ...')
 
-    server_config = init_config(SERVER_CONFIG)
+    my_server_config = MY_SERVER_CONFIG % user
+    server_config = init_config(my_server_config)
     user = server_config["server"]["user"]
     password = server_config["server"]["password"]
     # Login

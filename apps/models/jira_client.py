@@ -19,6 +19,7 @@ MAX_ISSUE = 200
 MAX_SUMMARY = 80
 #JIRA_SERVER = "cfg/server.json"
 JIRA_SERVER = "apps/models/cfg/server.json"
+MY_SERVER_CONFIG = "apps/models/cfg/server-%s.json"
 TEST_JIRA_FILTER = "apps/models/cfg/jira_filter.json"
 TEST_JIRA_PATTERN = "apps/models/cfg/jira_pattern_test.json"
 JIRA_SERVER_ADDR = "https://jira.amlogic.com"
@@ -289,16 +290,29 @@ def jira_login(username, password):
     try:
         jira = JIRA({"server": server}, basic_auth=(user, pwd))
         print("Login success!")
-        with open(JIRA_SERVER, 'w+') as f:
+        my_server_config = MY_SERVER_CONFIG % user
+        with open(my_server_config, 'w+') as f:
             json.dump(jira_config, f)
         return 0
     except Exception as e:
         print("Login failed!")
         return 1
 
+def jira_get_table_by_pattern(user, pattern):
+    my_server_config = MY_SERVER_CONFIG % user
+    jira_config = init_config(my_server_config)
+    jira = init_jira(jira_config)
+    try:
+        tb = get_issues_by_pattern(jira, pattern)
+        return tb
+    except:
+        print("get table failed!")
+    return None
+
 def jira_get(user, pattern):
     print(user + pattern)
-    jira_config = init_config(JIRA_SERVER)
+    my_server_config = MY_SERVER_CONFIG % user
+    jira_config = init_config(my_server_config)
     user = jira_config["server"]["user"]
     filter = {
         "project": "RSP, SWPL, TV, OTT, IPTV, SH, KAR",
@@ -351,7 +365,7 @@ def jira_get(user, pattern):
 
     jira_pattern = JIRA_PATTERN.format(filter["project"], filter["priority"], filter["status"], filter["assignee"])
     print(jira_pattern)
-    tb = get_jira_table_by_pattern(jira_pattern)
+    tb = jira_get_table_by_pattern(user, jira_pattern)
     html = get_html_from_table(tb)
     html2 = format_table(html)
     return html2
