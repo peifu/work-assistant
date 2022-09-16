@@ -33,7 +33,7 @@ URL_SAVE='http://aats.amlogic.com:10000/weekly_sumup/save_report'
 DOMAIN='@amlogic.com'
 SERVER_CONFIG = "apps/models/cfg/server.json"
 MY_SERVER_CONFIG = "apps/models/cfg/server-%s.json"
-USERID_PATTERN = '/weekly_sumup/table/member/[1-9][0-9]*/%s'
+USERID_PATTERN = '/weekly_sumup/table/member/[1-9][0-9]*'
 DEPARTMENTID_PATTERN = "'departmentid':\"[1-9][0-9]*"
 
 POST_HEADERS = {
@@ -82,11 +82,11 @@ def init_config(cfg):
 def matched_userid(matched):
     global userid
     key = matched.group()
+    debug(key)
     id = re.findall('\d+', key)
     userid = id[0]
     debug('userid: ' + userid)
     return key
-
 
 def matched_departmentid(matched):
     global departmentid
@@ -97,8 +97,8 @@ def matched_departmentid(matched):
     debug('departmentid: ' + departmentid)
     return key
 
-def get_userid(user, text):
-    pattern = USERID_PATTERN % (user)
+def get_userid(text):
+    pattern = USERID_PATTERN
     re.sub(pattern, matched_userid, text)
 
 def get_departmentid(text):
@@ -124,7 +124,7 @@ def login(u, p):
     print(cookie)
     res = s.get(URL_MAIN)
     if (res.status_code == 200):
-        get_userid(user, res.text)
+        get_userid(res.text)
         get_departmentid(res.text)
         return 0
     else:
