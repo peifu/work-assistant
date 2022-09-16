@@ -5,6 +5,7 @@
 import time
 import datetime
 import re
+import sys
 import json
 import prettytable as pt
 import pandas as pd
@@ -310,16 +311,20 @@ def jira_get_table_by_pattern(user, pattern):
     return None
 
 def jira_get(user, pattern):
-    print(user + pattern)
+    print(user, file=sys.stderr)
+    print(pattern, file=sys.stderr)
     my_server_config = MY_SERVER_CONFIG % user
     jira_config = init_config(my_server_config)
     user = jira_config["server"]["user"]
     filter = {
-        "project": "RSP, SWPL, TV, OTT, IPTV, SH, KAR",
+        "project": "RSP, SWPL, TV, OTT, IPTV, SH",
         "priority": "Highest, High, Medium",
         "assignee": user,
         "status": "OPEN"
     }
+
+
+
     if pattern == 'my-open':
         filter["assignee"]: user
         filter["status"] = "OPEN, Reopened"
@@ -341,15 +346,15 @@ def jira_get(user, pattern):
     elif pattern == 'team-pmlist-open':
         filter["assignee"] = "membersOf(jira-sw-platform)"
         filter["status"] = "OPEN, Reopened"
-        filter["project"] = "TV, OTT, IPTV, SH, KAR"
+        filter["project"] = "TV, OTT, IPTV, SH"
     elif pattern == 'team-pmlist-todo':
         filter["assignee"] = "membersOf(jira-sw-platform)"
         filter["status"] = "'To Do'"
-        filter["project"] = "TV, OTT, IPTV, SH, KAR"
+        filter["project"] = "TV, OTT, IPTV, SH"
     elif pattern == 'team-pmlist-ongoing':
         filter["assignee"] = "membersOf(jira-sw-platform)"
         filter["status"] = "'In Progress', 'In Code Review'"
-        filter["project"] = "TV, OTT, IPTV, SH, KAR"
+        filter["project"] = "TV, OTT, IPTV, SH"
     elif pattern == 'team-reflist-open':
         filter["assignee"] = "membersOf(jira-sw-platform)"
         filter["status"] = "OPEN, Reopened"
@@ -363,11 +368,16 @@ def jira_get(user, pattern):
         filter["status"] = "'In Progress', 'In Code Review'"
         filter["project"] = "RSP, SWPL"
 
+    if user == "peifu.jiang":
+         filter["project"] = filter["project"] + ", KAR"
+
     jira_pattern = JIRA_PATTERN.format(filter["project"], filter["priority"], filter["status"], filter["assignee"])
-    print(jira_pattern)
     tb = jira_get_table_by_pattern(user, jira_pattern)
-    html = get_html_from_table(tb)
-    html2 = format_table(html)
+    if (tb):
+        html = get_html_from_table(tb)
+        html2 = format_table(html)
+    else:
+        html2 = "None"
     return html2
 
 def test_jira_get(user, pattern):
