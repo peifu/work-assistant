@@ -13,6 +13,8 @@
 import json
 import requests
 import lxml
+import sys
+import re
 import time
 from datetime import datetime, timedelta
 from requests import Session
@@ -31,6 +33,8 @@ URL_SAVE='http://aats.amlogic.com:10000/weekly_sumup/save_report'
 DOMAIN='@amlogic.com'
 SERVER_CONFIG = "apps/models/cfg/server.json"
 MY_SERVER_CONFIG = "apps/models/cfg/server-%s.json"
+USERID_PATTERN = '/weekly_sumup/table/member/[1-9][0-9]*/%s'
+DEPARTMENTID_PATTERN = "'departmentid':\"[1-9][0-9]*"
 
 POST_HEADERS = {
     "Accpet": "*/*",
@@ -42,7 +46,18 @@ POST_HEADERS = {
 TASK_LIST='./save_report.json'
 s = Session()
 cookie = ''
-draft_list = []
+global draft_list
+draft_list = None
+global userid
+userid = 0
+global departmentid
+departmentid = 0
+
+DEBUG_LOG_ENABLE=1
+
+def debug(args):
+    if (DEBUG_LOG_ENABLE == 1):
+        print(args, file=sys.stderr)
 
 def this_sunday(today):
     today = datetime.strptime(str(today), '%Y-%m-%d')
@@ -64,6 +79,34 @@ def init_config(cfg):
     f.close()
     return server_config
 
+def matched_userid(matched):
+    global userid
+    key = matched.group()
+    id = re.findall('\d+', key)
+    userid = id[0]
+    debug('userid: ' + userid)
+    return key
+
+
+def matched_departmentid(matched):
+    global departmentid
+    key = matched.group()
+    debug(key)
+    id = re.findall('\d+', key)
+    departmentid = id[0]
+    debug('departmentid: ' + departmentid)
+    return key
+
+def get_userid(user, text):
+    pattern = USERID_PATTERN % (user)
+    re.sub(pattern, matched_userid, text)
+
+def get_departmentid(text):
+    global departmentid
+    pattern = DEPARTMENTID_PATTERN
+    re.sub(pattern, matched_departmentid, text)
+
+
 def login(u, p):
     print('>> Login ...')
     if (u == None or u ==''):
@@ -77,20 +120,23 @@ def login(u, p):
 
     login_data = {"email": user + DOMAIN, "password": password}
     res = s.post(URL_LOGIN, headers=POST_HEADERS, data=login_data)
-    print(res)
     cookie = requests.utils.dict_from_cookiejar(s.cookies)
     print(cookie)
     res = s.get(URL_MAIN)
     if (res.status_code == 200):
+        get_userid(user, res.text)
+        get_departmentid(res.text)
         return 0
     else:
         return res.status_code
 
 def get_list(date):
+    global userid
+    global departmentid
     print('date: ' + date)
     data = {
-        'id': 604,
-        'departmentid': 141,
+        'id': userid,
+        'departmentid': departmentid,
         'date': date,
         'workType': -1,
         'fetchAll': 100,
@@ -98,7 +144,11 @@ def get_list(date):
     res = s.post(URL_LIST, headers=POST_HEADERS, data=data)
     print(res)
     if (res.status_code == 200):
-        task = json.dumps(json.loads(res.text), indent=4, separators=(',', ':'))
+        try:
+            task = json.dumps(json.loads(res.text), indent=4, separators=(',', ':'))
+        except:
+            task = ''
+            return None
     else:
         task = ''
     json_task = json.loads(task)
@@ -108,7 +158,7 @@ def get_list(date):
         return None
 
 def prepare_list(task):
-    draft_list.clear()
+    tmp_draft_list = []
     for item in task:
         sumup_item = {}
         sumup_item['statement'] = item['statement']
@@ -121,9 +171,9 @@ def prepare_list(task):
             sumup_item['isOnTime'] = 'true'
         sumup_item['reason.id'] = item['reason']
         sumup_item['notes'] = item['notes']
-        draft_list.append(sumup_item)
+        tmp_draft_list.append(sumup_item)
 
-    return draft_list
+    return tmp_draft_list
 
 def update_list(task_list):
     print('>> Update task list ...')
@@ -143,6 +193,7 @@ def list_to_html(task):
 
 def get_sumup_list(user, date):
     print('>> gen_draft() ...')
+    global draft_list
     # Login
     my_server_config = MY_SERVER_CONFIG % user
     server_config = init_config(my_server_config)
@@ -168,6 +219,7 @@ def get_sumup_list(user, date):
         
 def gen_draft(user, date):
     print('>> gen_draft() ...')
+    global draft_list
 
     my_server_config = MY_SERVER_CONFIG % user
     server_config = init_config(my_server_config)
@@ -188,6 +240,8 @@ def gen_draft(user, date):
     last_list = get_list(last_sunday(date))
     if (last_list == None):
         print('Get last week work list failed!')
+        draft_list = None
+        return "The lask week work list is empty!"
     else:
         print('Get last week work list successfully!')
     
@@ -196,6 +250,7 @@ def gen_draft(user, date):
     return list_to_html(draft_list)
 
 def submit_draft(user, date):
+    global draft_list
     print('>> submit_draft() ...')
     draft_sunday = this_sunday(date)
 
@@ -203,6 +258,9 @@ def submit_draft(user, date):
     this_list = get_list(draft_sunday)
     if (this_list != None):
         return "The work list of this week is already submitted!"
+
+    if (draft_list == None):
+        return "FAILED: The draft work list is empty!"
 
     for item in draft_list:
         item['label'] = draft_sunday
