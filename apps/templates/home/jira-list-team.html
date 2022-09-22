@@ -11,14 +11,14 @@
 <!-- Google Font: Source Sans Pro -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 <!-- Font Awesome -->
-<link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
+<link rel="stylesheet" href="static/assets/plugins/fontawesome-free/css/all.min.css">
 <!-- pace-progress -->
-<link rel="stylesheet" href="/static/assets/plugins/pace-progress/themes/black/pace-theme-flat-top.css">
+<link rel="stylesheet" href="static/assets/plugins/pace-progress/themes/black/pace-theme-flat-top.css">
 <!-- adminlte -->
-<link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
+<link rel="stylesheet" href="static/assets/css/adminlte.min.css">
 
 <!-- loader -->
-<link rel="stylesheet" href="/static/assets/css/loader.css">
+<link rel="stylesheet" href="static/assets/css/loader.css">
 
 {% endblock stylesheets %}
 
@@ -103,15 +103,15 @@
 {% block javascripts %}
 
 <!-- jQuery -->
-<script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+<script src="static/assets/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- pace-progress -->
-<script src="/static/assets/plugins/pace-progress/pace.min.js"></script>
+<script src="static/assets/plugins/pace-progress/pace.min.js"></script>
 <!-- AdminLTE App -->
-<script src="/static/assets/js/adminlte.min.js"></script>
+<script src="static/assets/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="/static/assets/js/demo.js"></script>
+<script src="static/assets/js/demo.js"></script>
 
 <script type="text/javascript">
   $(document).ready(function () {
@@ -134,7 +134,7 @@
 
     function jira_table_init() {
       $("#ld2").fadeIn();
-      searchUrl = "/jira-list-1" + "?pattern=" + patterns[0]
+      searchUrl = "jira-list-1" + "?pattern=" + patterns[0]
       console.log(searchUrl);
       htmlobj = $.ajax({
         url: searchUrl, async: true, success: function (data) {
@@ -147,7 +147,7 @@
 
     function jira_table_update(index) {
       $("#ld2").fadeIn();
-      searchUrl = "/jira-list-1" + "?pattern=" + patterns[index]
+      searchUrl = "jira-list-1" + "?pattern=" + patterns[index]
       console.log(searchUrl);
       htmlobj = $.ajax({
         url: searchUrl, async: true, success: function (data) {
