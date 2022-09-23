@@ -16,8 +16,8 @@ from apps.authentication.forms import LoginForm, CreateAccountForm
 from apps.authentication.models import Users
 
 from apps.authentication.util import verify_pass
-from apps.models.jira_client import jira_login
-from apps.models.jira_client import jira_logout
+from apps.models.server import server_login
+from apps.models.server import server_logout
 
 
 @blueprint.route('/')
@@ -36,8 +36,8 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        # Try login Jira
-        ret = jira_login(username, password)
+        # Try login server
+        ret = server_login(username, password)
         if ret != 0:
             return render_template('accounts/login.html',
                                    msg='Wrong user or password',
@@ -114,7 +114,7 @@ def register():
 
 @blueprint.route('logout')
 def logout():
-    jira_logout(current_user.username)
+    server_logout(current_user.username)
     logout_user()
     return redirect(url_for('authentication_blueprint.login'))
 

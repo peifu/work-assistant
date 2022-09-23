@@ -14,7 +14,7 @@ import numpy as np
 from io import StringIO
 from jira import JIRA
 
-DEBUG_LOG_ENABLE = 1
+DEBUG_LOG_ENABLE = 0
 DEBUG_DUMP_ENABLE = 0
 
 MAX_ISSUE = 200
@@ -41,6 +41,12 @@ FIELD_NAMES2 = ["Issue", "Priority", "Status", "Assignee", "Leader", "Due Date",
 def debug(args):
     if (DEBUG_LOG_ENABLE == 1):
         print(args, file=sys.stderr)
+
+def info(args):
+    print(args, file=sys.stderr)
+
+def error(args):
+    print(args, file=sys.stderr)
 
 def store_csv(filename, csv_str):
     csv_file = open(filename, "w+")
@@ -288,34 +294,18 @@ def jira_login(username, password):
     server = JIRA_SERVER_ADDR
     user = username
     pwd = password
-    jira_config = {
-        "server": {
-            "user": user,
-            "password": pwd
-        }
-    }
-    debug("server={}, user={}, pwd={}".format(server, user, pwd))
+    info("server={}, user={}, pwd={}".format(server, user, pwd))
     try:
         jira = JIRA({"server": server}, basic_auth=(user, pwd))
-        print("Login success!")
-        my_server_config = MY_SERVER_CONFIG % user
-        with open(my_server_config, 'w+') as f:
-            json.dump(jira_config, f)
-        return 0
+        if (jira):
+            info("Login success!")
+            return 0
+        else:
+            error("Login success!")
+            return 1
     except Exception as e:
-        print("Login failed!")
-        return 1
-
-def jira_logout(username):
-    user = username
-    try:
-        my_server_config = MY_SERVER_CONFIG % user
-        delete_file(my_server_config)
-        debug("Logout successfully!")
-        return 0
-    except Exception as e:
-        debug("Logout failed!")
-        return 1
+        error("Login failed!")
+        return 2
 
 def jira_get_table_by_pattern(user, pattern):
     my_server_config = MY_SERVER_CONFIG % user
