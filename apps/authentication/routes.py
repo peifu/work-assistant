@@ -17,6 +17,7 @@ from apps.authentication.models import Users
 
 from apps.authentication.util import verify_pass
 from apps.models.jira_client import jira_login
+from apps.models.jira_client import jira_logout
 
 
 @blueprint.route('/')
@@ -113,6 +114,7 @@ def register():
 
 @blueprint.route('logout')
 def logout():
+    jira_logout(current_user.username)
     logout_user()
     return redirect(url_for('authentication_blueprint.login'))
 

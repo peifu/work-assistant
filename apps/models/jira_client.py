@@ -5,6 +5,7 @@
 import time
 import datetime
 import re
+import os
 import sys
 import json
 import prettytable as pt
@@ -13,7 +14,7 @@ import numpy as np
 from io import StringIO
 from jira import JIRA
 
-DEBUG_LOG_ENABLE = 0
+DEBUG_LOG_ENABLE = 1
 DEBUG_DUMP_ENABLE = 0
 
 MAX_ISSUE = 200
@@ -39,12 +40,18 @@ FIELD_NAMES2 = ["Issue", "Priority", "Status", "Assignee", "Leader", "Due Date",
 
 def debug(args):
     if (DEBUG_LOG_ENABLE == 1):
-        print(args)
+        print(args, file=sys.stderr)
 
 def store_csv(filename, csv_str):
     csv_file = open(filename, "w+")
     csv_file.write(csv_str)
     csv_file.close()
+
+def delete_file(filename):
+    if os.path.exists(filename):
+        os.remove(filename)
+    else:
+        print("The file does not exist")
 
 def store_file(filename, file_str):
     csv_file = open(filename, "w+")
@@ -299,6 +306,17 @@ def jira_login(username, password):
         print("Login failed!")
         return 1
 
+def jira_logout(username):
+    user = username
+    try:
+        my_server_config = MY_SERVER_CONFIG % user
+        delete_file(my_server_config)
+        debug("Logout successfully!")
+        return 0
+    except Exception as e:
+        debug("Logout failed!")
+        return 1
+
 def jira_get_table_by_pattern(user, pattern):
     my_server_config = MY_SERVER_CONFIG % user
     jira_config = init_config(my_server_config)
@@ -322,8 +340,6 @@ def jira_get(user, pattern):
         "assignee": user,
         "status": "OPEN"
     }
-
-
 
     if pattern == 'my-open':
         filter["assignee"]: user
