@@ -27,7 +27,7 @@ def route_default():
 
 # Login & Registration
 
-@blueprint.route('login', methods=['GET', 'POST'])
+@blueprint.route('/login', methods=['GET', 'POST'])
 def login():
     login_form = LoginForm(request.form)
     if 'login' in request.form:
@@ -112,7 +112,7 @@ def register():
         return render_template('accounts/register.html', form=create_account_form)
 
 
-@blueprint.route('logout')
+@blueprint.route('/logout')
 def logout():
     server_logout(current_user.username)
     logout_user()
