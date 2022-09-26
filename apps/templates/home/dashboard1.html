@@ -253,10 +253,10 @@
     var convertData = [];
     var convertDataBase = {}
 
-    var result = $.getJSON('/static/assets/data/office-site.json', function (data) {
+    var result = $.getJSON('static/assets/data/office-site.json', function (data) {
       convertDataBase = data;
     });
-    result = $.getJSON('/static/assets/data/map.json', function (data) {
+    result = $.getJSON('static/assets/data/map.json', function (data) {
       convertData = chartConvertData(data, convertDataBase);
       chartUpdateData(convertData);
     });
