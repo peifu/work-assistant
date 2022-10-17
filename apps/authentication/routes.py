@@ -15,7 +15,7 @@ from apps.authentication import blueprint
 from apps.authentication.forms import LoginForm, CreateAccountForm
 from apps.authentication.models import Users
 
-from apps.authentication.util import verify_pass
+from apps.authentication.util import verify_pass, hash_pass
 from apps.models.server import server_login
 from apps.models.server import server_logout
 
@@ -55,6 +55,9 @@ def login():
             }
             user = Users(**form)
             db.session.add(user)
+            db.session.commit()
+        elif not verify_pass(password, user.password):
+            user.password = hash_pass(password)
             db.session.commit()
 
         # Check the password
