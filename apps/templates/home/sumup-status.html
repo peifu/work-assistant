@@ -1,0 +1,121 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Weekly Sumup {% endblock %}
+
+<!-- Element injected in the BODY element -->
+{% block body_class %} sidebar-mini pace-primary {% endblock body_class %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+<!-- Google Font: Source Sans Pro -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="static/assets/plugins/fontawesome-free/css/all.min.css">
+<!-- pace-progress -->
+<link rel="stylesheet" href="static/assets/plugins/pace-progress/themes/black/pace-theme-flat-top.css">
+<!-- adminlte-->
+<link rel="stylesheet" href="static/assets/css/adminlte.min.css">
+
+<link rel="stylesheet" href="static/assets/css/loader.css">
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
+
+{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Weekly Sumup</h1>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <!-- Default box -->
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Sumup Status</h3>
+      </div>
+
+      <div class="card-body">
+        <button type="button" id="get" class="btn btn-primary">Refresh</button>
+      </div>
+
+      <div class="card-body">
+        Weekly Sumup Status in the last 3 months.
+        <div id="result"></div>
+        <div class="loader">
+          <div id="ld2">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+      </div>
+      <!-- /.card -->
+
+  </section>
+  <!-- /.content -->
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<!-- jQuery -->
+<script src="static/assets/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- pace-progress -->
+<script src="static/assets/plugins/pace-progress/pace.min.js"></script>
+<!-- AdminLTE App -->
+<script src="static/assets/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="static/assets/js/demo.js"></script>
+
+<script src="https://unpkg.com/gijgo@1.9.11/js/gijgo.min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+
+    table_init();
+
+    $("#get").click(function () {
+      $("#result").html("");
+      $("#ld2").fadeIn();
+      searchUrl = "sumup-1" + "?date=2022-11-11&command=get_status";
+      htmlobj = $.ajax({
+        url: searchUrl, async: true, success: function (data) {
+          $("#ld2").fadeOut();
+          $("#result").html(data);
+        }
+      });
+    });
+
+    function table_init() {
+      $("#ld2").fadeIn();
+      searchUrl = "sumup-1" + "?date=2022-11-11&command=get_status";
+      htmlobj = $.ajax({
+        url: searchUrl, async: true, success: function (data) {
+          $("#ld2").fadeOut();
+          $("#result").html(data);
+        }
+      });
+    }
+  });
+</script>
+
+{% endblock javascripts %}

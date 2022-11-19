@@ -1,6 +1,6 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} Weekly Sum Up {% endblock %}
+{% block title %} Weekly Sumup {% endblock %}
 
 <!-- Element injected in the BODY element -->
 {% block body_class %} sidebar-mini pace-primary {% endblock body_class %}
@@ -19,7 +19,6 @@
 
 <link rel="stylesheet" href="static/assets/css/loader.css">
 
-
 {% endblock stylesheets %}
 
 {% block content %}
@@ -30,7 +29,7 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Weekly Sum Up</h1>
+          <h1>Weekly Sumup</h1>
         </div>
       </div>
     </div><!-- /.container-fluid -->
@@ -38,7 +37,6 @@
 
   <!-- Main content -->
   <section class="content">
-
     <!-- Default box -->
     <div class="card">
       <div class="card-header">
@@ -53,23 +51,16 @@
       </div>
 
       <div class="card-header">
-        <h3 class="card-title">Sum Up Draft</h3>
+        <h3 class="card-title">Sumup List</h3>
       </div>
 
       <div class="card-body">
-        <button type="button" id="generate" class="btn btn-primary">Generate</button>
-        <button type="button" id="submit" class="btn btn-success">Submit</button>
+        <button type="button" id="get" class="btn btn-primary">Get List</button>
       </div>
 
       <div class="card-body">
-        Generate the weekly work list draft based on the data of lask week.
-        <div id="result-gen"></div>
-      </div>
-
-      <div class="card-body">
-        <div id="alert-submit" class="alert alert-secondary" hidden="hidden">
-          <div id="result-submit"></div>
-        </div>
+        Get the work list of this week.
+        <div id="result"></div>
       </div>
       <!-- /.card -->
 
@@ -97,37 +88,14 @@
 
 <script type="text/javascript">
   $(document).ready(function () {
-    $("#generate").click(function () {
-      $("#result-gen").html("");
-      $("#result-submit").html("");
-      let element = document.getElementById("alert-submit");
-      element.setAttribute("hidden", "hidden");
+    $("#get").click(function () {
+      $("#result").html("");
       date = $("#datepicker").val();
+      searchUrl = "sumup-1" + "?date=" + date + "&command=get_list";
       console.log(date)
-      searchUrl = "sum-up-1" + "?date=" + date;
       htmlobj = $.ajax({
         url: searchUrl, async: true, success: function (data) {
-          $("#result-gen").html(data);
-        }
-      });
-    });
-    $("#submit").click(function () {
-      $("#result-submit").html("");
-      let element = document.getElementById("alert-submit");
-      date = $("#datepicker").val();
-      console.log(date)
-      searchUrl = "sum-up-2" + "?date=" + date;
-      htmlobj = $.ajax({
-        url: searchUrl, async: true, success: function (data) {
-          $("#result-submit").html(data);
-          if (data == "success") {
-              console.log("submit success")
-              element.setAttribute("class", "alert alert-secondary");
-          } else {
-              console.log("submit failed")
-              element.setAttribute("class", "alert alert-secondary");
-          }
-          element.removeAttribute("hidden");
+          $("#result").html(data);
         }
       });
     });

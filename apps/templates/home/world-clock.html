@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>World Clock</title>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <div class='contc' id='oContent'>
+        <div style="text-align: right;">
+            <table align="center">
+                <tr>
+                    <td style="width: 400px;"><div id="l01"></div></td>
+                    <td style="width: 400px;"><div id="l02"></div></td>
+                </tr>
+                <tr>
+                    <td><div id="l03"></div></td>
+                    <td><div id="l04"></div></td>
+                </tr>
+                <tr>
+                    <td><div id="l05"></div></td>
+                    <td><div id="l06"></div></td>
+                </tr>
+                <tr>
+                    <td><div id="l07"></div></td>
+                    <td><div id="l08"></div></td>
+                </tr>
+                <tr>
+                    <td><div id="l09"></div></td>
+                    <td><div id="l10"></div></td>
+                </tr>
+                <tr>
+                    <td><div id="l11"></div></td>
+                    <td><div id="l12"></div></td>
+                </tr>
+            </table>
+        </div>
+        <script language="javascript" type="text/javascript">
+            function calcTime(city, offset) {
+                var d = new Date();
+                utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+                var nd = new Date(utc + (3600000 * offset));
+                var gmtTime = new Date(utc)
+                var day = nd.getDate();
+                var month = nd.getMonth();
+                var year = nd.getYear();
+                var hr = nd.getHours();
+                var min = nd.getMinutes();
+                var sec = nd.getSeconds();
+                if (year < 1000) {
+                    year += 1900
+                }
+                var monthArray = new Array("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12")
+                var monthDays = new Array("31", "28", "31", "30", "31", "30", "31", "31", "30", "31", "30", "31")
+                if (year % 4 == 0) {
+                    monthDays = new Array("31", "29", "31", "30", "31", "30", "31", "31", "30", "31", "30", "31")
+                }
+                if (year % 100 == 0 && year % 400 != 0) {
+                    monthDays = new Array("31", "28", "31", "30", "31", "30", "31", "31", "30", "31", "30", "31")
+                }
+                if (hr >= 24) {
+                    hr = hr - 24
+                    day -= -1
+                }
+                if (hr < 0) {
+                    hr -= -24
+                    day -= 1
+                }
+                if (hr < 10) {
+                    hr = "0" + hr
+                }
+                if (min < 10) {
+                    min = "0" + min
+                }
+                if (sec < 10) {
+                    sec = "0" + sec
+                }
+                if (day <= 0) {
+                    if (month == 0) {
+                        month = 11
+                        year -= 1
+                    }
+                    else {
+                        month = month - 1
+                    }
+                    day = monthDays[month]
+                }
+                if (day > monthDays[month]) {
+                    day = 1
+                    if (month == 11) {
+                        month = 0
+                        year -= -1
+                    }
+                    else {
+                        month -= -1
+                    }
+                }
+                return city + ":" + "&nbsp&nbsp&nbsp&nbsp" + year + "-" + monthArray[month] + "-"  + day + "&nbsp&nbsp" + hr + ":" + min + ":" + sec
+            }
+            function worldClockZone() {
+                document.getElementById('l01').innerHTML = calcTime('China - Beijing', '+8');
+                document.getElementById('l02').innerHTML = calcTime('USA - San Francisco', '-8');
+                document.getElementById('l03').innerHTML = calcTime('USA - New York', '-5');
+                document.getElementById('l04').innerHTML = calcTime('UK - London', '0');
+                document.getElementById('l05').innerHTML = calcTime('France - Paris', '+1');
+                document.getElementById('l06').innerHTML = calcTime('Netherlands - Amsterdam', '+1');
+                document.getElementById('l07').innerHTML = calcTime('Germany - Berlin', '+1');
+                document.getElementById('l08').innerHTML = calcTime('Serbia - Belgrade', '+1');
+                document.getElementById('l09').innerHTML = calcTime('Russia - Moscow', '+3');
+                document.getElementById('l10').innerHTML = calcTime('India - New Delhi', '+5.5');
+                document.getElementById('l11').innerHTML = calcTime('South Korea - Seoul', '+9');
+                document.getElementById('l12').innerHTML = calcTime('Japan - Tokyo', '+9');
+                setTimeout("worldClockZone()", 1000)
+            }
+            window.onload = worldClockZone; 
+        </script>
+</body>
+</html>

@@ -23,28 +23,15 @@ def task_list():
 
 @blueprint.route('/jira-list-1', methods=["GET"])
 @login_required
-def jira_list():
+def jira_get():
     pattern = request.args['pattern']
     html = apps.models.jira_client.jira_get(current_user.username, pattern)
     return html
 
-@blueprint.route('/sum-up-1', methods=["GET"])
-@login_required
-def sumup_gen():
-    date = request.args['date']
-    html = apps.models.sumup_client.gen_draft(current_user.username, date)
-    return html
-
-@blueprint.route('/sum-up-2', methods=["GET"])
-@login_required
-def sumup_submit():
-    date = request.args['date']
-    html = apps.models.sumup_client.submit_draft(current_user.username, date)
-    return html
-
-@blueprint.route('/sum-up-3', methods=["GET"])
+@blueprint.route('/sumup-1', methods=["GET"])
 @login_required
 def sumup_get():
     date = request.args['date']
-    html = apps.models.sumup_client.get_sumup_list(current_user.username, date)
+    command = request.args['command']
+    html = apps.models.sumup_client.sumup_get(current_user.username, date, command)
     return html

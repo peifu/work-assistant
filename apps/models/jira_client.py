@@ -19,12 +19,12 @@ DEBUG_DUMP_ENABLE = 0
 
 MAX_ISSUE = 200
 MAX_SUMMARY = 80
-#JIRA_SERVER = "cfg/server.json"
-JIRA_SERVER = "apps/models/cfg/server.json"
-MY_SERVER_CONFIG = "apps/models/cfg/server-%s.json"
-TEST_JIRA_FILTER = "apps/models/cfg/jira_filter.json"
-TEST_JIRA_PATTERN = "apps/models/cfg/jira_pattern_test.json"
+JIRA_SERVER = "cfg/server.json"
+#JIRA_SERVER = "apps/models/cfg/server.json"
+TEST_JIRA_FILTER = "cfg/jira_filter.json"
+TEST_JIRA_PATTERN = "cfg/jira_pattern_test.json"
 JIRA_SERVER_ADDR = "https://jira.amlogic.com"
+MY_SERVER_CONFIG = "apps/models/cfg/server-%s.json"
 
 JIRA_LINK = '<a href="https://jira.amlogic.com/browse/%s">%s</a>'
 JIRA_KEY_PATTERN = '(SWPL|RSP|OTT|SH|IPTV|OPS|TV|GH|KAR)-[1-9][0-9]*'
@@ -332,44 +332,50 @@ def jira_get(user, pattern):
     }
 
     if pattern == 'my-open':
-        filter["assignee"]: user
         filter["status"] = "OPEN, Reopened"
     elif pattern == 'my-todo':
-        filter["assignee"]: user
         filter["status"] = "'To Do'"
     elif pattern == 'my-ongoing':
-        filter["assignee"]: user
         filter["status"] = "'In Progress'"
     elif pattern == 'my-resolved':
-        filter["assignee"]: user
         filter["status"] = "Resolved, 'In Code Review', Verified"
     elif pattern == 'my-openlinux':
-        filter["assignee"]: user
         filter["status"] = "Openlinux, 'Merge To Openlinux'"
     elif pattern == 'my-closed':
-        filter["assignee"]: user
         filter["status"] = "Closed"
-    elif pattern == 'team-pmlist-open':
+    elif pattern == 'security-open':
+        filter["assignee"] = "membersOf(security)"
+        filter["status"] = "OPEN, Reopened"
+    elif pattern == 'security-todo':
+        filter["assignee"] = "membersOf(security)"
+        filter["status"] = "'To Do'"
+    elif pattern == 'security-ongoing':
+        filter["assignee"] = "membersOf(security)"
+        filter["status"] = "'In Progress'"
+    elif pattern == 'security-resolved':
+        filter["assignee"] = "membersOf(security)"
+        filter["status"] = "Resolved, 'In Code Review'"
+    elif pattern == 'platform-pmlist-open':
         filter["assignee"] = "membersOf(jira-sw-platform)"
         filter["status"] = "OPEN, Reopened"
         filter["project"] = "TV, OTT, IPTV, SH"
-    elif pattern == 'team-pmlist-todo':
+    elif pattern == 'platform-pmlist-todo':
         filter["assignee"] = "membersOf(jira-sw-platform)"
         filter["status"] = "'To Do'"
         filter["project"] = "TV, OTT, IPTV, SH"
-    elif pattern == 'team-pmlist-ongoing':
+    elif pattern == 'platform-pmlist-ongoing':
         filter["assignee"] = "membersOf(jira-sw-platform)"
         filter["status"] = "'In Progress', 'In Code Review'"
         filter["project"] = "TV, OTT, IPTV, SH"
-    elif pattern == 'team-reflist-open':
+    elif pattern == 'platform-reflist-open':
         filter["assignee"] = "membersOf(jira-sw-platform)"
         filter["status"] = "OPEN, Reopened"
         filter["project"] = "RSP, SWPL"
-    elif pattern == 'team-reflist-todo':
+    elif pattern == 'platform-reflist-todo':
         filter["assignee"] = "membersOf(jira-sw-platform)"
         filter["status"] = "'To Do'"
         filter["project"] = "RSP, SWPL"
-    elif pattern == 'team-reflist-ongoing':
+    elif pattern == 'platform-reflist-ongoing':
         filter["assignee"] = "membersOf(jira-sw-platform)"
         filter["status"] = "'In Progress', 'In Code Review'"
         filter["project"] = "RSP, SWPL"
@@ -408,13 +414,15 @@ def test_jira_pattern():
     patterns = get_patterns(TEST_JIRA_PATTERN)
     for pattern in patterns:
         tb = get_jira_table_by_pattern(pattern["pattern"])
+        print(tb)
         html = get_html_from_table(tb)
-        print(pattern["name"])
-    print(html)
+        #print(pattern["name"])
+        #print(html)
     return html
 
 if __name__ == "__main__":
     #test_jira_html()
     #test_jira_table()
+    test_jira_pattern()
     #test_jira_get('peifu.jiang', 'my-open')
-    test_jira_get('peifu.jiang', 'team-reflist-ongoing')
+    #test_jira_get('peifu.jiang', 'team-reflist-ongoing')

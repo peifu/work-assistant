@@ -33,6 +33,7 @@ URL_SAVE='http://aats.amlogic.com:10000/weekly_sumup/save_report'
 DOMAIN='@amlogic.com'
 SERVER_CONFIG = "apps/models/cfg/server.json"
 MY_SERVER_CONFIG = "apps/models/cfg/server-%s.json"
+MY_SERVER_CONFIG2 = "cfg/server-%s.json"
 USERID_PATTERN = '/weekly_sumup/table/member/[1-9][0-9]*/%s'
 DEPARTMENTID_PATTERN = "'departmentid':\"[1-9][0-9]*"
 
@@ -67,15 +68,34 @@ def last_sunday(today):
     today = datetime.strptime(str(today), '%Y-%m-%d')
     return datetime.strftime(today + timedelta(- today.weekday() - 1), '%Y-%m-%d')
 
+def this_monday(today):
+    today = datetime.strptime(str(today), '%Y-%m-%d')
+    return datetime.strftime(today + timedelta(- today.weekday()), '%Y-%m-%d')
+
 def load_list(task_file):
     f = open(task_file, encoding="utf-8")
     task_list = json.load(f)
     f.close()
     return task_list
 
-def init_config(cfg):
-    f = open(cfg, encoding="utf-8")
-    server_config = json.load(f)
+def format_table(table):
+    table = table.replace('<table border="1" class="dataframe">', '<table class="table table-sm table-bordered table-hover">')
+    table = table.replace('style="text-align: right;"', '')
+    table = table.replace('<thead>', '<thead class="thead-light" style="text-transform:uppercase;">')
+    table = table.replace('SUBMITTED-YES', '<i class="fa fa-check-square" style="font-size:20px;color:green;"></i>')
+    table = table.replace('SUBMITTED-NO', '<i class="fa fa-window-close" style="font-size:20px;color:red;"></i>')
+    return table
+
+def init_config(user):
+    cfg = MY_SERVER_CONFIG % user
+    try:
+        f = open(cfg, encoding="utf-8")
+        server_config = json.load(f)
+    except:
+        cfg = MY_SERVER_CONFIG2 % user
+        f = open(cfg, encoding="utf-8")
+        server_config = json.load(f)
+    
     f.close()
     return server_config
 
@@ -183,6 +203,7 @@ def update_list(task_list):
     return res.text
 
 def dump_list(task):
+    print(task)
     for item in task:
         task_name = item['statement']
         print('TASK: ' + task_name)
@@ -195,12 +216,11 @@ def get_sumup_list(user, date):
     print('>> gen_draft() ...')
     global draft_list
     # Login
-    my_server_config = MY_SERVER_CONFIG % user
-    server_config = init_config(my_server_config)
+    server_config = init_config(user)
     user = server_config["server"]["user"]
     password = server_config["server"]["password"]
     ret = login(user, password)
-    if (ret != 0): 
+    if (ret != 0):
         print('Login failed! Error code: ' + ret)
         return 'Login failed! Error code: ' + ret
 
@@ -215,14 +235,54 @@ def get_sumup_list(user, date):
     print('Get this week work list successfully!')    
     draft_list = prepare_list(this_list)
     dump_list(draft_list)
-    return list_to_html(draft_list)
-        
-def gen_draft(user, date):
+    res = list_to_html(draft_list)
+    res = format_table(res)
+    return res
+
+def get_sumup_status(user, date):
+    global draft_list
+    # Login
+    server_config = init_config(user)
+    user = server_config["server"]["user"]
+    password = server_config["server"]["password"]
+    ret = login(user, password)
+    if (ret != 0):
+        print('Login failed! Error code: ' + ret)
+        return 'Login failed! Error code: ' + ret
+
+    if (date == None or date ==''):
+        date = time.strftime('%Y-%m-%d', time.localtime())
+
+    sumup_columns = ['WEEK', 'WORKTIME', 'STATUS']
+    sumup_status = []
+
+    # Get weekly sumpup status in the latest 3 months
+    sumup_sunday = this_sunday(date)
+    for i in range(0, 12):
+        sumup_worktime = 0
+        this_list = get_list(sumup_sunday)
+        if (this_list == None):
+            sumup_submit = 'SUBMITTED-NO'
+            sumup_worktime = 0
+        else:
+            sumup_submit = 'SUBMITTED-YES'
+            for item in this_list:
+                sumup_worktime += item['workTime']
+        sumup_week = this_monday(sumup_sunday)  + ' ~ ' + sumup_sunday
+        sumup_sunday = last_sunday(sumup_sunday)
+        sumup_status.append([sumup_week, sumup_worktime, sumup_submit])
+
+    df = pd.DataFrame(sumup_status, columns=sumup_columns)
+    res = df.to_html(escape=False)
+    res = format_table(res)
+    print(res)
+    return res
+
+def gen_sumup_draft(user, date):
     print('>> gen_draft() ...')
     global draft_list
 
-    my_server_config = MY_SERVER_CONFIG % user
-    server_config = init_config(my_server_config)
+    server_config = init_config(user)
     user = server_config["server"]["user"]
     password = server_config["server"]["password"]
     # Login
@@ -247,9 +307,11 @@ def gen_draft(user, date):
     
     draft_list = prepare_list(last_list)
     dump_list(draft_list)
-    return list_to_html(draft_list)
+    res = list_to_html(draft_list)
+    res = format_table(res)
+    return res
 
-def submit_draft(user, date):
+def submit_sumup_draft(user, date):
     global draft_list
     print('>> submit_draft() ...')
     draft_sunday = this_sunday(date)
@@ -257,7 +319,7 @@ def submit_draft(user, date):
     # Get this week work list
     this_list = get_list(draft_sunday)
     if (this_list != None):
-        return "The work list of this week is already submitted!"
+        return "The work list of this week has already been submitted!"
 
     if (draft_list == None):
         return "FAILED: The draft work list is empty!"
@@ -276,6 +338,20 @@ def submit_draft(user, date):
     res = update_list(list_data)
     return res
 
+# API
+def sumup_get(user, date, command):
+    debug('>> sumup_get(data=%s, cmd=%s) ...' %(date , command))
+    if command == 'get_status':
+        res = get_sumup_status(user, date)
+    elif command == 'get_list':
+        res = get_sumup_list(user, date)
+    elif command == 'gen_draft':
+        res = gen_sumup_draft(user, date)
+    elif command == 'submit_draft':
+        res = submit_sumup_draft(user, date)
+    return res
+
+# Test
 def test_save_list():
     print('>> Test update task list ...')
     task_list = load_list(TASK_LIST)
@@ -284,11 +360,14 @@ def test_save_list():
     res = s.post(URL_SAVE, headers=POST_HEADERS, cookies=cookie, data=save_report)
     print(res)
 
-def test_gen_draft():
-    res = gen_draft('', '', '')
+def test_gen_draft(user, date):
+    res = gen_sumup_draft(user, date)
+
+def test_get_sumup_status(user, date):
+    res = get_sumup_status(user, date)
 
 def test_submit_draft():
-    res = submit_draft()
+    res = submit_sumup_draft()
     print(res)
 
 def get_args():
@@ -337,5 +416,6 @@ def main():
 
 if __name__ == "__main__":
     #main()
-    test_gen_draft()
-    test_submit_draft()
+    #test_gen_draft('peifu.jiang', '')
+    #test_submit_draft()
+    test_get_sumup_status('peifu.jiang', '')
