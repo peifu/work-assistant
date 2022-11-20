@@ -20,9 +20,9 @@ from apps.models.server import server_login
 from apps.models.server import server_logout
 
 
-@blueprint.route('/')
-def route_default():
-    return redirect(url_for('authentication_blueprint.login'))
+#@blueprint.route('/')
+#def route_default():
+#    return redirect(url_for('authentication_blueprint.login'))
 
 
 # Login & Registration
@@ -64,7 +64,7 @@ def login():
         if user and verify_pass(password, user.password):
 
             login_user(user)
-            return redirect(url_for('authentication_blueprint.route_default'))
+            return redirect(url_for('authentication_blueprint.login'))
 
         # Something (user or pass) is not ok
         return render_template('accounts/login.html',
@@ -117,8 +117,9 @@ def register():
 
 @blueprint.route('/logout')
 def logout():
-    server_logout(current_user.username)
-    logout_user()
+    if hasattr(current_user, 'username'):
+        server_logout(current_user.username)
+        logout_user()
     return redirect(url_for('authentication_blueprint.login'))
 
 
