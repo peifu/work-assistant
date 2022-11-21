@@ -27,11 +27,13 @@
       <!-- Messages Dropdown Menu -->
       <div class="user-panel mt-1 pb-1 mb-1">
         <div class="image">
-          <img src="static/assets/img/avatar/avatar-14.png" class="img-circle elevation-2" alt="User Image">
+          <a href="logout" class="d-block">
+            <img src="static/assets/img/avatar/avatar-14.png" class="img-circle elevation-2" alt="User Image">
+          </a>
         </div>
         <div class="info">
           <a href="logout" class="d-block">
-            {{ current_user.username }} - <b>Logout</b>
+            <b>{{ current_user.username }}</b>
           </a>
         </div>
       </div>
