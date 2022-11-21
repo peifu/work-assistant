@@ -96,7 +96,7 @@
     $("#get").click(function () {
       $("#result").html("");
       $("#ld2").fadeIn();
-      searchUrl = "sumup-1" + "?date=2022-11-11&command=get_status";
+      searchUrl = "sumup-1" + "?date=&command=get_status";
       htmlobj = $.ajax({
         url: searchUrl, async: true, success: function (data) {
           $("#ld2").fadeOut();
