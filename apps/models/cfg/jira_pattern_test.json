@@ -1,12 +1,8 @@
 {
     "pattern": [
         {
-            "name": "SUMUP LIST",
-            "pattern": "project in (SWPL, RSP) AND issuetype in (Bug, Feature, Task, Sub-task) AND status in (OPEN, 'In Progress', Reopened, 'To Do', 'In Code Review') AND priority in (Highest, High) AND assignee in (membersOf(security)) ORDER BY cf[11903] ASC, cf[11614] ASC, status ASC, summary ASC, due ASC, priority DESC"
-        },
-        {
-            "name": "SUMUP PG",
-            "pattern": "labels in (PT-PM-20221031, PT-REF-20221031) AND priority in (Highest, High) AND assignee in ('pengguang.zhu') ORDER BY priority DESC"
+            "name": "SUMUP Weekly",
+            "pattern": "labels in (Security-TEE-20221121, Security-DVB-20221121, Security-Crypto-20221121, Security-CAS-Certification-20221121, Security-CAS-Integration-20221121,Security-CAS-Production-20221121) ORDER BY assignee ASC"
         }
     ]
 }

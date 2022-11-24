@@ -54,6 +54,27 @@
           <li class="nav-item">
             <a class="nav-link" id="pills-4-tab" data-toggle="pill" href="#pills-4" role="tab" aria-controls="pills-4" aria-selected="false">RESOLVED</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" id="pills-5-tab" data-toggle="pill" href="#pills-5" role="tab" aria-controls="pills-5" aria-selected="false">WEEKLY</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="pills-6-tab" data-toggle="pill" href="#pills-6" role="tab" aria-controls="pills-6" aria-selected="false">TEE</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="pills-7-tab" data-toggle="pill" href="#pills-7" role="tab" aria-controls="pills-7" aria-selected="false">DVB</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="pills-8-tab" data-toggle="pill" href="#pills-8" role="tab" aria-controls="pills-8" aria-selected="false">Crypto</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="pills-9-tab" data-toggle="pill" href="#pills-9" role="tab" aria-controls="pills-9" aria-selected="false">CAS Certification</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="pills-10-tab" data-toggle="pill" href="#pills-10" role="tab" aria-controls="pills-10" aria-selected="false">CAS Integration</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="pills-11-tab" data-toggle="pill" href="#pills-11" role="tab" aria-controls="pills-11" aria-selected="false">CAS Production</a>
+          </li>
         </ul>
       </div>
 
@@ -63,6 +84,13 @@
           <div class="tab-pane fade" id="pills-2" role="tabpanel" aria-labelledby="pills-2-tab">Security Team TODO Jira list:</div>
           <div class="tab-pane fade" id="pills-3" role="tabpanel" aria-labelledby="pills-3-tab">Security Team ONGOING Jira list:</div>
           <div class="tab-pane fade" id="pills-4" role="tabpanel" aria-labelledby="pills-4-tab">Security Team RESOLVED Jira list:</div>
+          <div class="tab-pane fade" id="pills-5" role="tabpanel" aria-labelledby="pills-5-tab">Security Team Weekly Jira list:</div>
+          <div class="tab-pane fade" id="pills-6" role="tabpanel" aria-labelledby="pills-6-tab">TEE Team Weekly Jira list:</div>
+          <div class="tab-pane fade" id="pills-7" role="tabpanel" aria-labelledby="pills-7-tab">DVB Team Weekly Jira list:</div>
+          <div class="tab-pane fade" id="pills-8" role="tabpanel" aria-labelledby="pills-8-tab">Crypto Team Weekly Jira list:</div>
+          <div class="tab-pane fade" id="pills-9" role="tabpanel" aria-labelledby="pills-9-tab">CAS Certification Team Weekly Jira list:</div>
+          <div class="tab-pane fade" id="pills-10" role="tabpanel" aria-labelledby="pills-10-tab">CAS Integration Team Weekly Jira list:</div>
+          <div class="tab-pane fade" id="pills-11" role="tabpanel" aria-labelledby="pills-11-tab">CAS Production Team Weekly Jira list:</div>
         </div>
 
         <div id="result"></div>
@@ -107,8 +135,9 @@
 
 <script type="text/javascript">
   $(document).ready(function () {
-    var patterns = ["security-open", "security-todo", "security-ongoing", "security-resolved"];
-    var tables = ["", "", "", ""]
+    var patterns = ["security-open", "security-todo", "security-ongoing", "security-resolved", 
+      "security-weekly", "tee-weekly", "dvb-weekly", "crypto-weekly", "cas-certification-weekly", "cas-integration-weekly", "cas-production-weekly"];
+    var tables = ["", "", "", "", "", "", "", "", "", "", ""]
     var idx = 0;
 
     jira_table_init();

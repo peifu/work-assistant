@@ -3,7 +3,8 @@
 
 #import pysnooper
 import time
-import datetime
+import time
+from datetime import datetime, timedelta
 import re
 import os
 import sys
@@ -14,18 +15,22 @@ import numpy as np
 from io import StringIO
 from jira import JIRA
 
-DEBUG_LOG_ENABLE = 0
+DEBUG_LOG_ENABLE = 1
 DEBUG_DUMP_ENABLE = 0
 
 MAX_ISSUE = 200
 MAX_SUMMARY = 80
 JIRA_SERVER = "cfg/server.json"
-#JIRA_SERVER = "apps/models/cfg/server.json"
 TEST_JIRA_FILTER = "cfg/jira_filter.json"
 TEST_JIRA_PATTERN = "cfg/jira_pattern_test.json"
 JIRA_SERVER_ADDR = "https://jira.amlogic.com"
-MY_SERVER_CONFIG = "apps/models/cfg/server-%s.json"
+JIRA_FILTER_CONFIG = "cfg/jira_filter.json"
+JIRA_FILTER_CONFIG2 = "apps/models/cfg/jira_filter.json"
+MY_SERVER_CONFIG = "cfg/server-%s.json"
+MY_SERVER_CONFIG2 = "apps/models/cfg/server-%s.json"
 
+JIRA_LABEL_DATE = 'JIRALABELDATE'
+JIRA_ASSIGNEE = 'JIRAASSIGNEE'
 JIRA_LINK = '<a href="https://jira.amlogic.com/browse/%s">%s</a>'
 JIRA_KEY_PATTERN = '(SWPL|RSP|OTT|SH|IPTV|OPS|TV|GH|KAR)-[1-9][0-9]*'
 DATE_KEY_PATTERN = '[1-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]'
@@ -48,6 +53,11 @@ def info(args):
 def error(args):
     print(args, file=sys.stderr)
 
+def this_monday():
+    today = time.strftime('%Y-%m-%d', time.localtime())
+    today = datetime.strptime(str(today), '%Y-%m-%d')
+    return datetime.strftime(today + timedelta(- today.weekday()), '%Y%m%d')
+
 def store_csv(filename, csv_str):
     csv_file = open(filename, "w+")
     csv_file.write(csv_str)
@@ -64,12 +74,29 @@ def store_file(filename, file_str):
     csv_file.write(file_str)
     csv_file.close()
 
-def init_config(cfg):
-    f = open(cfg, encoding="utf-8")
-    jira_config = json.load(f)
+def init_server_config(user):
+    cfg = MY_SERVER_CONFIG % user
+    try:
+        f = open(cfg, encoding="utf-8")
+        server_config = json.load(f)
+    except:
+        cfg = MY_SERVER_CONFIG2 % user
+        f = open(cfg, encoding="utf-8")
+        server_config = json.load(f)
+    
     f.close()
-    debug(jira_config)
-    return jira_config
+    return server_config
+
+def init_filter_config():
+    cfg = JIRA_FILTER_CONFIG
+    try:
+        f = open(cfg, encoding="utf-8")
+        filter_config = json.load(f)
+    except:
+        cfg = JIRA_FILTER_CONFIG2
+        f = open(cfg, encoding="utf-8")
+        filter_config = json.load(f)
+    return filter_config
 
 def init_config_with_json(cfg_json):
     jira_config = json.loads(cfg_json)
@@ -87,8 +114,8 @@ def add_link(table):
 
 def date_highlight(matched):
     key = matched.group()
-    d1 = datetime.datetime.today()
-    d2 = datetime.datetime.strptime(key, '%Y-%m-%d')
+    d1 = datetime.today()
+    d2 = datetime.strptime(key, '%Y-%m-%d')
     dd = (d2 - d1).days
     if dd <= 1:
         key_hl = DATE_HIGHLIGHT_RED % (key)
@@ -308,8 +335,7 @@ def jira_login(username, password):
         return 2
 
 def jira_get_table_by_pattern(user, pattern):
-    my_server_config = MY_SERVER_CONFIG % user
-    jira_config = init_config(my_server_config)
+    jira_config = init_server_config(user)
     jira = init_jira(jira_config)
     try:
         tb = get_issues_by_pattern(jira, pattern)
@@ -321,69 +347,20 @@ def jira_get_table_by_pattern(user, pattern):
 def jira_get(user, pattern):
     print(user, file=sys.stderr)
     print(pattern, file=sys.stderr)
-    my_server_config = MY_SERVER_CONFIG % user
-    jira_config = init_config(my_server_config)
-    user = jira_config["server"]["user"]
-    filter = {
-        "project": "RSP, SWPL, TV, OTT, IPTV, SH",
-        "priority": "Highest, High, Medium",
-        "assignee": user,
-        "status": "OPEN"
-    }
+    server_config = init_server_config(user)
+    user = server_config["server"]["user"]
+    filter_config = init_filter_config()
 
-    if pattern == 'my-open':
-        filter["status"] = "OPEN, Reopened"
-    elif pattern == 'my-todo':
-        filter["status"] = "'To Do'"
-    elif pattern == 'my-ongoing':
-        filter["status"] = "'In Progress'"
-    elif pattern == 'my-resolved':
-        filter["status"] = "Resolved, 'In Code Review', Verified"
-    elif pattern == 'my-openlinux':
-        filter["status"] = "Openlinux, 'Merge To Openlinux'"
-    elif pattern == 'my-closed':
-        filter["status"] = "Closed"
-    elif pattern == 'security-open':
-        filter["assignee"] = "membersOf(security)"
-        filter["status"] = "OPEN, Reopened"
-    elif pattern == 'security-todo':
-        filter["assignee"] = "membersOf(security)"
-        filter["status"] = "'To Do'"
-    elif pattern == 'security-ongoing':
-        filter["assignee"] = "membersOf(security)"
-        filter["status"] = "'In Progress'"
-    elif pattern == 'security-resolved':
-        filter["assignee"] = "membersOf(security)"
-        filter["status"] = "Resolved, 'In Code Review'"
-    elif pattern == 'platform-pmlist-open':
-        filter["assignee"] = "membersOf(jira-sw-platform)"
-        filter["status"] = "OPEN, Reopened"
-        filter["project"] = "TV, OTT, IPTV, SH"
-    elif pattern == 'platform-pmlist-todo':
-        filter["assignee"] = "membersOf(jira-sw-platform)"
-        filter["status"] = "'To Do'"
-        filter["project"] = "TV, OTT, IPTV, SH"
-    elif pattern == 'platform-pmlist-ongoing':
-        filter["assignee"] = "membersOf(jira-sw-platform)"
-        filter["status"] = "'In Progress', 'In Code Review'"
-        filter["project"] = "TV, OTT, IPTV, SH"
-    elif pattern == 'platform-reflist-open':
-        filter["assignee"] = "membersOf(jira-sw-platform)"
-        filter["status"] = "OPEN, Reopened"
-        filter["project"] = "RSP, SWPL"
-    elif pattern == 'platform-reflist-todo':
-        filter["assignee"] = "membersOf(jira-sw-platform)"
-        filter["status"] = "'To Do'"
-        filter["project"] = "RSP, SWPL"
-    elif pattern == 'platform-reflist-ongoing':
-        filter["assignee"] = "membersOf(jira-sw-platform)"
-        filter["status"] = "'In Progress', 'In Code Review'"
-        filter["project"] = "RSP, SWPL"
+    for my_filter in filter_config['filter']:
+        if my_filter['name'] == pattern:
+            jira_pattern = my_filter['pattern']
+            break
 
-    if user == "peifu.jiang":
-         filter["project"] = filter["project"] + ", KAR"
+    if 'my-' in pattern:
+        jira_pattern = re.sub(JIRA_ASSIGNEE, user, jira_pattern)
+    elif 'weekly' in pattern:
+        jira_pattern = re.sub(JIRA_LABEL_DATE, this_monday(), jira_pattern)
 
-    jira_pattern = JIRA_PATTERN.format(filter["project"], filter["priority"], filter["status"], filter["assignee"])
     tb = jira_get_table_by_pattern(user, jira_pattern)
     if (tb):
         html = get_html_from_table(tb)
@@ -393,7 +370,8 @@ def jira_get(user, pattern):
     return html2
 
 def test_jira_get(user, pattern):
-    jira_get(user, pattern)
+    html = jira_get(user, pattern)
+    print(html)
 
 def test_jira_html():
     filters = get_filters(TEST_JIRA_FILTER)
@@ -423,6 +401,14 @@ def test_jira_pattern():
 if __name__ == "__main__":
     #test_jira_html()
     #test_jira_table()
-    test_jira_pattern()
+    #test_jira_pattern()
     #test_jira_get('peifu.jiang', 'my-open')
-    #test_jira_get('peifu.jiang', 'team-reflist-ongoing')
+    #test_jira_get('peifu.jiang', 'my-todo')
+    #test_jira_get('peifu.jiang', 'my-ongoing')
+    #test_jira_get('peifu.jiang', 'my-resolved')
+    #test_jira_get('peifu.jiang', 'my-closed')
+    #test_jira_get('peifu.jiang', 'security-open')
+    #test_jira_get('peifu.jiang', 'security-todo')
+    #test_jira_get('peifu.jiang', 'security-ongoing')  
+    #test_jira_get('peifu.jiang', 'security-resolved')
+    test_jira_get('peifu.jiang', 'security-weekly')

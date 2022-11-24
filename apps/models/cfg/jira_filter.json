@@ -1,0 +1,96 @@
+{
+    "filter": [
+        {
+            "name": "my-open",
+            "pattern": "assignee in (JIRAASSIGNEE) AND priority in (Highest, High, Medium) AND status in (OPEN, Reopened) ORDER BY priority DESC, status ASC, assignee ASC"
+        },
+        {
+            "name": "my-todo",
+            "pattern": "assignee in (JIRAASSIGNEE) AND priority in (Highest, High, Medium) AND status in ('To Do') ORDER BY priority DESC, status ASC, assignee ASC"
+        },
+        {
+            "name": "my-ongoing",
+            "pattern": "assignee in (JIRAASSIGNEE) AND priority in (Highest, High, Medium) AND status in ('In Progress') ORDER BY priority DESC, status ASC, assignee ASC"
+        },
+        {
+            "name": "my-resolved",
+            "pattern": "assignee in (JIRAASSIGNEE) AND priority in (Highest, High, Medium) AND status in (Resolved, 'In Code Review', Verified) ORDER BY priority DESC, status ASC, assignee ASC"
+        },
+        {
+            "name": "my-openlinux",
+            "pattern": "assignee in (JIRAASSIGNEE) AND priority in (Highest, High, Medium) AND status in ('Merge To Openlinux') ORDER BY priority DESC, status ASC, assignee ASC"
+        },
+        {
+            "name": "my-closed",
+            "pattern": "assignee in (JIRAASSIGNEE) AND priority in (Highest, High, Medium) AND status in (Closed) ORDER BY priority DESC, status ASC, assignee ASC"
+        },
+        {
+            "name": "security-open",
+            "pattern": "assignee in (membersOf(security)) AND priority in (Highest, High, Medium) AND status in (OPEN, Reopened) ORDER BY priority DESC, status ASC, assignee ASC"
+        },
+        {
+            "name": "security-todo",
+            "pattern": "assignee in (membersOf(security)) AND priority in (Highest, High, Medium) AND status in ('To Do') ORDER BY priority DESC, status ASC, assignee ASC"
+        },
+        {
+            "name": "security-ongoing",
+            "pattern": "assignee in (membersOf(security)) AND priority in (Highest, High, Medium) AND status in ('In Progress') ORDER BY priority DESC, status ASC, assignee ASC"
+        },
+        {
+            "name": "security-resolved",
+            "pattern": "assignee in (membersOf(security)) AND priority in (Highest, High, Medium) AND status in (Resolved, 'In Code Review') ORDER BY priority DESC, status ASC, assignee ASC"
+        },
+        {
+            "name": "platform-pmlist-open",
+            "pattern": "assignee in (membersOf(jira-sw-platform)) AND project not in (RSP, SWPL) AND priority in (Highest, High, Medium) AND status in (OPEN, Reopened) ORDER BY priority DESC, status ASC, assignee ASC"
+        },
+        {
+            "name": "platform-pmlist-todo",
+            "pattern": "assignee in (membersOf(jira-sw-platform)) AND project not in (RSP, SWPL) AND priority in (Highest, High, Medium) AND status in ('To Do') ORDER BY priority DESC, status ASC, assignee ASC"
+        },
+        {
+            "name": "platform-pmlist-ongoing",
+            "pattern": "assignee in (membersOf(jira-sw-platform)) AND project not in (RSP, SWPL) AND priority in (Highest, High, Medium) AND status in ('In Progress', 'In Code Review') ORDER BY priority DESC, status ASC, assignee ASC"
+        },
+        {
+            "name": "platform-reflist-open",
+            "pattern": "assignee in (membersOf(jira-sw-platform)) AND project in (RSP, SWPL) AND priority in (Highest, High, Medium) AND status in ('To Do') ORDER BY priority DESC, status ASC, assignee ASC"
+        },
+        {
+            "name": "platform-reflist-todo",
+            "pattern": "assignee in (membersOf(jira-sw-platform)) AND project in (RSP, SWPL) AND priority in (Highest, High, Medium) AND status in (OPEN, Reopened) ORDER BY priority DESC, status ASC, assignee ASC"
+        },
+        {
+            "name": "platform-reflist-ongoing",
+            "pattern": "assignee in (membersOf(jira-sw-platform)) AND project in (RSP, SWPL) AND priority in (Highest, High, Medium) AND status in ('In Progress', 'In Code Review') ORDER BY priority DESC, status ASC, assignee ASC"
+        },
+        {
+            "name": "security-weekly",
+            "pattern": "labels in (Security-TEE-JIRALABELDATE, Security-DVB-JIRALABELDATE, Security-Crypto-JIRALABELDATE, Security-CAS-Certification-JIRALABELDATE, Security-CAS-Integration-JIRALABELDATE,Security-CAS-Production-JIRALABELDATE) ORDER BY priority DESC, status ASC, assignee ASC"
+        },
+        {
+            "name": "tee-weekly",
+            "pattern": "labels in (Security-TEE-JIRALABELDATE) ORDER BY priority DESC, status ASC, assignee ASC"
+        },
+        {
+            "name": "dvb-weekly",
+            "pattern": "labels in (Security-DVB-JIRALABELDATE) ORDER BY priority DESC, status ASC, assignee ASC"
+        },
+        {
+            "name": "crypto-weekly",
+            "pattern": "labels in (Security-Crypto-JIRALABELDATE) ORDER BY priority DESC, status ASC, assignee ASC"
+        },
+        {
+            "name": "cas-certification-weekly",
+            "pattern": "labels in (Security-CAS-Certification-JIRALABELDATE) ORDER BY priority DESC, status ASC, assignee ASC"
+        },
+        {
+            "name": "cas-integration-weekly",
+            "pattern": "labels in (Security-CAS-Integration-JIRALABELDATE) ORDER BY priority DESC, status ASC, assignee ASC"
+        },
+        {
+            "name": "cas-production-weekly",
+            "pattern": "labels in (Security-CAS-Production-JIRALABELDATE) ORDER BY priority DESC, status ASC, assignee ASC"
+        }
+    ]
+}
