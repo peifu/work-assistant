@@ -252,13 +252,15 @@ def get_sumup_status(user, date):
 
     if (date == None or date ==''):
         date = time.strftime('%Y-%m-%d', time.localtime())
+        date0 = time.strftime('%Y-01-01', time.localtime())
 
     sumup_columns = ['WEEK', 'WORKTIME', 'STATUS']
     sumup_status = []
 
-    # Get weekly sumpup status in the latest 3 months
+    # Get weekly sumpup status in this year
     sumup_sunday = this_sunday(date)
-    for i in range(0, 12):
+    sumup_sunday0 = this_sunday(date0)
+    while (sumup_sunday != sumup_sunday0):
         sumup_worktime = 0
         this_list = get_list(sumup_sunday)
         if (this_list == None):
@@ -269,8 +271,8 @@ def get_sumup_status(user, date):
             for item in this_list:
                 sumup_worktime += item['workTime']
         sumup_week = this_monday(sumup_sunday)  + ' ~ ' + sumup_sunday
-        sumup_sunday = last_sunday(sumup_sunday)
         sumup_status.append([sumup_week, sumup_worktime, sumup_submit])
+        sumup_sunday = last_sunday(sumup_sunday)
 
     df = pd.DataFrame(sumup_status, columns=sumup_columns)
     res = df.to_html(escape=False)
