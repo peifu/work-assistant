@@ -35,7 +35,7 @@ SERVER_CONFIG = "apps/models/cfg/server.json"
 MY_SERVER_CONFIG = "apps/models/cfg/server-%s.json"
 MY_SERVER_CONFIG2 = "cfg/server-%s.json"
 USERID_PATTERN = '/weekly_sumup/table/member/[1-9][0-9]*/%s'
-DEPARTMENTID_PATTERN = "'departmentid':\"[1-9][0-9]*"
+DEPARTMENTID_PATTERN = "'departmentid': \"[1-9][0-9]*"
 
 POST_HEADERS = {
     "Accpet": "*/*",
