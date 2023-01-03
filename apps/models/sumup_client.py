@@ -153,7 +153,7 @@ def login(u, p):
 def get_list(date):
     global userid
     global departmentid
-    print('date: ' + date)
+    debug('date: ' + date)
     data = {
         'id': userid,
         'departmentid': departmentid,
@@ -162,7 +162,7 @@ def get_list(date):
         'fetchAll': 100,
     }
     res = s.post(URL_LIST, headers=POST_HEADERS, data=data)
-    print(res)
+    debug(res)
     if (res.status_code == 200):
         try:
             task = json.dumps(json.loads(res.text), indent=4, separators=(',', ':'))
@@ -171,6 +171,7 @@ def get_list(date):
             return None
     else:
         task = ''
+        return None
     json_task = json.loads(task)
     if (len(json_task['sumup']['data']) > 0):
         return json_task['sumup']['data']
@@ -252,7 +253,8 @@ def get_sumup_status(user, date):
 
     if (date == None or date ==''):
         date = time.strftime('%Y-%m-%d', time.localtime())
-        date0 = time.strftime('%Y-01-01', time.localtime())
+        date0 = '2022-01-01'
+        #date0 = time.strftime('%Y-01-01', time.localtime())
 
     sumup_columns = ['WEEK', 'WORKTIME', 'STATUS']
     sumup_status = []
