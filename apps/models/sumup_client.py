@@ -30,6 +30,8 @@ URL_MAIN='http://aats.amlogic.com:10000/weekly_sumup/main'
 URL_LIST='http://aats.amlogic.com:10000/weekly_sumup/table/list'
 URL_SAVE='http://aats.amlogic.com:10000/weekly_sumup/save_report'
 
+USER_LOG_FILE = 'apps/models/cfg/server.log'
+
 DOMAIN='@amlogic.com'
 SERVER_CONFIG = "apps/models/cfg/server.json"
 MY_SERVER_CONFIG = "apps/models/cfg/server-%s.json"
@@ -59,6 +61,14 @@ DEBUG_LOG_ENABLE=1
 def debug(args):
     if (DEBUG_LOG_ENABLE == 1):
         print(args, file=sys.stderr)
+
+def log_write(msg):
+    date = time.strftime('[%Y-%m-%d %H:%M:%S]', time.localtime())
+    log_file = open(USER_LOG_FILE, 'a+')
+    if (log_file):
+        log_file.write(date + ' ' + msg + '\n')
+        log_file.flush()
+        log_file.close()
 
 def this_sunday(today):
     today = datetime.strptime(str(today), '%Y-%m-%d')
@@ -345,6 +355,7 @@ def submit_sumup_draft(user, date):
 # API
 def sumup_get(user, date, command):
     debug('>> sumup_get(data=%s, cmd=%s) ...' %(date , command))
+    log_write('[' + user + '] sumup_get: ' + date + ' ' + command)
     if command == 'get_status':
         res = get_sumup_status(user, date)
     elif command == 'get_list':

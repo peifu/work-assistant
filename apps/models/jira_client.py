@@ -29,6 +29,8 @@ JIRA_FILTER_CONFIG2 = "apps/models/cfg/jira_filter.json"
 MY_SERVER_CONFIG = "cfg/server-%s.json"
 MY_SERVER_CONFIG2 = "apps/models/cfg/server-%s.json"
 
+USER_LOG_FILE = 'apps/models/cfg/server.log'
+
 JIRA_LABEL_DATE = 'JIRALABELDATE'
 JIRA_ASSIGNEE = 'JIRAASSIGNEE'
 JIRA_LINK = '<a href="https://jira.amlogic.com/browse/%s">%s</a>'
@@ -52,6 +54,14 @@ def info(args):
 
 def error(args):
     print(args, file=sys.stderr)
+
+def log_write(msg):
+    date = time.strftime('[%Y-%m-%d %H:%M:%S]', time.localtime())
+    log_file = open(USER_LOG_FILE, 'a+')
+    if (log_file):
+        log_file.write(date + ' ' + msg + '\n')
+        log_file.flush()
+        log_file.close()
 
 def this_monday():
     today = time.strftime('%Y-%m-%d', time.localtime())
@@ -347,6 +357,7 @@ def jira_get_table_by_pattern(user, pattern):
 def jira_get(user, pattern):
     print(user, file=sys.stderr)
     print(pattern, file=sys.stderr)
+    log_write('[' + user + '] jira_get: ' + pattern)
     server_config = init_server_config(user)
     user = server_config["server"]["user"]
     filter_config = init_filter_config()
