@@ -38,6 +38,7 @@ MY_SERVER_CONFIG = "apps/models/cfg/server-%s.json"
 MY_SERVER_CONFIG2 = "cfg/server-%s.json"
 USERID_PATTERN = '/weekly_sumup/table/member/[1-9][0-9]*/%s'
 DEPARTMENTID_PATTERN = "'departmentid': \"[1-9][0-9]*"
+USERID_LIST_PATTERN = r'{"id":\d*,"userName":"\D*"}'
 
 POST_HEADERS = {
     "Accpet": "*/*",
@@ -55,6 +56,8 @@ global userid
 userid = 0
 global departmentid
 departmentid = 0
+global user_list
+user_list = []
 
 DEBUG_LOG_ENABLE=1
 
@@ -118,6 +121,12 @@ def matched_userid(matched):
     debug('userid: ' + userid)
     return key
 
+def matched_userid_list(matched):
+    global user_list
+    key = matched.group()
+    user_list.append(eval(key))
+    return key
+
 def matched_departmentid(matched):
     global departmentid
     key = matched.group()
@@ -131,11 +140,15 @@ def get_userid(user, text):
     pattern = USERID_PATTERN % (user)
     re.sub(pattern, matched_userid, text, 0, re.IGNORECASE)
 
+def get_userid_list(text):
+    print('get_userid_list')
+    pattern = USERID_LIST_PATTERN
+    re.sub(pattern, matched_userid_list, text)
+
 def get_departmentid(text):
     global departmentid
     pattern = DEPARTMENTID_PATTERN
     re.sub(pattern, matched_departmentid, text)
-
 
 def login(u, p):
     print('>> Login ...')
@@ -156,14 +169,18 @@ def login(u, p):
     if (res.status_code == 200):
         get_userid(user, res.text)
         get_departmentid(res.text)
+        get_userid_list(res.text)
         return 0
     else:
         return res.status_code
 
 def get_list(date):
     global userid
+    return get_list_by_id(userid, date)
+
+def get_list_by_id(userid, date):
     global departmentid
-    debug('date: ' + date)
+    #debug('date: ' + date)
     data = {
         'id': userid,
         'departmentid': departmentid,
@@ -172,7 +189,7 @@ def get_list(date):
         'fetchAll': 100,
     }
     res = s.post(URL_LIST, headers=POST_HEADERS, data=data)
-    debug(res)
+    #debug(res)
     if (res.status_code == 200):
         try:
             task = json.dumps(json.loads(res.text), indent=4, separators=(',', ':'))
@@ -292,6 +309,54 @@ def get_sumup_status(user, date):
     print(res)
     return res
 
+def get_sumup_team_status(user, date):
+    global draft_list
+    global user_list
+    # Login
+    server_config = init_config(user)
+    user = server_config["server"]["user"]
+    password = server_config["server"]["password"]
+    ret = login(user, password)
+    if (ret != 0):
+        print('Login failed! Error code: ' + ret)
+        return 'Login failed! Error code: ' + ret
+
+    if (date == None or date ==''):
+        date = time.strftime('%Y-%m-%d', time.localtime())
+
+    team_sumup_columns = ['USER']
+    team_sumup_status = []
+
+    # Get weekly sumpup status within the last 3 months
+    for user in user_list:
+        sumup_sunday = this_sunday(date)
+        user_sumup_submit = []
+        sumup_weeks = []
+        for i in range(0, 12):
+            sumup_worktime = 0
+            this_list = get_list_by_id(user['id'], sumup_sunday)
+            if (this_list == None):
+                sumup_submit = 'SUBMITTED-NO'
+                sumup_worktime = 0
+            else:
+                sumup_submit = 'SUBMITTED-YES'
+                for item in this_list:
+                    sumup_worktime += item['workTime']
+            sumup_weeks.append(sumup_sunday)
+            user_sumup_submit.append(sumup_submit)
+            sumup_sunday = last_sunday(sumup_sunday)
+        if (len(team_sumup_columns) == 1):
+            team_sumup_columns += sumup_weeks
+        user_sumup_submit.insert(0, user['userName'])
+        team_sumup_status.append(user_sumup_submit)
+
+    print(team_sumup_columns)
+    df = pd.DataFrame(team_sumup_status, columns=team_sumup_columns)
+    res = df.to_html(escape=False)
+    res = format_table(res)
+    print(res)
+    return res
+
 def gen_sumup_draft(user, date):
     print('>> gen_draft() ...')
     global draft_list
@@ -358,6 +423,8 @@ def sumup_get(user, date, command):
     log_write('[' + user + '] sumup_get: ' + date + ' ' + command)
     if command == 'get_status':
         res = get_sumup_status(user, date)
+    elif command == 'get_team_status':
+        res = get_sumup_team_status(user, date)
     elif command == 'get_list':
         res = get_sumup_list(user, date)
     elif command == 'gen_draft':
@@ -381,9 +448,24 @@ def test_gen_draft(user, date):
 def test_get_sumup_status(user, date):
     res = get_sumup_status(user, date)
 
+def test_get_sumup_team_status(user, date):
+    res = get_sumup_team_status(user, date)
+
 def test_submit_draft():
     res = submit_sumup_draft()
     print(res)
+
+def test_userid_list(user):
+    server_config = init_config(user)
+    user = server_config["server"]["user"]
+    password = server_config["server"]["password"]
+    # Login
+    ret = login(user, password)
+    if (ret != 0):
+        print('Login failed! Error code: ' + ret)
+        return 'Login failed! Error code: ' + ret
+
+    print(user_list)
 
 def get_args():
     parser = ArgumentParser()
@@ -433,4 +515,6 @@ if __name__ == "__main__":
     #main()
     #test_gen_draft('peifu.jiang', '')
     #test_submit_draft()
-    test_get_sumup_status('peifu.jiang', '')
+    #test_get_sumup_status('peifu.jiang', '')
+    test_get_sumup_team_status('peifu.jiang', '')
+    #test_userid_list('peifu.jiang')
