@@ -141,7 +141,9 @@ def get_userid(user, text):
     re.sub(pattern, matched_userid, text, 0, re.IGNORECASE)
 
 def get_userid_list(text):
+    global user_list
     print('get_userid_list')
+    user_list.clear()
     pattern = USERID_LIST_PATTERN
     re.sub(pattern, matched_userid_list, text)
 
