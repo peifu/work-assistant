@@ -144,7 +144,6 @@ def matched_userid_list2(matched):
 def matched_departmentid(matched):
     global departmentid
     key = matched.group()
-    debug(key)
     myid = re.findall('\d+', key)
     departmentid = myid[0]
     debug('departmentid: ' + departmentid)
@@ -162,6 +161,7 @@ def get_userid_list(text):
     re.sub(pattern, matched_userid_list, text)
     pattern = USERID_LIST_PATTERN2
     re.sub(pattern, matched_userid_list2, text)
+    debug(user_list)
 
 def get_departmentid(text):
     global departmentid
@@ -169,7 +169,8 @@ def get_departmentid(text):
     re.sub(pattern, matched_departmentid, text)
 
 def login(u, p):
-    print('>> Login ...')
+    print('>> Login(%s) ...' %(u))
+    #test_userid_list('peifu.jiang')
     if (u == None or u ==''):
         user = USER
     else:
@@ -368,11 +369,9 @@ def get_sumup_team_status(user, date):
         user_sumup_submit.insert(0, user['userName'])
         team_sumup_status.append(user_sumup_submit)
 
-    print(team_sumup_columns)
     df = pd.DataFrame(team_sumup_status, columns=team_sumup_columns)
     res = df.to_html(escape=False)
     res = format_table(res)
-    print(res)
     return res
 
 def gen_sumup_draft(user, date):
@@ -437,7 +436,7 @@ def submit_sumup_draft(user, date):
 
 # API
 def sumup_get(user, date, command):
-    debug('>> sumup_get(data=%s, cmd=%s) ...' %(date , command))
+    debug('>> sumup_get(user=%s, data=%s, cmd=%s) ...' %(user, date, command))
     log_write('[' + user + '] sumup_get: ' + date + ' ' + command)
     if command == 'get_status':
         res = get_sumup_status(user, date)
@@ -469,8 +468,8 @@ def test_get_sumup_status(user, date):
 def test_get_sumup_team_status(user, date):
     res = get_sumup_team_status(user, date)
 
-def test_submit_draft():
-    res = submit_sumup_draft()
+def test_submit_draft(user, date):
+    res = submit_sumup_draft(user, date)
     print(res)
 
 def test_userid_list(user):
@@ -530,9 +529,13 @@ def main():
     return 0
 
 if __name__ == "__main__":
-    #main()
-    #test_gen_draft('peifu.jiang', '')
-    #test_submit_draft()
-    #test_get_sumup_status('peifu.jiang', '')
-    test_get_sumup_team_status('peifu.jiang', '')
-    #test_userid_list('peifu.jiang')
+    args = get_args()
+    if (args.u == None):
+        print('Please input correct user name')
+        exit()
+
+    #test_gen_draft(args.u, '')
+    #test_submit_draft(args.u, '')
+    #test_get_sumup_status(args.u, '')
+    #test_userid_list(args.u)
+    test_get_sumup_team_status(args.u, '')
