@@ -38,7 +38,9 @@ MY_SERVER_CONFIG = "apps/models/cfg/server-%s.json"
 MY_SERVER_CONFIG2 = "cfg/server-%s.json"
 USERID_PATTERN = '/weekly_sumup/table/member/[1-9][0-9]*/%s'
 DEPARTMENTID_PATTERN = "'departmentid': \"[1-9][0-9]*"
-USERID_LIST_PATTERN = r'{"id":\d*,"userName":"\D*"}'
+USERID_LIST_PATTERN = r'"/weekly_sumup/table/member/\d+/[a-zA-Z]+"'
+USERID_LIST_PATTERN = '/weekly_sumup/table/member/\d+/\w+.\w+'
+USERID_LIST_PATTERN2 = r'{"id":\d*,"userName":"\D*"}'
 
 POST_HEADERS = {
     "Accpet": "*/*",
@@ -124,6 +126,18 @@ def matched_userid(matched):
 def matched_userid_list(matched):
     global user_list
     key = matched.group()
+    userid = "".join(list(filter(str.isdigit, key)))
+    res = key.partition(userid)
+    username = res[2][1:]
+    item = {
+        'id': userid,
+        'userName': username}
+    user_list.append(item)
+    return key
+
+def matched_userid_list2(matched):
+    global user_list
+    key = matched.group()
     user_list.append(eval(key))
     return key
 
@@ -131,8 +145,8 @@ def matched_departmentid(matched):
     global departmentid
     key = matched.group()
     debug(key)
-    id = re.findall('\d+', key)
-    departmentid = id[0]
+    myid = re.findall('\d+', key)
+    departmentid = myid[0]
     debug('departmentid: ' + departmentid)
     return key
 
@@ -146,6 +160,8 @@ def get_userid_list(text):
     user_list.clear()
     pattern = USERID_LIST_PATTERN
     re.sub(pattern, matched_userid_list, text)
+    pattern = USERID_LIST_PATTERN2
+    re.sub(pattern, matched_userid_list2, text)
 
 def get_departmentid(text):
     global departmentid
