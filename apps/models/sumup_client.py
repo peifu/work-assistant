@@ -16,6 +16,7 @@ import lxml
 import sys
 import re
 import time
+import threading
 from datetime import datetime, timedelta
 from requests import Session
 from urllib.parse import urlencode
@@ -52,14 +53,12 @@ POST_HEADERS = {
 TASK_LIST='./save_report.json'
 s = Session()
 cookie = ''
-global draft_list
+
 draft_list = None
-global userid
 userid = 0
-global departmentid
 departmentid = 0
-global user_list
 user_list = []
+lock = threading.Lock()
 
 DEBUG_LOG_ENABLE=1
 
@@ -287,7 +286,6 @@ def get_sumup_list(user, date):
     return res
 
 def get_sumup_status(user, date):
-    global draft_list
     # Login
     server_config = init_config(user)
     user = server_config["server"]["user"]
@@ -329,15 +327,17 @@ def get_sumup_status(user, date):
     return res
 
 def get_sumup_team_status(user, date):
-    global draft_list
     global user_list
     # Login
     server_config = init_config(user)
     user = server_config["server"]["user"]
     password = server_config["server"]["password"]
+
+    lock.acquire()
     ret = login(user, password)
     if (ret != 0):
         print('Login failed! Error code: ' + ret)
+        lock.release()
         return 'Login failed! Error code: ' + ret
 
     if (date == None or date ==''):
@@ -369,6 +369,7 @@ def get_sumup_team_status(user, date):
         user_sumup_submit.insert(0, user['userName'])
         team_sumup_status.append(user_sumup_submit)
 
+    lock.release()
     df = pd.DataFrame(team_sumup_status, columns=team_sumup_columns)
     res = df.to_html(escape=False)
     res = format_table(res)
