@@ -46,11 +46,14 @@
       </div>
 
       <div class="card-body">
-        <button type="button" id="get" class="btn btn-primary">Refresh</button>
+        <button type="button" id="get2" class="btn btn-primary">2 Weeks</button>
+        <button type="button" id="get4" class="btn btn-primary">4 Weeks</button>
+        <button type="button" id="get8" class="btn btn-primary">8 Weeks</button>
+        <button type="button" id="get12" class="btn btn-primary">12 Weeks</button>
       </div>
 
       <div class="card-body">
-        Team Sumup Status within the last 3 months.
+        Team Sumup Status within the last few weeks.
         <div id="result"></div>
         <div class="loader">
           <div id="ld2">
@@ -93,10 +96,46 @@
 
     table_init();
 
-    $("#get").click(function () {
+    $("#get2").click(function () {
       $("#result").html("");
       $("#ld2").fadeIn();
-      searchUrl = "sumup-1" + "?date=&command=get_team_status";
+      searchUrl = "sumup-1" + "?date=2weeks&command=get_team_status";
+      htmlobj = $.ajax({
+        url: searchUrl, async: true, success: function (data) {
+          $("#ld2").fadeOut();
+          $("#result").html(data);
+        }
+      });
+    });
+
+    $("#get4").click(function () {
+      $("#result").html("");
+      $("#ld2").fadeIn();
+      searchUrl = "sumup-1" + "?date=4weeks&command=get_team_status";
+      htmlobj = $.ajax({
+        url: searchUrl, async: true, success: function (data) {
+          $("#ld2").fadeOut();
+          $("#result").html(data);
+        }
+      });
+    });
+
+    $("#get8").click(function () {
+      $("#result").html("");
+      $("#ld2").fadeIn();
+      searchUrl = "sumup-1" + "?date=8weeks&command=get_team_status";
+      htmlobj = $.ajax({
+        url: searchUrl, async: true, success: function (data) {
+          $("#ld2").fadeOut();
+          $("#result").html(data);
+        }
+      });
+    });
+
+    $("#get12").click(function () {
+      $("#result").html("");
+      $("#ld2").fadeIn();
+      searchUrl = "sumup-1" + "?date=12weeks&command=get_team_status";
       htmlobj = $.ajax({
         url: searchUrl, async: true, success: function (data) {
           $("#ld2").fadeOut();
@@ -107,7 +146,7 @@
 
     function table_init() {
       $("#ld2").fadeIn();
-      searchUrl = "sumup-1" + "?date=&command=get_team_status";
+      searchUrl = "sumup-1" + "?date=2weeks&command=get_team_status";
       htmlobj = $.ajax({
         url: searchUrl, async: true, success: function (data) {
           $("#ld2").fadeOut();

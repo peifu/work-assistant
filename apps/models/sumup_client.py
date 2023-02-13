@@ -340,8 +340,17 @@ def get_sumup_team_status(user, date):
         lock.release()
         return 'Login failed! Error code: ' + ret
 
-    if (date == None or date ==''):
-        date = time.strftime('%Y-%m-%d', time.localtime())
+    #if (date == None or date ==''):
+    weeks = 2
+    if (date == '2weeks'):
+        weeks = 2
+    elif (date == '4weeks'):
+        weeks = 4
+    elif (date == '8weeks'):
+        weeks = 8
+    elif (date == '12weeks'):
+        weeks = 12
+    date = time.strftime('%Y-%m-%d', time.localtime())
 
     team_sumup_columns = ['USER']
     team_sumup_status = []
@@ -351,7 +360,7 @@ def get_sumup_team_status(user, date):
         sumup_sunday = this_sunday(date)
         user_sumup_submit = []
         sumup_weeks = []
-        for i in range(0, 12):
+        for i in range(0, weeks):
             sumup_worktime = 0
             this_list = get_list_by_id(user['id'], sumup_sunday)
             if (this_list == None):
