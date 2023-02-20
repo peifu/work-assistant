@@ -41,7 +41,7 @@ USERID_PATTERN = '/weekly_sumup/table/member/[1-9][0-9]*/%s'
 DEPARTMENTID_PATTERN = "'departmentid': \"[1-9][0-9]*"
 USERID_LIST_PATTERN = r'"/weekly_sumup/table/member/\d+/[a-zA-Z]+"'
 USERID_LIST_PATTERN = '/weekly_sumup/table/member/\d+/\w+.\w+'
-USERID_LIST_PATTERN2 = r'{"id":\d*,"userName":"\D*"}'
+USERID_LIST_PATTERN2 = r'{"id":\d*,"userName":"\D*\d?"}'
 
 POST_HEADERS = {
     "Accpet": "*/*",
