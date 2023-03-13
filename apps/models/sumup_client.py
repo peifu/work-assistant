@@ -98,6 +98,8 @@ def format_table(table):
     table = table.replace('<thead>', '<thead class="thead-light" style="text-transform:uppercase;">')
     table = table.replace('SUBMITTED-YES', '<i class="fa fa-check-square" style="font-size:20px;color:green;"></i>')
     table = table.replace('SUBMITTED-NO', '<i class="fa fa-window-close" style="font-size:20px;color:red;"></i>')
+    table = table.replace('SUBMITTED-WARNING', '<i class="fa fa-check-square" style="font-size:20px;color:yellow;"></i>')
+    table = table.replace('SUBMITTED-INVALID', '<i class="fa fa-question-circle" style="font-size:20px;color:red;"></i>')
     return table
 
 def init_config(user):
@@ -370,6 +372,11 @@ def get_sumup_team_status(user, date):
                 sumup_submit = 'SUBMITTED-YES'
                 for item in this_list:
                     sumup_worktime += item['workTime']
+                if (sumup_worktime < 40 ):
+                    sumup_submit = 'SUBMITTED-WARNING'
+                elif (sumup_worktime > 80 ):
+                    sumup_submit = 'SUBMITTED-INVALID'
+                sumup_submit = sumup_submit + ' ' + str(sumup_worktime)
             sumup_weeks.append(sumup_sunday)
             user_sumup_submit.append(sumup_submit)
             sumup_sunday = last_sunday(sumup_sunday)
