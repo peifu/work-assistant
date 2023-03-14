@@ -57,8 +57,8 @@ cookie = ''
 draft_list = None
 userid = 0
 departmentid = 0
-user_list = []
-lock = threading.Lock()
+member_list = []
+users = []
 
 DEBUG_LOG_ENABLE=1
 
@@ -85,6 +85,27 @@ def last_sunday(today):
 def this_monday(today):
     today = datetime.strptime(str(today), '%Y-%m-%d')
     return datetime.strftime(today + timedelta(- today.weekday()), '%Y-%m-%d')
+
+def user_find(username):
+    global users
+    found_user = None
+
+    for user in users:
+        if (user['name'] == username):
+            found_user = user
+
+    if (found_user == None):
+        user = {
+            'id': 0,
+            'name': username,
+            'departmentid': 0,
+            'member_list': [],
+            'draft_list': None
+        }
+        users.append(user)
+        found_user = user
+
+    return found_user
 
 def load_list(task_file):
     f = open(task_file, encoding="utf-8")
@@ -125,7 +146,7 @@ def matched_userid(matched):
     return key
 
 def matched_userid_list(matched):
-    global user_list
+    global member_list
     key = matched.group()
     userid = "".join(list(filter(str.isdigit, key)))
     res = key.partition(userid)
@@ -133,13 +154,13 @@ def matched_userid_list(matched):
     item = {
         'id': userid,
         'userName': username}
-    user_list.append(item)
+    member_list.append(item)
     return key
 
 def matched_userid_list2(matched):
-    global user_list
+    global member_list
     key = matched.group()
-    user_list.append(eval(key))
+    member_list.append(eval(key))
     return key
 
 def matched_departmentid(matched):
@@ -155,19 +176,32 @@ def get_userid(user, text):
     re.sub(pattern, matched_userid, text, 0, re.IGNORECASE)
 
 def get_userid_list(text):
-    global user_list
+    global member_list
     print('get_userid_list')
-    user_list.clear()
+    member_list.clear()
     pattern = USERID_LIST_PATTERN
     re.sub(pattern, matched_userid_list, text)
     pattern = USERID_LIST_PATTERN2
     re.sub(pattern, matched_userid_list2, text)
-    debug(user_list)
+    debug(member_list)
 
 def get_departmentid(text):
     global departmentid
     pattern = DEPARTMENTID_PATTERN
     re.sub(pattern, matched_departmentid, text)
+
+def get_user_info(u, text):
+    global userid
+    global departmentid
+    global member_list
+    #get_userid
+    get_userid(u, text)
+    get_departmentid(text)
+    get_userid_list(text)
+    user = user_find(u)
+    user['id'] = userid
+    user['departmentid'] = departmentid
+    user['member_list'] = copy.deepcopy(member_list)
 
 def login(u, p):
     print('>> Login(%s) ...' %(u))
@@ -187,20 +221,29 @@ def login(u, p):
     print(cookie)
     res = s.get(URL_MAIN)
     if (res.status_code == 200):
-        get_userid(user, res.text)
-        get_departmentid(res.text)
-        get_userid_list(res.text)
+        get_user_info(user, res.text)
         return 0
     else:
         return res.status_code
 
-def get_list(date):
-    global userid
-    return get_list_by_id(userid, date)
+def user_login(u):
+    server_config = init_config(u)
+    user = server_config["server"]["user"]
+    password = server_config["server"]["password"]
+
+    return login(user, password)
+
+def get_list(u, date):
+    user = user_find(u)
+    userid = user['id']
+    departmentid = user['departmentid']
+    return get_list_by_id2(userid, departmentid, date)
 
 def get_list_by_id(userid, date):
     global departmentid
-    #debug('date: ' + date)
+    return get_list_by_id2(userid, departmentid, date)
+
+def get_list_by_id2(userid, departmentid, date):
     data = {
         'id': userid,
         'departmentid': departmentid,
@@ -260,14 +303,11 @@ def list_to_html(task):
     df = pd.DataFrame(task)
     return df.to_html(escape=False)
 
-def get_sumup_list(user, date):
+def get_sumup_list(u, date):
     print('>> gen_draft() ...')
     global draft_list
     # Login
-    server_config = init_config(user)
-    user = server_config["server"]["user"]
-    password = server_config["server"]["password"]
-    ret = login(user, password)
+    ret = user_login(u)
     if (ret != 0):
         print('Login failed! Error code: ' + ret)
         return 'Login failed! Error code: ' + ret
@@ -276,7 +316,7 @@ def get_sumup_list(user, date):
         date = time.strftime('%Y-%m-%d', time.localtime())
 
     # Get this week work list
-    this_list = get_list(this_sunday(date))
+    this_list = get_list(u, this_sunday(date))
     if (this_list == None):
         return "This week work list is empty!"
 
@@ -287,12 +327,9 @@ def get_sumup_list(user, date):
     res = format_table(res)
     return res
 
-def get_sumup_status(user, date):
+def get_sumup_status(u, date):
     # Login
-    server_config = init_config(user)
-    user = server_config["server"]["user"]
-    password = server_config["server"]["password"]
-    ret = login(user, password)
+    ret = user_login(u)
     if (ret != 0):
         print('Login failed! Error code: ' + ret)
         return 'Login failed! Error code: ' + ret
@@ -310,7 +347,7 @@ def get_sumup_status(user, date):
     sumup_sunday0 = this_sunday(date0)
     while (sumup_sunday != sumup_sunday0):
         sumup_worktime = 0
-        this_list = get_list(sumup_sunday)
+        this_list = get_list(u, sumup_sunday)
         if (this_list == None):
             sumup_submit = 'SUBMITTED-NO'
             sumup_worktime = 0
@@ -328,20 +365,15 @@ def get_sumup_status(user, date):
     print(res)
     return res
 
-def get_sumup_team_status(user, date):
-    global user_list
+def get_sumup_team_status(u, date):
     # Login
-    server_config = init_config(user)
-    user = server_config["server"]["user"]
-    password = server_config["server"]["password"]
-
-    lock.acquire()
-    ret = login(user, password)
+    ret = user_login(u)
     if (ret != 0):
         print('Login failed! Error code: ' + ret)
-        lock.release()
         return 'Login failed! Error code: ' + ret
 
+    user = user_find(u)
+    member_list = user['member_list']
     #if (date == None or date ==''):
     weeks = 2
     if (date == '2weeks'):
@@ -358,13 +390,13 @@ def get_sumup_team_status(user, date):
     team_sumup_status = []
 
     # Get weekly sumpup status within the last 3 months
-    for user in user_list:
+    for member in member_list:
         sumup_sunday = this_sunday(date)
         user_sumup_submit = []
         sumup_weeks = []
         for i in range(0, weeks):
             sumup_worktime = 0
-            this_list = get_list_by_id(user['id'], sumup_sunday)
+            this_list = get_list_by_id(member['id'], sumup_sunday)
             if (this_list == None):
                 sumup_submit = 'SUBMITTED-NO'
                 sumup_worktime = 0
@@ -382,24 +414,19 @@ def get_sumup_team_status(user, date):
             sumup_sunday = last_sunday(sumup_sunday)
         if (len(team_sumup_columns) == 1):
             team_sumup_columns += sumup_weeks
-        user_sumup_submit.insert(0, user['userName'])
+        user_sumup_submit.insert(0, member['userName'])
         team_sumup_status.append(user_sumup_submit)
 
-    lock.release()
     df = pd.DataFrame(team_sumup_status, columns=team_sumup_columns)
     res = df.to_html(escape=False)
     res = format_table(res)
     return res
 
-def gen_sumup_draft(user, date):
+def gen_sumup_draft(u, date):
     print('>> gen_draft() ...')
     global draft_list
-
-    server_config = init_config(user)
-    user = server_config["server"]["user"]
-    password = server_config["server"]["password"]
     # Login
-    ret = login(user, password)
+    ret = user_login(u)
     if (ret != 0): 
         print('Login failed! Error code: ' + ret)
         return 'Login failed! Error code: ' + ret
@@ -410,7 +437,7 @@ def gen_sumup_draft(user, date):
     draft_sunday = this_sunday(date)
 
     # Get last week work list
-    last_list = get_list(last_sunday(date))
+    last_list = get_list(u, last_sunday(date))
     if (last_list == None):
         print('Get last week work list failed!')
         draft_list = None
@@ -424,13 +451,13 @@ def gen_sumup_draft(user, date):
     res = format_table(res)
     return res
 
-def submit_sumup_draft(user, date):
+def submit_sumup_draft(u, date):
     global draft_list
     print('>> submit_draft() ...')
     draft_sunday = this_sunday(date)
 
     # Get this week work list
-    this_list = get_list(draft_sunday)
+    this_list = get_list(u, draft_sunday)
     if (this_list != None):
         return "The work list of this week has already been submitted!"
 
@@ -499,8 +526,6 @@ def test_userid_list(user):
         print('Login failed! Error code: ' + ret)
         return 'Login failed! Error code: ' + ret
 
-    print(user_list)
-
 def get_args():
     parser = ArgumentParser()
     parser.add_argument('-u', help='Username')
@@ -525,14 +550,14 @@ def main():
         date = time.strftime('%Y-%m-%d', time.localtime())
  
     # Get this week work list
-    this_list = get_list(this_sunday(date))
+    this_list = get_list(args.u, this_sunday(date))
     if (this_list != None):
         print('This week work list already submitted!')
         dump_list(this_list)
         return 0
 
     # Get last week work list
-    last_list = get_list(last_sunday(date))
+    last_list = get_list(args.u, last_sunday(date))
     if (last_list == None):
         print('Get last work list failed!')
         return 2
