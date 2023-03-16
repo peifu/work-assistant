@@ -262,16 +262,6 @@
                 "topic": "tv chip bringup"
             },
             {
-                "statement": "",
-                "id": 152,
-                "topic": "Chip BringUp"
-            },
-            {
-                "statement": "",
-                "id": 134,
-                "topic": "ProjectSupport"
-            },
-            {
                 "statement": "TV Ecosystem other",
                 "id": 135,
                 "topic": "Others"
@@ -587,16 +577,6 @@
                 "topic": "STB chipset bringup"
             },
             {
-                "statement": "",
-                "id": 153,
-                "topic": "Chip BringUp"
-            },
-            {
-                "statement": "STB",
-                "id": 136,
-                "topic": "ProjectSupport"
-            },
-            {
                 "statement": "STB others",
                 "id": 137,
                 "topic": "Others"
@@ -731,16 +711,6 @@
                 "topic": "audio chipset bringup"
             },
             {
-                "statement": "",
-                "id": 154,
-                "topic": "Chip BringUp"
-            },
-            {
-                "statement": "Audio support",
-                "id": 138,
-                "topic": "ProjectSupport"
-            },
-            {
                 "statement": "Audio others",
                 "id": 139,
                 "topic": "Others"
@@ -831,16 +801,6 @@
                 "topic": "camera chipset bringup"
             },
             {
-                "statement": "",
-                "id": 155,
-                "topic": "Chip BringUp"
-            },
-            {
-                "statement": "camera support",
-                "id": 140,
-                "topic": "ProjectSupport"
-            },
-            {
                 "statement": "camera others",
                 "id": 141,
                 "topic": "Others"
@@ -921,14 +881,17 @@
                 "topic": "SH project support"
             },
             {
+                "children": [
+                    {
+                        "enable": true,
+                        "statement": "",
+                        "id": 219,
+                        "topic": "PMU IC"
+                    }
+                ],
                 "statement": "",
-                "id": 156,
-                "topic": "Chip BringUp"
-            },
-            {
-                "statement": "smarthome support",
-                "id": 142,
-                "topic": "ProjectSupport"
+                "id": 52,
+                "topic": "SH chipset bringup"
             },
             {
                 "statement": "smarthome others",
@@ -975,16 +938,6 @@
                 "statement": "",
                 "id": 54,
                 "topic": "AM chipset bringup"
-            },
-            {
-                "statement": "",
-                "id": 157,
-                "topic": "Chip BringUp"
-            },
-            {
-                "statement": "Automotive support",
-                "id": 144,
-                "topic": "ProjectSupport"
             },
             {
                 "statement": "Automotive others",
@@ -1070,16 +1023,6 @@
                 "statement": "",
                 "id": 56,
                 "topic": "wifi chipset bringup"
-            },
-            {
-                "statement": "",
-                "id": 158,
-                "topic": "Chip BringUp"
-            },
-            {
-                "statement": "connectivity support",
-                "id": 146,
-                "topic": "ProjectSupport"
             },
             {
                 "statement": "connectivity others",
