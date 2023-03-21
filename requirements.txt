@@ -19,3 +19,5 @@ sqlalchemy==1.4.29
 gunicorn==20.1.0
 Werkzeug==2.0.3
 flask_mysqldb
+fuzzywuzzy==0.18.0
+Levenshtein==0.20.9

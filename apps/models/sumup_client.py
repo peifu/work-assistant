@@ -17,6 +17,7 @@ import sys
 import re
 import time
 import threading
+from io import StringIO
 from datetime import datetime, timedelta
 from requests import Session
 from urllib.parse import urlencode
@@ -24,6 +25,11 @@ from bs4 import BeautifulSoup as bs
 from argparse import ArgumentParser
 import pandas as pd
 import copy
+from fuzzywuzzy import process
+
+from apps.models.jira_client import jira_get_table_by_date
+# local test
+#from jira_client import jira_get_table_by_date
 
 URL_HOME='http://aats.amlogic.com:10000/weekly_sumup/'
 URL_LOGIN='http://aats.amlogic.com:10000/weekly_sumup/user/login/ad'
@@ -35,6 +41,16 @@ USER_LOG_FILE = 'apps/models/cfg/server.log'
 
 DOMAIN='@amlogic.com'
 SERVER_CONFIG = "apps/models/cfg/server.json"
+PROJECT_CONFIG = "apps/models/cfg/project.json"
+PROJECT_CONFIG2 = "cfg/project.json"
+PROJECT_WORKTYPE_RD = 1
+PROJECT_WORKTYPE_TRAINING = 12
+PROJECT_WORKTYPE_VACATION = 4
+PROJECT_WORKTYPE_MANAGEMENT = 7
+PROJECT_ID_RD = 204
+PROJECT_ID_TRAINING = 188
+PROJECT_ID_VACATION = 189
+PROJECT_ID_MANAGEMENT = 190
 MY_SERVER_CONFIG = "apps/models/cfg/server-%s.json"
 MY_SERVER_CONFIG2 = "cfg/server-%s.json"
 USERID_PATTERN = '/weekly_sumup/table/member/[1-9][0-9]*/%s'
@@ -55,6 +71,7 @@ s = Session()
 cookie = ''
 
 draft_list = None
+draft_list2 = None
 userid = 0
 departmentid = 0
 member_list = []
@@ -65,6 +82,9 @@ DEBUG_LOG_ENABLE=1
 def debug(args):
     if (DEBUG_LOG_ENABLE == 1):
         print(args, file=sys.stderr)
+
+def info(args):
+    print(args, file=sys.stderr)
 
 def log_write(msg):
     date = time.strftime('[%Y-%m-%d %H:%M:%S]', time.localtime())
@@ -85,6 +105,10 @@ def last_sunday(today):
 def this_monday(today):
     today = datetime.strptime(str(today), '%Y-%m-%d')
     return datetime.strftime(today + timedelta(- today.weekday()), '%Y-%m-%d')
+
+def this_monday2(today):
+    today = datetime.strptime(str(today), '%Y-%m-%d')
+    return datetime.strftime(today + timedelta(- today.weekday()), '%Y%m%d')
 
 def user_find(username):
     global users
@@ -112,6 +136,15 @@ def load_list(task_file):
     task_list = json.load(f)
     f.close()
     return task_list
+
+def load_project():
+    try:
+        f = open(PROJECT_CONFIG, encoding="utf-8")
+    except:
+        f = open(PROJECT_CONFIG2, encoding="utf-8")
+    project_list = json.load(f)
+    f.close()
+    return project_list
 
 def format_table(table):
     table = table.replace('<table border="1" class="dataframe">', '<table class="table table-sm table-bordered table-hover">')
@@ -183,7 +216,7 @@ def get_userid_list(text):
     re.sub(pattern, matched_userid_list, text)
     pattern = USERID_LIST_PATTERN2
     re.sub(pattern, matched_userid_list2, text)
-    debug(member_list)
+    #debug(member_list)
 
 def get_departmentid(text):
     global departmentid
@@ -294,14 +327,20 @@ def update_list(task_list):
     return res.text
 
 def dump_list(task):
-    print(task)
     for item in task:
         task_name = item['statement']
-        print('TASK: ' + task_name)
+        print(item)
+
+def add_column(task, column_name, column_value):
+    df = pd.DataFrame(task)
+    df.insert(loc=len(df.columns), column=column_name, value=column_value)
+    return df.to_dict('records')
 
 def list_to_html(task):
     df = pd.DataFrame(task)
-    return df.to_html(escape=False)
+    res = df.to_html(escape=False)
+    res = format_table(res)
+    return res
 
 def get_sumup_list(u, date):
     print('>> gen_draft() ...')
@@ -324,7 +363,6 @@ def get_sumup_list(u, date):
     draft_list = prepare_list(this_list)
     dump_list(draft_list)
     res = list_to_html(draft_list)
-    res = format_table(res)
     return res
 
 def get_sumup_status(u, date):
@@ -374,7 +412,6 @@ def get_sumup_team_status(u, date):
 
     user = user_find(u)
     member_list = user['member_list']
-    #if (date == None or date ==''):
     weeks = 2
     if (date == '2weeks'):
         weeks = 2
@@ -422,14 +459,14 @@ def get_sumup_team_status(u, date):
     res = format_table(res)
     return res
 
-def gen_sumup_draft(u, date):
+def gen_sumup_draft_from_last_week(u, date):
     print('>> gen_draft() ...')
     global draft_list
     # Login
     ret = user_login(u)
     if (ret != 0): 
         print('Login failed! Error code: ' + ret)
-        return 'Login failed! Error code: ' + ret
+        return None
 
     if (date == None or date ==''):
         date = time.strftime('%Y-%m-%d', time.localtime())
@@ -441,18 +478,172 @@ def gen_sumup_draft(u, date):
     if (last_list == None):
         print('Get last week work list failed!')
         draft_list = None
-        return "The lask week work list is empty!"
+        return None
     else:
         print('Get last week work list successfully!')
     
     draft_list = prepare_list(last_list)
+    for item in draft_list:
+        item['label'] = draft_sunday
     dump_list(draft_list)
-    res = list_to_html(draft_list)
-    res = format_table(res)
+
+    tmp_list = copy.deepcopy(draft_list)
+    column_name = 'From'
+    column_value = ['LASK_WEEK'] * len(tmp_list)
+    tmp_list = add_column(tmp_list, column_name, column_value)
+    return tmp_list
+
+def get_project_list():
+    projects = load_project()
+    project_list = [
+        {
+            'type': PROJECT_WORKTYPE_TRAINING,
+            'id': PROJECT_ID_TRAINING,
+            'topic': 'Training'
+        },
+        {
+            'type': PROJECT_WORKTYPE_VACATION,
+            'id': PROJECT_ID_VACATION,
+            'topic': 'Vacation'
+        },
+        {
+            'type': PROJECT_WORKTYPE_MANAGEMENT,
+            'id': PROJECT_ID_MANAGEMENT,
+            'topic': 'Management'
+        },
+    ]
+    for project in projects:
+        item = {
+            'type': 1,
+            'id': project['id'],
+            'topic': project['topic'] + ' ' + project['statement']
+        }
+        project_list.append(item)
+        for child in project['children']:
+            item = {
+                'type': 1,
+                'id': child['id'],
+                'topic': child['topic'] + ' ' + child['statement']
+            }
+            project_list.append(item)
+    #debug(project_list)
+    return project_list
+
+def check_sumup_project_info(draft):
+    projects = get_project_list()
+    match_list = []
+    for project in projects:
+        match_list.append(project['topic'])
+
+    for item in draft:
+        extracted = process.extractOne(item['statement'], match_list)
+        debug(extracted)
+        if (extracted) != None:
+            idx = match_list.index(extracted[0])
+            debug('idx: ' + str(idx))
+            item['workType.id'] = projects[idx]['type']
+            item['project.id'] = projects[idx]['id']
+        else:
+            item['workType.id'] = PROJECT_WORKTYPE_RD
+            item['project.id'] = PROJECT_ID_STB
+
+    return draft
+
+def jira_to_sumup(jira, date):
+    tmp_draft_list = []
+    df = pd.read_csv(StringIO(jira.get_csv_string()))
+
+    for index, row in df.iterrows():
+        sumup_item = {}
+        label = date
+        jiraId = row["Issue"]
+        statement = row['Summary']
+        sumup_item['statement'] = statement
+        sumup_item['label'] = label
+        sumup_item['project.id'] = 0
+        sumup_item['workType.id'] = 0
+        sumup_item['jiraId'] = jiraId
+        sumup_item['workTime'] = 4
+        sumup_item['isOnTime'] = 'true'
+        sumup_item['reason.id'] = ''
+        sumup_item['notes'] = statement
+        tmp_draft_list.append(sumup_item)
+
+    #debug(tmp_draft_list)
+    check_draft_list = check_sumup_project_info(tmp_draft_list)
+    return tmp_draft_list
+
+def gen_sumup_draft_from_jira(u, date):
+    print('>> gen_draft2() ...')
+    global draft_list2
+    # Login
+    ret = user_login(u)
+    if (ret != 0):
+        print('Login failed! Error code: ' + ret)
+        return None
+
+    if (date == None or date ==''):
+        date = time.strftime('%Y-%m-%d', time.localtime())
+    draft_sunday = this_sunday(date)
+    draft_monday = this_monday2(date)
+
+    # Get weekly jira list
+    jira_list = jira_get_table_by_date(u, 'my-weekly', draft_monday)
+    if (jira_list == None):
+        print('Get last week work list failed!')
+        draft_list2 = None
+        return None
+    else:
+        print('Get last week jira list successfully!')
+
+    draft_list2 = jira_to_sumup(jira_list, draft_sunday)
+    dump_list(draft_list2)
+    tmp_list2 = copy.deepcopy(draft_list2)
+    column_name = 'From'
+    column_value = ['JIRA'] * len(tmp_list2)
+    tmp_list2 = add_column(tmp_list2, column_name, column_value)
+    return tmp_list2
+
+def merge_sumup_draft(list1, list2):
+    tmp_list = []
+
+    if len(list1) == 0:
+        return list2
+    elif len(list2) == 0:
+        return list1
+
+    for item2 in list2:
+        found = None
+        for item1 in list1:
+            if item2['jiraId'] == item1['jiraId']:
+                found = item1
+        if found == None:
+            tmp_list.append(item2)
+    sumup_list = list1 + tmp_list
+    info(sumup_list)
+    return sumup_list
+
+def gen_sumup_draft(u, date):
+    sumup_title = 'Generate the weekly sumup draft from: <br> \
+        &emsp; 1. Lask week work list. <br> \
+        &emsp; 2. This week Jira list. (With Jira tag: XXX-THISMONDAY, e.g. Security-TEE-20230417) <br> \
+        The duplicated tasks will be merged automatically when SUBMIT.'
+    sumup1 = gen_sumup_draft_from_last_week(u, date)
+    sumup2 = gen_sumup_draft_from_jira(u, date)
+    if (sumup1 == None and sumup2 == None):
+        sumup_html = "No work list found!"
+    elif (sumup1 == None):
+        sumup_html = list_to_html(sumup2)
+    elif (sumup2 == None):
+        sumup_html = list_to_html(sumup1)
+    else:
+        sumup_html = list_to_html(sumup1 + sumup2)
+    res = sumup_title + sumup_html
     return res
 
 def submit_sumup_draft(u, date):
     global draft_list
+    global draft_list2
     print('>> submit_draft() ...')
     draft_sunday = this_sunday(date)
 
@@ -461,14 +652,12 @@ def submit_sumup_draft(u, date):
     if (this_list != None):
         return "The work list of this week has already been submitted!"
 
-    if (draft_list == None):
+    draft_sumup = merge_sumup_draft(draft_list, draft_list2)
+    if (draft_sumup == None or len(draft_sumup) == 0):
         return "FAILED: The draft work list is empty!"
 
-    for item in draft_list:
-        item['label'] = draft_sunday
-
     list_data = {
-        'sumup': draft_list,
+        'sumup': draft_sumup,
         'issue': [],
         'plan': [],
         'removeSumup': '',
@@ -505,6 +694,9 @@ def test_save_list():
 
 def test_gen_draft(user, date):
     res = gen_sumup_draft(user, date)
+
+def test_gen_draft2(user, date):
+    res = gen_sumup_draft2(user, date)
 
 def test_get_sumup_status(user, date):
     res = get_sumup_status(user, date)
@@ -577,7 +769,8 @@ if __name__ == "__main__":
         exit()
 
     #test_gen_draft(args.u, '')
+    test_gen_draft2(args.u, '')
     #test_submit_draft(args.u, '')
     #test_get_sumup_status(args.u, '')
     #test_userid_list(args.u)
-    test_get_sumup_team_status(args.u, '')
+    #test_get_sumup_team_status(args.u, '')

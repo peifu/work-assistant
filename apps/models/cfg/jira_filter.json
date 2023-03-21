@@ -25,6 +25,10 @@
             "pattern": "assignee in (JIRAASSIGNEE) AND priority in (Highest, High, Medium) AND status in (Closed) ORDER BY priority DESC, status ASC, assignee ASC"
         },
         {
+            "name": "my-weekly",
+            "pattern": "assignee in (JIRAASSIGNEE) AND labels in (Security-TEE-JIRALABELDATE, Security-DVB-JIRALABELDATE, Security-Crypto-JIRALABELDATE, Security-CAS-Certification-JIRALABELDATE, Security-CAS-Integration-JIRALABELDATE,Security-CAS-Production-JIRALABELDATE) ORDER BY priority DESC, status ASC, assignee ASC"
+        },
+        {
             "name": "security-open",
             "pattern": "assignee in (membersOf(security)) AND priority in (Highest, High, Medium) AND status in (OPEN, Reopened) ORDER BY priority DESC, status ASC, assignee ASC"
         },

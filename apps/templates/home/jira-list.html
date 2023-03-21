@@ -60,6 +60,9 @@
           <li class="nav-item">
             <a class="nav-link" id="pills-6-tab" data-toggle="pill" href="#pills-6" role="tab" aria-controls="pills-6" aria-selected="false">CLOSED</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" id="pills-7-tab" data-toggle="pill" href="#pills-7" role="tab" aria-controls="pills-7" aria-selected="false">WEEKLY</a>
+          </li>
         </ul>
       </div>
 
@@ -71,6 +74,7 @@
           <div class="tab-pane fade" id="pills-4" role="tabpanel" aria-labelledby="pills-4-tab">RESOLVED Jira list:</div>
           <div class="tab-pane fade" id="pills-5" role="tabpanel" aria-labelledby="pills-5-tab">OPENLINUX Jira list:</div>
           <div class="tab-pane fade" id="pills-6" role="tabpanel" aria-labelledby="pills-6-tab">CLOSED Jira list:</div>
+          <div class="tab-pane fade" id="pills-7" role="tabpanel" aria-labelledby="pills-7-tab">WEEKLY Jira list:</div>
         </div>
 
         <div id="result"></div>
@@ -115,8 +119,8 @@
 
 <script type="text/javascript">
   $(document).ready(function () {
-    var patterns = ["my-open", "my-todo", "my-ongoing", "my-resolved", "my-openlinux", "my-closed"];
-    var tables = ["", "", "", "", "", ""]
+    var patterns = ["my-open", "my-todo", "my-ongoing", "my-resolved", "my-openlinux", "my-closed", "my-weekly"];
+    var tables = ["", "", "", "", "", "", ""]
     var idx = 0;
 
     jira_table_init();

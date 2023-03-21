@@ -15,7 +15,7 @@ import numpy as np
 from io import StringIO
 from jira import JIRA
 
-DEBUG_LOG_ENABLE = 1
+DEBUG_LOG_ENABLE = 0
 DEBUG_DUMP_ENABLE = 0
 
 MAX_ISSUE = 200
@@ -30,6 +30,7 @@ MY_SERVER_CONFIG = "cfg/server-%s.json"
 MY_SERVER_CONFIG2 = "apps/models/cfg/server-%s.json"
 
 USER_LOG_FILE = 'apps/models/cfg/server.log'
+USER_LOG_FILE2 = './server.log'
 
 JIRA_LABEL_DATE = 'JIRALABELDATE'
 JIRA_ASSIGNEE = 'JIRAASSIGNEE'
@@ -57,7 +58,10 @@ def error(args):
 
 def log_write(msg):
     date = time.strftime('[%Y-%m-%d %H:%M:%S]', time.localtime())
-    log_file = open(USER_LOG_FILE, 'a+')
+    try:
+        log_file = open(USER_LOG_FILE, 'a+')
+    except:
+        log_file = open(USER_LOG_FILE2, 'a+')
     if (log_file):
         log_file.write(date + ' ' + msg + '\n')
         log_file.flush()
@@ -148,7 +152,7 @@ def init_jira(jira_config):
     server = JIRA_SERVER_ADDR
     user = jira_config["server"]["user"]
     pwd = jira_config["server"]["password"]
-    debug("server={}, user={}, pwd={}".format(server, user, pwd))
+    #debug("server={}, user={}, pwd={}".format(server, user, pwd))
     try:
         jira = JIRA({"server": server}, basic_auth=(user, pwd))
         print("Login success!")
@@ -331,7 +335,7 @@ def jira_login(username, password):
     server = JIRA_SERVER_ADDR
     user = username
     pwd = password
-    info("server={}, user={}, pwd={}".format(server, user, pwd))
+    #info("server={}, user={}, pwd={}".format(server, user, pwd))
     try:
         jira = JIRA({"server": server}, basic_auth=(user, pwd))
         if (jira):
@@ -354,7 +358,27 @@ def jira_get_table_by_pattern(user, pattern):
         print("get table failed!")
     return None
 
-def jira_get(user, pattern):
+def jira_get_table_by_date(user, pattern, date):
+    info('jira_get_table_by_date(' + user + ', ' + pattern + ', ' + date + ')')
+    log_write('[' + user + '] jira_get: ' + pattern + date)
+    server_config = init_server_config(user)
+    user = server_config["server"]["user"]
+    filter_config = init_filter_config()
+
+    for my_filter in filter_config['filter']:
+        if my_filter['name'] == pattern:
+            jira_pattern = my_filter['pattern']
+            break
+
+    if 'my-weekly' in pattern:
+        jira_pattern = re.sub(JIRA_ASSIGNEE, user, jira_pattern)
+        jira_pattern = re.sub(JIRA_LABEL_DATE, date, jira_pattern)
+
+    info(jira_pattern)
+    tb = jira_get_table_by_pattern(user, jira_pattern)
+    return tb
+
+def jira_get_tb(user, pattern):
     print(user, file=sys.stderr)
     print(pattern, file=sys.stderr)
     log_write('[' + user + '] jira_get: ' + pattern)
@@ -367,12 +391,19 @@ def jira_get(user, pattern):
             jira_pattern = my_filter['pattern']
             break
 
-    if 'my-' in pattern:
+    if 'my-weekly' in pattern:
+        jira_pattern = re.sub(JIRA_ASSIGNEE, user, jira_pattern)
+        jira_pattern = re.sub(JIRA_LABEL_DATE, this_monday(), jira_pattern)
+    elif 'my-' in pattern:
         jira_pattern = re.sub(JIRA_ASSIGNEE, user, jira_pattern)
     elif 'weekly' in pattern:
         jira_pattern = re.sub(JIRA_LABEL_DATE, this_monday(), jira_pattern)
 
     tb = jira_get_table_by_pattern(user, jira_pattern)
+    return tb
+
+def jira_get(user, pattern):
+    tb = jira_get_tb(user, pattern)
     if (tb):
         html = get_html_from_table(tb)
         html2 = format_table(html)
@@ -420,6 +451,6 @@ if __name__ == "__main__":
     #test_jira_get('peifu.jiang', 'my-closed')
     #test_jira_get('peifu.jiang', 'security-open')
     #test_jira_get('peifu.jiang', 'security-todo')
-    #test_jira_get('peifu.jiang', 'security-ongoing')  
+    #test_jira_get('peifu.jiang', 'security-ongoing') 
     #test_jira_get('peifu.jiang', 'security-resolved')
-    test_jira_get('peifu.jiang', 'security-weekly')
+    test_jira_get('peifu.jiang', 'my-weekly')
