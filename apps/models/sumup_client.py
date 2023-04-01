@@ -331,8 +331,8 @@ def get_sumup_status(u, date):
     # Login
     ret = user_login(u)
     if (ret != 0):
-        print('Login failed! Error code: ' + ret)
-        return 'Login failed! Error code: ' + ret
+        print('Login failed! Error code: ' + str(ret))
+        return 'Login failed! Error code: ' + str(ret)
 
     if (date == None or date ==''):
         date = time.strftime('%Y-%m-%d', time.localtime())
