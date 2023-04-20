@@ -1,0 +1,1038 @@
+
+[
+    {
+        "children": [
+            {
+                "children": [
+                    {
+                        "statement": "Android TV R的版本， 适用于所有的海外电视芯片包括T3/T5D/T5W",
+                        "id": 55,
+                        "topic": "TV ATV R"
+                    },
+                    {
+                        "statement": "Android TV S的版本， 适用于所有的海外电视芯片包括T3/T5D/T5W",
+                        "id": 57,
+                        "topic": "TV ATV S"
+                    },
+                    {
+                        "statement": "Android TV的SoundBar，目前主要是基于TM2芯片",
+                        "id": 58,
+                        "topic": "ATV Soundbar"
+                    },
+                    {
+                        "statement": "Android TV的投影仪， 目前主要是基于 T5D和T3",
+                        "id": 59,
+                        "topic": "Projector S"
+                    },
+                    {
+                        "statement": "旧的ATV的电视升级，2022年主要是把市面上面P/Q的版本升级到R。涉及到Thomson， 小米等出货的电视",
+                        "id": 60,
+                        "topic": "TV ATV upgrade"
+                    },
+                    {
+                        "statement": "旧的ATV的投影仪的升级， 2022年主要是把市面上面P/Q的版本升级到R。主要涉及到Anker，极米， 峰米等",
+                        "id": 61,
+                        "topic": "Projector upgrade"
+                    },
+                    {
+                        "statement": "",
+                        "id": 62,
+                        "topic": "TATA"
+                    },
+                    {
+                        "statement": "",
+                        "id": 159,
+                        "topic": "TV ATV T"
+                    }
+                ],
+                "statement": "",
+                "id": 2,
+                "topic": "TV ATV"
+            },
+            {
+                "children": [
+                    {
+                        "statement": "AOSP based, globle demod, HBBTV/FVP, APP",
+                        "id": 601,
+                        "topic": "AML turnkey"
+                    },
+                    {
+                        "statement": "国内电视AOSP的版本",
+                        "id": 63,
+                        "topic": "Domestic TV"
+                    },
+                    {
+                        "statement": "海外电视AOSP的版本",
+                        "id": 64,
+                        "topic": "Oversea TV"
+                    },
+                    {
+                        "statement": "海信电视的中间件适配以及Vida系统的适配支持",
+                        "id": 65,
+                        "topic": "Hisense"
+                    },
+                    {
+                        "statement": "Reliance 电视，VMX CAS的tv项目",
+                        "id": 66,
+                        "topic": "Reliance TV"
+                    },
+                    {
+                        "statement": "hbbtv， CI+,DVB-T/T2, S/S2",
+                        "id": 67,
+                        "topic": "KTC  APAC"
+                    }
+                ],
+                "statement": "",
+                "id": 3,
+                "topic": "TV AOSP"
+            },
+            {
+                "children": [
+                    {
+                        "statement": "项目代号: TM2案子 Hazel, T5D案子 Almond.  亚马逊带DTV的客户项目",
+                        "id": 68,
+                        "topic": "Amazon NA model"
+                    },
+                    {
+                        "statement": "项目代号： Shine. Amlogic 基于FireOS的公版，是为了亚马逊欧规生态做参考设计",
+                        "id": 69,
+                        "topic": "Amazon EU model"
+                    },
+                    {
+                        "statement": "项目代号： Mango.亚马逊只有模拟电视的客户项目",
+                        "id": 70,
+                        "topic": "Amazon analog TV"
+                    },
+                    {
+                        "statement": "项目代号： Gazelle， 亚马逊生态的soundbar项目",
+                        "id": 162,
+                        "topic": "Amazon Gazelle"
+                    }
+                ],
+                "statement": "",
+                "id": 4,
+                "topic": "FireOS"
+            },
+            {
+                "children": [
+                    {
+                        "statement": "项目代号： LGE， LGE 电视包括webos的适配， SOCTS的接口测试等",
+                        "id": 71,
+                        "topic": "LGE TV"
+                    }
+                ],
+                "statement": "",
+                "id": 5,
+                "topic": "WebOS"
+            },
+            {
+                "children": [
+                    {
+                        "statement": "",
+                        "id": 72,
+                        "topic": "Roku TV"
+                    },
+                    {
+                        "statement": "项目代号： Roxten， Roku的2K电视项目",
+                        "id": 161,
+                        "topic": "Roku TV Roxton"
+                    },
+                    {
+                        "statement": "项目代号： Sandia， Roku基于Amlogic T5W芯片做的reference design，基于kernel 5.4适配Roku OS做参考设计推广",
+                        "id": 165,
+                        "topic": "Roku TV Sandia"
+                    }
+                ],
+                "statement": "",
+                "id": 6,
+                "topic": "Roku OS"
+            },
+            {
+                "children": [
+                    {
+                        "statement": "RDK为基础的reference TV",
+                        "id": 73,
+                        "topic": "Comcast RDK"
+                    }
+                ],
+                "statement": "",
+                "id": 7,
+                "topic": "RDK"
+            },
+            {
+                "children": [
+                    {
+                        "statement": "Yocto 为基础的reference TV， 如量产的Skyworth liteos电视就是以这个为基础",
+                        "id": 74,
+                        "topic": "Linux ref TV"
+                    }
+                ],
+                "statement": "",
+                "id": 8,
+                "topic": "Yocto TV"
+            },
+            {
+                "children": [
+                    {
+                        "statement": "Yocto为基础做的VEWD OS生态",
+                        "id": 75,
+                        "topic": "VEWD ref TV"
+                    }
+                ],
+                "statement": "",
+                "id": 9,
+                "topic": "VEWD"
+            },
+            {
+                "children": [
+                    {
+                        "statement": "Yocto 为基础导入量产的创维的liteos生态",
+                        "id": 76,
+                        "topic": "LiteOS TV"
+                    }
+                ],
+                "statement": "",
+                "id": 10,
+                "topic": "LiteOS"
+            },
+            {
+                "children": [
+                    {
+                        "statement": "亚马逊内部的ACS的生态",
+                        "id": 77,
+                        "topic": "Amazon ACS"
+                    }
+                ],
+                "statement": "",
+                "id": 11,
+                "topic": "ACS"
+            },
+            {
+                "children": [
+                    {
+                        "statement": "",
+                        "id": 198,
+                        "topic": "tv oversea support"
+                    },
+                    {
+                        "enable": true,
+                        "statement": "",
+                        "id": 199,
+                        "topic": "tv domestic support"
+                    }
+                ],
+                "statement": "",
+                "id": 42,
+                "topic": "tv project support"
+            },
+            {
+                "children": [
+                    {
+                        "statement": "T9029芯片的验证，主要涉及6nm的模拟IP，HDMI，USB，PCIE",
+                        "id": 163,
+                        "topic": "T9029 Bringup"
+                    },
+                    {
+                        "statement": "MEMC60 TV芯片，48bit DDR，相比T3降低成本",
+                        "id": 202,
+                        "topic": "T5M"
+                    },
+                    {
+                        "statement": "替代TXHD(T920L)的低成本1080p电视芯片",
+                        "id": 222,
+                        "topic": "TXHD2"
+                    },
+                    {
+                        "statement": "验证GEth PHY，USB3，PCIE PHY，Audio",
+                        "id": 223,
+                        "topic": "T9031 Bringup"
+                    },
+                    {
+                        "statement": "4K 120Hz TV芯片",
+                        "id": 234,
+                        "topic": "T3X"
+                    },
+                    {
+                        "statement": "L客户定制芯片",
+                        "id": 235,
+                        "topic": "T3E"
+                    }
+                ],
+                "statement": "",
+                "id": 43,
+                "topic": "tv chip bringup"
+            },
+            {
+                "statement": "TV Ecosystem other",
+                "id": 135,
+                "topic": "Others"
+            }
+        ],
+        "statement": "电视产品线，里面会包含TV产品线涉及的各类Ecosystem和SDK。",
+        "id": 1,
+        "topic": "TV"
+    },
+    {
+        "children": [
+            {
+                "children": [
+                    {
+                        "statement": "项目代号： hailstorm 5.0， 这个是OTT/hybrid形态的基于Android S 版本为基础的每年的hailstorm的项目. 主要包括 4K输出的机顶盒芯片 905X4/905Y4",
+                        "id": 78,
+                        "topic": "Hailstorm 5.0 4K"
+                    },
+                    {
+                        "statement": "项目代号： hailstorm 5.0， 这个是OTT/hybrid形态的基于Android S 版本为基础的每年的hailstorm的项目. 主要包括 2K输出的机顶盒芯片 805X2",
+                        "id": 79,
+                        "topic": "Hailstorm 5.0 2K"
+                    },
+                    {
+                        "statement": "项目代号： hailstorm 6.0， 这个是为了2023年的hailstorm 认证程序做的预研， 包括NRDP， Ninjia版本的升级",
+                        "id": 80,
+                        "topic": "Hailstorm 6.0 developing"
+                    },
+                    {
+                        "statement": "Netflix为推广游戏内容基于Amlogic A311D2做的一套预研平台",
+                        "id": 173,
+                        "topic": "hailstorm Game reference"
+                    },
+                    {
+                        "statement": "机顶盒ATV的升级项目",
+                        "id": 196,
+                        "topic": "stb atv upgrade"
+                    },
+                    {
+                        "statement": "",
+                        "id": 229,
+                        "topic": "Hailstorm 6.0"
+                    }
+                ],
+                "statement": "",
+                "id": 13,
+                "topic": "Netflix Hailstorm"
+            },
+            {
+                "children": [
+                    {
+                        "statement": "ATV 4K 机顶盒形态里面带VMX CAS的开发工作",
+                        "id": 81,
+                        "topic": "VMX"
+                    },
+                    {
+                        "statement": "ATV 机顶盒形态里面带WideVine CAS的开发工作",
+                        "id": 82,
+                        "topic": "WV CAS"
+                    },
+                    {
+                        "statement": "ATV  机顶盒形态里面带Irdeto CAS的开发工作",
+                        "id": 83,
+                        "topic": "Irdeto"
+                    },
+                    {
+                        "statement": "ATV 机顶盒形态里面带Nagra NOCS的开发工作",
+                        "id": 85,
+                        "topic": "Nagra NOCS"
+                    },
+                    {
+                        "statement": "ATV  机顶盒形态里面带Viacess CAS的开发工作",
+                        "id": 86,
+                        "topic": "Viacess"
+                    },
+                    {
+                        "statement": "ATV 机顶盒形态里面带Synamedia CAS的开发工作",
+                        "id": 87,
+                        "topic": "Synamedia"
+                    },
+                    {
+                        "statement": "ATV 2K 机顶盒形态里面带VMX CAS的开发工作",
+                        "id": 88,
+                        "topic": "2K+VMX"
+                    },
+                    {
+                        "statement": "ATV 机顶盒老芯片的升级项目，包括905X2/X3 等G12A family 芯片 升级到Android S",
+                        "id": 89,
+                        "topic": "ATV G12A Upgrade"
+                    },
+                    {
+                        "statement": "ATV 机顶盒老芯片的升级项目，包括905X/805X/805Y 等GXL family芯片 升级到Android S",
+                        "id": 90,
+                        "topic": "ATV GXL Upgrade"
+                    },
+                    {
+                        "statement": "CBS for Android R ATV hybird",
+                        "id": 160,
+                        "topic": "CBS"
+                    },
+                    {
+                        "statement": "ATV 机顶盒形态里面带Nagra TKL CAS的开发工作",
+                        "id": 169,
+                        "topic": "Nagra TKL"
+                    },
+                    {
+                        "statement": "",
+                        "id": 220,
+                        "topic": "dvb front end"
+                    }
+                ],
+                "statement": "",
+                "id": 14,
+                "topic": "DVB Component"
+            },
+            {
+                "children": [
+                    {
+                        "statement": "AOSP R 为基础的hybrid的开发",
+                        "id": 91,
+                        "topic": "AOSP Hybrid"
+                    },
+                    {
+                        "statement": "AOSP R 为基础的OTT的开发",
+                        "id": 92,
+                        "topic": "AOSP G12A Upgrade"
+                    },
+                    {
+                        "statement": "商显产品线的国内客户的SDK开发，主要是用A311D2的芯片，在Android R AOSP版本基础上做修改，支持64bit的Android VM",
+                        "id": 93,
+                        "topic": "BDS Domestic(CVTE,Languo,TCL ......)"
+                    },
+                    {
+                        "statement": "商显产品线的海外客户的SDK开发，主要是用A311D2的芯片，在Android R AOSP版本基础上做修改，支持64bit的Android VM",
+                        "id": 94,
+                        "topic": "BDS Oversea(Amazon,Yandex,Sonos)"
+                    },
+                    {
+                        "statement": "项目代号： S5， 国内IPTV下一代 8K机顶盒的招标开发工作",
+                        "id": 95,
+                        "topic": "8K IPTV"
+                    },
+                    {
+                        "statement": "国内IPTV 4K机顶盒的cost down版本， 从原先的12nm工艺降低到22nm工艺的芯片",
+                        "id": 96,
+                        "topic": "905L4"
+                    }
+                ],
+                "statement": "",
+                "id": 15,
+                "topic": "STB AOSP"
+            },
+            {
+                "children": [
+                    {
+                        "statement": "谷歌第三代全球开发者平台 ADT3，今年升级到Android T的版本，预计在Q3 发布",
+                        "id": 97,
+                        "topic": "ADT3"
+                    },
+                    {
+                        "statement": "项目代号： Sabrina， 谷歌1P项目的升级版本，2022年升级到Android S版本",
+                        "id": 98,
+                        "topic": "Sabrina"
+                    },
+                    {
+                        "statement": "项目代号： Boreal， 谷歌2022年新的1P项目，2K的机顶盒。  launch的版本为Android S",
+                        "id": 99,
+                        "topic": "Boreal"
+                    },
+                    {
+                        "statement": "项目代号： Elektra， 谷歌基于Amlogic芯片和平台做的dvb的开发项目代号",
+                        "id": 100,
+                        "topic": "Elektra"
+                    },
+                    {
+                        "statement": "Android T以及以后的版本的预研工作",
+                        "id": 101,
+                        "topic": "new Android Developing"
+                    }
+                ],
+                "statement": "",
+                "id": 16,
+                "topic": "Google Leading"
+            },
+            {
+                "children": [
+                    {
+                        "statement": "GXL family芯片的OTT ATV版本升级项目，包括 905X/805X/805Y",
+                        "id": 102,
+                        "topic": "existing ref GXL"
+                    },
+                    {
+                        "statement": "G12A family芯片的OTT ATV版本升级项目，包括905X2/905X3",
+                        "id": 103,
+                        "topic": "existing ref G12A"
+                    },
+                    {
+                        "statement": "新的4K芯片报备到谷歌作为参考设计的项目。包括905X4/905Y4",
+                        "id": 104,
+                        "topic": "new ref 4K"
+                    },
+                    {
+                        "statement": "新的2K芯片报备到谷歌作为参考设计的项目。 包括 805X2",
+                        "id": 105,
+                        "topic": "new ref 2K"
+                    }
+                ],
+                "statement": "",
+                "id": 17,
+                "topic": "STB ATV ref"
+            },
+            {
+                "children": [
+                    {
+                        "statement": "Yocto为基础的dvb公版",
+                        "id": 106,
+                        "topic": "yocto Hybrid"
+                    },
+                    {
+                        "statement": "Yocto为基础的OTT公版",
+                        "id": 107,
+                        "topic": "yocto OTT"
+                    },
+                    {
+                        "statement": "",
+                        "id": 174,
+                        "topic": "Karma Yocto based"
+                    },
+                    {
+                        "statement": "以Yocto 为基础的小米的Dongle",
+                        "id": 175,
+                        "topic": "XiaoMi Yocto based"
+                    },
+                    {
+                        "statement": "S805C3, Yocto为基础的dvb公版",
+                        "id": 197,
+                        "topic": "ZapperPlus"
+                    },
+                    {
+                        "statement": "S805C1A/S1A/S905Y4,Yocto为基础的DVB DTV Only公板",
+                        "id": 232,
+                        "topic": "Zapper"
+                    }
+                ],
+                "statement": "",
+                "id": 18,
+                "topic": "Yocto STB"
+            },
+            {
+                "children": [
+                    {
+                        "statement": "RDK为基础的dvb公版",
+                        "id": 108,
+                        "topic": "rdk Hybrid"
+                    },
+                    {
+                        "statement": "RDK为基础的OTT公版",
+                        "id": 109,
+                        "topic": "rdk OTT"
+                    },
+                    {
+                        "statement": "以RDK为基础的谷歌的youtube的开发平台",
+                        "id": 176,
+                        "topic": "google Youtube reference"
+                    }
+                ],
+                "statement": "",
+                "id": 19,
+                "topic": "RDK"
+            },
+            {
+                "children": [
+                    {
+                        "statement": "",
+                        "id": 203,
+                        "topic": "stb oversea support"
+                    },
+                    {
+                        "statement": "",
+                        "id": 204,
+                        "topic": "stb domestic support"
+                    }
+                ],
+                "statement": "",
+                "id": 45,
+                "topic": "STB project support"
+            },
+            {
+                "children": [
+                    {
+                        "statement": "T7的revC的版本的验证",
+                        "id": 164,
+                        "topic": "T7C bringup"
+                    },
+                    {
+                        "statement": "",
+                        "id": 205,
+                        "topic": "S5 bringup"
+                    },
+                    {
+                        "statement": "",
+                        "id": 206,
+                        "topic": "GXLX3 bringup"
+                    },
+                    {
+                        "statement": "海外Zapperbox SoC，RISC-V CPU",
+                        "id": 224,
+                        "topic": "S1A bringup"
+                    }
+                ],
+                "statement": "",
+                "id": 46,
+                "topic": "STB chipset bringup"
+            },
+            {
+                "statement": "STB others",
+                "id": 137,
+                "topic": "Others"
+            }
+        ],
+        "statement": "机顶盒产品线，里面会包含机顶盒产品线涉及的各类Ecosystem和SDK。",
+        "id": 12,
+        "topic": "STB"
+    },
+    {
+        "children": [
+            {
+                "children": [
+                    {
+                        "statement": "Sonos客户，研发直接支持",
+                        "id": 110,
+                        "topic": "Sonos"
+                    },
+                    {
+                        "statement": "LGE的soundbar项目",
+                        "id": 111,
+                        "topic": "LGE soundbar"
+                    },
+                    {
+                        "statement": "Samsung的soundbar项目，基于三星自己的Tizen OS形态",
+                        "id": 112,
+                        "topic": "Samsung"
+                    }
+                ],
+                "statement": "",
+                "id": 21,
+                "topic": "High-end soundbar(Oversea)"
+            },
+            {
+                "children": [
+                    {
+                        "statement": "项目代码： linkPlay， 基于A113L的低功耗的带AVS的智能音箱",
+                        "id": 113,
+                        "topic": "Linkplay"
+                    },
+                    {
+                        "statement": "项目代码： 小米， 国内高端的智能音箱",
+                        "id": 114,
+                        "topic": "Xiaomi speaker"
+                    },
+                    {
+                        "statement": "谷歌的GVA形态的智能音箱，我们作为SI角色的工作",
+                        "id": 115,
+                        "topic": "GVA SI"
+                    }
+                ],
+                "statement": "",
+                "id": 22,
+                "topic": "Smart speaker"
+            },
+            {
+                "statement": "",
+                "id": 23,
+                "topic": "C4A/GVA"
+            },
+            {
+                "children": [
+                    {
+                        "statement": "USB接口的无屏会议机",
+                        "id": 116,
+                        "topic": "USB Speaker"
+                    },
+                    {
+                        "statement": "VOIP的语音系统",
+                        "id": 117,
+                        "topic": "VoIP"
+                    }
+                ],
+                "statement": "",
+                "id": 24,
+                "topic": "USB Conference Speaker"
+            },
+            {
+                "statement": "",
+                "id": 25,
+                "topic": "VoIP"
+            },
+            {
+                "children": [
+                    {
+                        "statement": "谷歌nest团队 1P的项目",
+                        "id": 118,
+                        "topic": "Google Korlan"
+                    }
+                ],
+                "statement": "",
+                "id": 26,
+                "topic": "Nest"
+            },
+            {
+                "children": [
+                    {
+                        "statement": "",
+                        "id": 207,
+                        "topic": "audio oversea support"
+                    },
+                    {
+                        "statement": "",
+                        "id": 208,
+                        "topic": "audio domestic support"
+                    }
+                ],
+                "statement": "",
+                "id": 47,
+                "topic": "audio project support"
+            },
+            {
+                "children": [
+                    {
+                        "statement": "Sonos Audio 芯片",
+                        "id": 209,
+                        "topic": "A5 Bringup"
+                    },
+                    {
+                        "statement": "",
+                        "id": 221,
+                        "topic": "audio amplify PA1"
+                    },
+                    {
+                        "statement": "低成本Auido SoC芯片",
+                        "id": 225,
+                        "topic": "A4 Bringup"
+                    }
+                ],
+                "statement": "",
+                "id": 48,
+                "topic": "audio chipset bringup"
+            },
+            {
+                "statement": "Audio others",
+                "id": 139,
+                "topic": "Others"
+            }
+        ],
+        "statement": "音箱产品线，里面会包含音箱产品线涉及的各类Ecosystem和SDK。",
+        "id": 20,
+        "topic": "AUDIO"
+    },
+    {
+        "children": [
+            {
+                "children": [
+                    {
+                        "statement": "谷歌Nest 团队基于C1， C2芯片做的1P的Camera的相关项目",
+                        "id": 119,
+                        "topic": "Google Venus,Spencer, GQ, NQ"
+                    }
+                ],
+                "statement": "",
+                "id": 28,
+                "topic": "Nest"
+            },
+            {
+                "children": [
+                    {
+                        "statement": "国内安防市场适用的Camera的SDK版本， 主推芯片是 C3",
+                        "id": 120,
+                        "topic": "Surveillance"
+                    },
+                    {
+                        "statement": "门铃市场适用的Camera的SDK版本",
+                        "id": 121,
+                        "topic": "DoorBell"
+                    },
+                    {
+                        "statement": "UVC摄像头适用的SDK的版本",
+                        "id": 122,
+                        "topic": "UVC"
+                    },
+                    {
+                        "statement": "国内智能门禁系统适用的SDK版本",
+                        "id": 126,
+                        "topic": "Entrance Guard"
+                    },
+                    {
+                        "statement": "配套安防市场推广的 NVR的SDK版本",
+                        "id": 127,
+                        "topic": "NVR"
+                    },
+                    {
+                        "statement": "谷歌基于C3的camera芯片的项目",
+                        "id": 177,
+                        "topic": "Google"
+                    }
+                ],
+                "statement": "",
+                "id": 29,
+                "topic": "Buildroot camera"
+            },
+            {
+                "children": [
+                    {
+                        "statement": "",
+                        "id": 210,
+                        "topic": "camera oversea support"
+                    },
+                    {
+                        "statement": "",
+                        "id": 211,
+                        "topic": "camera domestic support"
+                    }
+                ],
+                "statement": "",
+                "id": 49,
+                "topic": "camera project support"
+            },
+            {
+                "children": [
+                    {
+                        "statement": "",
+                        "id": 212,
+                        "topic": "C3 Bringup"
+                    }
+                ],
+                "statement": "",
+                "id": 50,
+                "topic": "camera chipset bringup"
+            },
+            {
+                "statement": "camera others",
+                "id": 141,
+                "topic": "Others"
+            }
+        ],
+        "statement": "摄像头产品线，里面会包含摄像头产品线涉及的各类Ecosystem和SDK。",
+        "id": 27,
+        "topic": "CAMERA"
+    },
+    {
+        "children": [
+            {
+                "children": [
+                    {
+                        "statement": "基于A213Y芯片的86板的智能面板的SDK",
+                        "id": 128,
+                        "topic": "86 display/white CE"
+                    },
+                    {
+                        "statement": "基于A213Y芯片的AVS亚马逊形态的带屏音箱的SDK",
+                        "id": 129,
+                        "topic": "Amazon Smart Display"
+                    }
+                ],
+                "statement": "",
+                "id": 31,
+                "topic": "Buildroot SH"
+            },
+            {
+                "children": [
+                    {
+                        "statement": "",
+                        "id": 179,
+                        "topic": "Kadas Mini PC"
+                    }
+                ],
+                "statement": "",
+                "id": 38,
+                "topic": "Yocto SH"
+            },
+            {
+                "children": [
+                    {
+                        "statement": "基于T7/T7C/S4做的开发者平台，我们提供基础SDK",
+                        "id": 178,
+                        "topic": "Kadas Mini PC"
+                    },
+                    {
+                        "statement": "基于T7/T7C 的debian 开发平台",
+                        "id": 192,
+                        "topic": "amlogic debian"
+                    },
+                    {
+                        "statement": "基于Amlogic芯片做Linux kernel的upstream工作",
+                        "id": 228,
+                        "topic": "Linux upstream"
+                    }
+                ],
+                "statement": "",
+                "id": 40,
+                "topic": "linux dev board"
+            },
+            {
+                "children": [
+                    {
+                        "statement": "",
+                        "id": 213,
+                        "topic": "SH oversea support"
+                    },
+                    {
+                        "statement": "",
+                        "id": 214,
+                        "topic": "SH domestic support"
+                    }
+                ],
+                "statement": "",
+                "id": 51,
+                "topic": "SH project support"
+            },
+            {
+                "children": [
+                    {
+                        "enable": true,
+                        "statement": "",
+                        "id": 219,
+                        "topic": "PMU IC"
+                    }
+                ],
+                "statement": "",
+                "id": 52,
+                "topic": "SH chipset bringup"
+            },
+            {
+                "statement": "smarthome others",
+                "id": 143,
+                "topic": "Others"
+            }
+        ],
+        "statement": "智能家居产品线，里面会包含智能家居产品线涉及的各类Ecosystem和SDK。",
+        "id": 30,
+        "topic": "SMARTHOME"
+    },
+    {
+        "children": [
+            {
+                "children": [
+                    {
+                        "statement": "CAR service, V-HAL, 3 panel display, 3 camera input, 360 camera HAL(EVS), Audio control/Audio HAL/Audio post-processing,  FAST boot(3 seconds for revert),  ",
+                        "id": 130,
+                        "topic": "Automotive IVI"
+                    }
+                ],
+                "statement": "",
+                "id": 33,
+                "topic": "Automotive"
+            },
+            {
+                "children": [
+                    {
+                        "statement": "",
+                        "id": 215,
+                        "topic": "AM oversea support"
+                    },
+                    {
+                        "statement": "",
+                        "id": 216,
+                        "topic": "AM domestic support"
+                    }
+                ],
+                "statement": "",
+                "id": 53,
+                "topic": "AM project support"
+            },
+            {
+                "statement": "",
+                "id": 54,
+                "topic": "AM chipset bringup"
+            },
+            {
+                "statement": "Automotive others",
+                "id": 145,
+                "topic": "Others"
+            }
+        ],
+        "statement": "车载产品线，里面会包含车载产品线涉及的各类Ecosystem和SDK。",
+        "id": 32,
+        "topic": "AUTOMOTIVE"
+    },
+    {
+        "children": [
+            {
+                "children": [
+                    {
+                        "statement": "基于A113L推广的AIOT的RTOS SDK",
+                        "id": 131,
+                        "topic": "rtos AIOT"
+                    },
+                    {
+                        "statement": "Home access router\n10 Gbps L2/L3 packet engine\n2x PCIe 3.0 (1x lane)\n4x Gigabit Ethernet\n1x 2.5 Gigabit Ethernet",
+                        "id": 132,
+                        "topic": "linux Router"
+                    },
+                    {
+                        "statement": "",
+                        "id": 184,
+                        "topic": "Matter proto type"
+                    },
+                    {
+                        "statement": "在S905X4上面做OpenWRT/PRPL的原型开发，为正式的Router芯片做软件准备",
+                        "id": 226,
+                        "topic": "Router Prototype"
+                    }
+                ],
+                "statement": "",
+                "id": 35,
+                "topic": "connectivity system"
+            },
+            {
+                "children": [
+                    {
+                        "statement": "",
+                        "id": 182,
+                        "topic": "W2 ATV/Linux/RTOS"
+                    },
+                    {
+                        "statement": "",
+                        "id": 183,
+                        "topic": "W1U for TV"
+                    }
+                ],
+                "statement": "",
+                "id": 36,
+                "topic": "connectivity driver"
+            },
+            {
+                "children": [
+                    {
+                        "statement": "",
+                        "id": 217,
+                        "topic": "wifi oversea support"
+                    },
+                    {
+                        "statement": "",
+                        "id": 218,
+                        "topic": "wifi domestic support"
+                    }
+                ],
+                "statement": "",
+                "id": 255,
+                "topic": "wifi project support"
+            },
+            {
+                "children": [
+                    {
+                        "statement": "",
+                        "id": 227,
+                        "topic": "W2"
+                    }
+                ],
+                "statement": "",
+                "id": 56,
+                "topic": "wifi chipset bringup"
+            },
+            {
+                "statement": "connectivity others",
+                "id": 147,
+                "topic": "Others"
+            }
+        ],
+        "statement": "无线连接产品线，里面会包含无线连接产品线涉及的各类Ecosystem和SDK。",
+        "id": 34,
+        "topic": "CONNECTIVIRY"
+    }
+]
