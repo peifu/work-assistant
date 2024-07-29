@@ -421,6 +421,8 @@ def get_sumup_team_status(u, date):
         weeks = 8
     elif (date == '12weeks'):
         weeks = 12
+    elif (date == '24weeks'):
+        weeks = 24
     date = time.strftime('%Y-%m-%d', time.localtime())
 
     team_sumup_columns = ['USER']

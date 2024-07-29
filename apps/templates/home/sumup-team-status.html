@@ -48,6 +48,7 @@
         <button type="button" id="get4" class="btn btn-primary">4 Weeks</button>
         <button type="button" id="get8" class="btn btn-primary">8 Weeks</button>
         <button type="button" id="get12" class="btn btn-primary">12 Weeks</button>
+        <button type="button" id="get24" class="btn btn-primary">24 Weeks</button>
       </div>
 
       <div class="card-body">
@@ -134,6 +135,18 @@
       $("#result").html("");
       $("#ld2").fadeIn();
       searchUrl = "sumup-1" + "?date=12weeks&command=get_team_status";
+      htmlobj = $.ajax({
+        url: searchUrl, async: true, success: function (data) {
+          $("#ld2").fadeOut();
+          $("#result").html(data);
+        }
+      });
+    });
+
+    $("#get24").click(function () {
+      $("#result").html("");
+      $("#ld2").fadeIn();
+      searchUrl = "sumup-1" + "?date=24weeks&command=get_team_status";
       htmlobj = $.ajax({
         url: searchUrl, async: true, success: function (data) {
           $("#ld2").fadeOut();
