@@ -576,6 +576,9 @@ def jira_to_sumup(jira, date):
     return tmp_draft_list
 
 def gen_sumup_draft_from_jira(u, date):
+
+    return None
+
     print('>> gen_draft2() ...')
     global draft_list2
     # Login
