@@ -545,9 +545,11 @@ def check_sumup_project_info(draft):
             debug('idx: ' + str(idx))
             item['workType.id'] = projects[idx]['type']
             item['project.id'] = projects[idx]['id']
+            # TODO project id matching should be improved
+            item['project.id'] = PROJECT_ID_RD
         else:
             item['workType.id'] = PROJECT_WORKTYPE_RD
-            item['project.id'] = PROJECT_ID_STB
+            item['project.id'] = PROJECT_ID_RD
 
     return draft
 
