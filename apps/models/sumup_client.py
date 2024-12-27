@@ -565,7 +565,7 @@ def jira_to_sumup(jira, date):
         sumup_item['project.id'] = 0
         sumup_item['workType.id'] = 0
         sumup_item['jiraId'] = jiraId
-        sumup_item['workTime'] = 4
+        sumup_item['workTime'] = '4.0'
         sumup_item['isOnTime'] = 'true'
         sumup_item['reason.id'] = ''
         sumup_item['notes'] = statement
