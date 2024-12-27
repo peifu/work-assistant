@@ -612,9 +612,9 @@ def gen_sumup_draft_from_jira(u, date):
 def merge_sumup_draft(list1, list2):
     tmp_list = []
 
-    if len(list1) == 0:
+    if list1 == None or len(list1) == 0:
         return list2
-    elif len(list2) == 0:
+    elif list2 == None or len(list2) == 0:
         return list1
 
     for item2 in list2:
